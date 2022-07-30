@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Trading_platform001"
 include ':app'
-include ':app:page_main'
