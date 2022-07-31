@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Торгова платформа</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_margin_button">5dp</string>
+    <string name="main_button_width">100dp</string>
+    <string name="main_button_name_main">Головна</string>
+    <string name="main_button_name_catalogue">Каталог</string>
+    <string name="main_button_name_basket">Кошик</string>
+    <string name="main_button_name_user">Користувач</string>
+
 </resources>

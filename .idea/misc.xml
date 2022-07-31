@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable/border_main_menu.xml" value="0.181" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.23655913978494625" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_main__view.xml" value="0.1734375" />
       </map>
     </option>
   </component>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,21 +8,75 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/layout_view_fragment"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@id/layout_bottom_bar"
+        android:background="#222222"
+        android:orientation="vertical"
+        android:padding="@string/main_margin_button">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <ImageButton
-            android:id="@+id/button"
-            android:layout_width="105dp"
-            android:layout_height="45dp"
-            android:text="Button" />
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/layout_view_fragment"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/border_main_menu"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:padding="@string/main_margin_button">
+<!--
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="@string/main_button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@string/main_margin_button"
+            android:background="#000000"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@string/main_margin_button"
+            android:text="@string/main_button_name_main"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="@string/main_button_width"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:layout_weight="1"
+            android:padding="@string/main_margin_button"
+            android:text="@string/main_button_name_catalogue"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="@string/main_button_width"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:layout_weight="1"
+            android:padding="@string/main_margin_button"
+            android:text="@string/main_button_name_basket"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="@string/main_button_width"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:layout_weight="1"
+            android:padding="@string/main_margin_button"
+            android:text="@string/main_button_name_user"
+            android:textColor="#FFFFFF"
+            android:textSize="11dp" />
+-->
+    </LinearLayout>
+</RelativeLayout>
