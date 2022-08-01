@@ -39,46 +39,52 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin_button"
             android:layout_weight="1"
-            android:background="@color/black"
             android:gravity="center"
+            android:drawableTop="@drawable/home_btn"
             android:padding="@dimen/main_padding_button"
             android:text="@string/main_button_name_main"
-            android:textColor="@color/white" />
+            android:background="@color/transparent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_button_textSize" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="@dimen/main_button_width"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/black"
+            android:drawableTop="@drawable/catalog_btn"
             android:padding="@dimen/main_padding_button"
             android:layout_marginStart="@dimen/main_margin_button"
             android:text="@string/main_button_name_catalogue"
-            android:textColor="@color/white"
-            />
+            android:background="@color/transparent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_button_textSize" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="@dimen/main_button_width"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/black"
+            android:drawableTop="@drawable/basket_btn"
             android:padding="@dimen/main_padding_button"
             android:layout_marginStart="@dimen/main_margin_button"
             android:text="@string/main_button_name_basket"
-            android:textColor="@color/white" />
+            android:background="@color/transparent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_button_textSize" />
 
         <Button
             android:id="@+id/button4"
             android:layout_width="@dimen/main_button_width"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/black"
             android:padding="@dimen/main_padding_button"
+            android:drawableTop="@drawable/user_btn"
             android:layout_marginStart="@dimen/main_margin_button"
             android:layout_marginEnd="@dimen/main_margin_button"
             android:text="@string/main_button_name_user"
-            android:textColor="@color/white"
+            android:background="@color/transparent"
+            android:textColor="@color/black"
             android:textSize="@dimen/main_button_textSize" />
 
     </LinearLayout>
