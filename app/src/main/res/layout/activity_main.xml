@@ -36,16 +36,18 @@
         <Button
             android:id="@+id/button1"
             style="@style/MainButtonStyle"
+
             android:layout_weight="1"
             android:drawableTop="@drawable/home_btn"
             android:text="@string/main_button_name_main" />
 
         <Button
             android:id="@+id/button2"
+            style="@style/MainButtonStyle"
             android:layout_weight="1"
             android:drawableTop="@drawable/catalog_btn"
             android:text="@string/main_button_name_catalogue"
-            style="@style/MainButtonStyle" />
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/button3"
