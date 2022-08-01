@@ -3,4 +3,8 @@
     <dimen name="fragment_horizontal_margin">16dp</dimen>
     <dimen name="fragment_vertical_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="main_button_width">100dp</dimen>
+    <dimen name="main_margin_button">5dp</dimen>
+    <dimen name="main_padding_button">5dp</dimen>
+    <dimen name="main_button_textSize">11sp</dimen>
 </resources>
