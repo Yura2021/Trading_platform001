@@ -13,10 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/layout_bottom_bar"
-        android:background="#222222"
         android:orientation="vertical"
         android:padding="5dp">
+<ListView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+</ListView>
     </LinearLayout>
 
     <LinearLayout
@@ -49,6 +52,7 @@
             android:layout_weight="1"
             android:background="#000000"
             android:padding="5dp"
+            android:layout_marginLeft="5dp"
             android:text="@string/main_button_name_catalogue"
             android:textColor="#FFFFFF" />
 
@@ -59,6 +63,7 @@
             android:layout_weight="1"
             android:background="#000000"
             android:padding="5dp"
+            android:layout_marginLeft="5dp"
             android:text="@string/main_button_name_basket"
             android:textColor="#FFFFFF" />
 
@@ -69,6 +74,8 @@
             android:layout_weight="1"
             android:background="#000000"
             android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="@string/main_button_name_user"
             android:textColor="#FFFFFF"
             android:textSize="11dp" />

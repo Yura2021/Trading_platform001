@@ -6,9 +6,13 @@
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable/border_main_menu.xml" value="0.181" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.100418410041841" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main2.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_item.xml" value="0.29791666666666666" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_item_list.xml" value="0.2838541666666667" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_login.xml" value="0.29791666666666666" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_main__view.xml" value="0.1734375" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_scrolling_item_product.xml" value="0.29791666666666666" />
       </map>
     </option>
   </component>
