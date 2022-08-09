@@ -3,7 +3,7 @@
     <string name="main_button_name_main">Головна</string>
     <string name="main_button_name_catalogue">Каталог</string>
     <string name="main_button_name_basket">Кошик</string>
-    <string name="main_button_name_user">Користувач</string>
+    <string name="main_button_name_person">Користувач</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

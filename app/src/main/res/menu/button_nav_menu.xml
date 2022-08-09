@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:title="@string/main_button_name_main"
+        android:icon="@drawable/ic_main_home_btn_24"
+        android:id="@+id/home"/>
+    <item android:title="@string/main_button_name_catalogue"
+        android:icon="@drawable/ic_main_catalog_btn_24"
+        android:id="@+id/catalog"/>
+    <item android:title="@string/main_button_name_basket"
+        android:icon="@drawable/ic_main_basket_btn_24"
+        android:id="@+id/basket"/>
+    <item android:title="@string/main_button_name_person"
+        android:icon="@drawable/ic_main_person_btn_24"
+        android:id="@+id/person"/>
+</menu>
