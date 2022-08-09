@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:actionBarNavMode="standard"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -17,9 +17,8 @@
         android:padding="@dimen/main_padding_button">
 
         <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        </ListView>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -28,6 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/transparent"
-        app:menu="@menu/button_nav_menu"/>
+        android:background="@color/color_nav_button"
+        app:menu="@menu/button_nav_menu" />
 </RelativeLayout>

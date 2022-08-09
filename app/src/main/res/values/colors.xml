@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#1db954</color>
     <color name="transparent">#00000000</color>
+    <color name="color_nav_button">#EDDEDE</color>
 </resources>
