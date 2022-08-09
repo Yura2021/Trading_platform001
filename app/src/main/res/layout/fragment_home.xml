@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".HomeFragment">
+    <SearchView
+        android:id="@+id/search_view1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true" />
+
+<LinearLayout
+    android:layout_below="@id/search_view1"
+    android:id="@+id/layout_grid1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:orientation="horizontal">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <GridView
+        android:id="@+id/grid_view1"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:numColumns="2" />
+</LinearLayout>
+
+
+</RelativeLayout>
