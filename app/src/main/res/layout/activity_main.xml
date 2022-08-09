@@ -12,57 +12,22 @@
         android:id="@+id/layout_view_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/layout_bottom_bar"
+        android:layout_above="@id/bottomNavigationView"
         android:orientation="vertical"
         android:padding="@dimen/main_padding_button">
-<ListView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</ListView>
+        <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        </ListView>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_bottom_bar"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/border_main_menu"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="@dimen/main_padding_button"
-        android:weightSum="4">
-
-        <Button
-            android:id="@+id/button1"
-            style="@style/MainButtonStyle"
-
-            android:layout_weight="1"
-            android:drawableTop="@drawable/home_btn"
-            android:text="@string/main_button_name_main" />
-
-        <Button
-            android:id="@+id/button2"
-            style="@style/MainButtonStyle"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/catalog_btn"
-            android:text="@string/main_button_name_catalogue"
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/basket_btn"
-            android:text="@string/main_button_name_basket"
-            style="@style/MainButtonStyle" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/user_btn"
-            android:layout_marginEnd="@dimen/main_margin_button"
-            android:text="@string/main_button_name_user"
-            style="@style/MainButtonStyle" />
-
-    </LinearLayout>
+        android:background="@color/transparent"
+        app:menu="@menu/button_nav_menu"/>
 </RelativeLayout>
