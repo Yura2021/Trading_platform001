@@ -21,17 +21,22 @@
     android:layout_alignParentStart="true"
     android:orientation="horizontal">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="hello" />
     <GridView
         android:id="@+id/grid_view1"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:columnWidth="90dp"
         android:gravity="center"
-        android:numColumns="2" />
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
 </LinearLayout>
 
 
