@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="MainButtonStyle">
         <item name="android:layout_width">@dimen/main_button_width</item>
         <item name="android:layout_height">wrap_content</item>
@@ -8,5 +9,10 @@
         <item name="android:padding">@dimen/main_padding_button</item>
         <item name="android:textSize">@dimen/main_button_textSize</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Widget.Theme.Trading_platform001.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 </resources>
