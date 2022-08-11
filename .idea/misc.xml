@@ -19,12 +19,17 @@
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/ic_search_24.xml" value="0.2715" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_user.xml" value="0.340625" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_user_login.xml" value="0.3233695652173913" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/cellgrid.xml" value="0.3038949275362319" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_authorization.xml" value="0.3233695652173913" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_fullscreen.xml" value="0.30052083333333335" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_home.xml" value="0.3038949275362319" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_login.xml" value="0.3145833333333333" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_registration.xml" value="0.3233695652173913" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_user.xml" value="0.3145833333333333" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/full_image.xml" value="0.3038949275362319" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/menu/button_nav_menu.xml" value="0.340625" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/menu/button_nav_menu_authorization.xml" value="0.31354166666666666" />
       </map>
     </option>
   </component>
