@@ -54,7 +54,7 @@ public class LoginFragment extends Fragment {
         recPass = view.findViewById(R.id.recPass);
         localStorage = new LocalStorage(requireActivity());
         recPass.setOnClickListener(v -> {
-            recoveryPassword();
+            recPassDialogShow();
         });
         dialog = new Dialog(requireActivity());
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -112,10 +112,10 @@ public class LoginFragment extends Fragment {
                                 Log.d("Http response token:  ",token);
                                 localStorage.setToken(token);
                                 Intent intent = new Intent(requireActivity(),MainActivity.class);
-                                startActivity(intent);
                                 Toast.makeText(requireActivity(),"Успіх",Toast.LENGTH_SHORT).show();
-                                alertFail("");
                                 Thread.sleep(5000);
+                                startActivity(intent);
+                                alertFail("");
                                 requireActivity().finish();
 
 
@@ -172,7 +172,7 @@ public class LoginFragment extends Fragment {
                 })
                 .show();
     }
-    private void recoveryPassword(){
+    private void recPassDialogShow(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view= inflater.inflate(R.layout.fragment_recover_password_dialog, null);
@@ -187,12 +187,80 @@ public class LoginFragment extends Fragment {
                 .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        edEmail.setText(edDialogEmail.getText().toString());
+                        sendRecPass();
                     }
                 });
 
          builder.show();
 
     }
+    private void sendRecPass(){
 
+        strEmail= edDialogEmail.getText().toString();
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("email",strEmail);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        String data = params.toString();
+        String url = getString(R.string.api_server)+"/repass";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Http http = new Http(requireActivity(),url);
+                http.setMethod("POST");
+                http.setData(data);
+                http.send();
+
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if(code == 200){
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String token = response.getString("token");
+                                Log.d("Http response token:  ",token);
+                                localStorage.setToken(token);
+                                Intent intent = new Intent(requireActivity(),MainActivity.class);
+                                Toast.makeText(requireActivity(),"Лист для відновлення паролю відправлений",Toast.LENGTH_SHORT).show();
+                                Thread.sleep(5000);
+                                startActivity(intent);
+                                requireActivity().finish();
+
+
+                            }catch (JSONException | InterruptedException ex){
+                                ex.printStackTrace();
+                            }
+
+                        }
+                        else if(code ==422){
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertFail(msg);
+                            }catch (JSONException ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                        else if(code ==401){
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertFail(msg);
+                            }catch (JSONException ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                        else{
+                            Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }).start();
+
+    }
 }
