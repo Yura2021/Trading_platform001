@@ -1,10 +1,6 @@
 package com.example.trading_platform001;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.databinding.ActivityMainBinding;
-import com.example.trading_platform001.models.FullImageActivity;
-import com.example.trading_platform001.models.ImageTextAdapter;
 
 public class MainActivity extends AppCompatActivity  {
     ActivityMainBinding binding;
@@ -40,28 +34,8 @@ public class MainActivity extends AppCompatActivity  {
             return true;
         });
 
-        ///GridView с картинками и пояснительным текстом
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageTextAdapter(this));
-
-        gridview.setOnItemClickListener(gridviewOnItemClickListener);
-
-
-
     }
-    private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View v, int position,
-                                long id) {
 
-            // Sending image id to FullScreenActivity
-            Intent i = new Intent(getApplicationContext(),
-                    FullImageActivity.class);
-            // passing array index
-            i.putExtra("id", position);
-            startActivity(i);
-        }
-    };
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

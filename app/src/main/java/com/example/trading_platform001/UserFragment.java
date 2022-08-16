@@ -2,27 +2,23 @@ package com.example.trading_platform001;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.trading_platform001.databinding.ActivityMainBinding;
-import com.example.trading_platform001.databinding.FragmentUserBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.trading_platform001.models.Http;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 public class UserFragment extends Fragment {
-
+    Button btnAuth,btnLogout;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,14 +32,6 @@ public class UserFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static UserFragment newInstance(String param1, String param2) {
         UserFragment fragment = new UserFragment();
@@ -63,27 +51,97 @@ public class UserFragment extends Fragment {
         }
 
 
-        //BottomNavigationView bottomNavigationView =binding.buttonMenuAutorization;
-       // bottomNavigationView.setVisibility(View.VISIBLE);
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_user, null);
+        View v = inflater.inflate(R.layout.fragment_user,
+                null);
 
-        Button button = (Button) v.findViewById(R.id.button31);
-
-        button.setOnClickListener(new View.OnClickListener() {
+        btnAuth =  v.findViewById(R.id.btnAuth);
+        btnLogout =  v.findViewById(R.id.btnLogout);
+        getUser();
+        btnAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),UserLoginActivity.class));
+                startActivity(new Intent(getContext(),AuthorizationMenuActivity.class));
+            }
+        });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
             }
         });
         // Inflate the layout for this fragment
         return v;
     }
 
+    private void getUser() {
+        String url = getString(R.string.api_server)+"/user";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Http http = new Http(requireActivity(),url);
+                http.setToken(true);
+                http.send();
 
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if(code == 200){
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String name = response.getString("name");
+                                btnAuth.setText(name);
+                                Log.d("Token getUser ",http.getStringToken());
+                                btnLogout.setEnabled(true);
+                                btnAuth.setEnabled(false);
+
+                            }catch (JSONException ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                        //else{Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();}
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void logout() {
+        String url = getString(R.string.api_server)+"/logout";
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Http http = new Http(requireActivity(),url);
+                http.setMethod("POST");
+                http.setToken(true);
+                http.send();
+
+               requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if(code == 200){
+                            Intent intent = new Intent(requireActivity(),MainActivity.class);
+                            startActivity(intent);
+                            Log.d("Token logout ",http.getStringToken());
+                            String strName = getResources().getResourceName(R.string.authorization_button_name_authorization).toString();
+                            btnAuth.setText(strName);
+                            btnAuth.setEnabled(true);
+                            btnLogout.setEnabled(false);
+                            requireActivity().finish();
+                        }
+                        else{
+                            Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
 
 }

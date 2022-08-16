@@ -15,7 +15,6 @@
     </style>
 
     <style name="ThemeOverlay.Trading_platform001.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
-        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+
     </style>
 </resources>

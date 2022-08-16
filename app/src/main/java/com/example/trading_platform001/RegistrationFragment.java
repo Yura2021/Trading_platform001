@@ -1,18 +1,24 @@
 package com.example.trading_platform001;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RegistrationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+
+import com.example.trading_platform001.models.Http;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 public class RegistrationFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -24,18 +30,16 @@ public class RegistrationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    EditText edName,edEmail,edPassword,edConfirmation;
+    Button btnRegister;
+    String strName,strEmail,strPassword,strConfirmation;
+
+
     public RegistrationFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegistrationFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static RegistrationFragment newInstance(String param1, String param2) {
         RegistrationFragment fragment = new RegistrationFragment();
@@ -53,12 +57,126 @@ public class RegistrationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registration, container, false);
+        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+
+        edName = view.findViewById(R.id.edName);
+        edEmail = view.findViewById(R.id.edEmail);
+        edPassword = view.findViewById(R.id.edPassword);
+        edConfirmation = view.findViewById(R.id.edConfirmation);
+        btnRegister=view.findViewById(R.id.btnRegister);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkRegister();
+            }
+        });
+        return view;
     }
+    /////////////fun
+    private void checkRegister() {
+        strName = edName.getText().toString();
+        strEmail = edEmail.getText().toString();
+        strPassword = edPassword.getText().toString();
+        strConfirmation = edConfirmation.getText().toString();
+        if(strName.isEmpty()||strEmail.isEmpty()||strPassword.isEmpty()){
+            alertFail("Необхідно вказати ім’я, адресу електронної пошти та пароль.");
+        }
+        else if(!strPassword.equals(strConfirmation)){
+            alertFail("Пароль і підтвердження пароля не збігаються.");
+        }
+        else{
+            sendRegister();
+        }
+    }
+
+    private void sendRegister() {
+        btnRegister.setEnabled(false);
+        JSONObject params = new JSONObject();
+        try {
+            params.put("name",strName);
+            params.put("email",strEmail);
+            params.put("password",strPassword);
+            params.put("password_confirmation",strPassword);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        String data = params.toString();
+
+        String url = getString(R.string.api_server)+"/register";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Http http = new Http(RegistrationFragment.this.getContext(),url);
+                http.setMethod("POST");
+                http.setData(data);
+                Log.d("Http send data:  ",data);
+                http.send();
+
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if(code==201||code==200){
+                            alertSuccess("Успішна реєстрація.");
+                        }
+                        else if(code==422){
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                Log.d("Http response message:  ",msg);
+                                alertFail(msg);
+                            }catch (JSONException ex){
+                                ex.printStackTrace();
+                                btnRegister.setEnabled(true);
+                            }
+                        }
+                        else {
+                            Toast.makeText(RegistrationFragment.this.getContext(),"Error "+ code,Toast.LENGTH_SHORT).show();
+                            btnRegister.setEnabled(true);
+                        }
+                    }
+                });
+            }
+
+        }).start();
+
+    }
+
+    private void alertSuccess(String s) {
+
+        new AlertDialog.Builder(this.getContext())
+                .setTitle("Успіх")
+                .setIcon(R.drawable.ic_check)
+                .setMessage(s)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requireActivity().onBackPressed();
+                    }
+                }).show();
+        btnRegister.setEnabled(true);
+
+    }
+
+    private void alertFail(String s) {
+        new AlertDialog.Builder(this.getContext())
+                .setTitle("Не вдалося")
+                .setIcon(R.drawable.ic_warning)
+                .setMessage(s)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+        btnRegister.setEnabled(true);
+    }
+
 }

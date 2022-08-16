@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".UserFragment">
 
+        <Button
+            android:id="@+id/btnAuth"
+            style="@style/MainButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="80dp"
+            android:layout_gravity="center"
+            android:text="@string/authorization_button_name_authorization"
+            android:textSize="15sp"
+            tools:ignore="DuplicateClickableBoundsCheck,DuplicateSpeakableTextCheck" />
 
-    <Button
-        android:id="@+id/button31"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="Button" />
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
+                android:enabled="false"
+                android:textSize="15sp"
+                style="@style/MainButtonStyle"
+                android:text="@string/text_btn_Exit" />
+
 </FrameLayout>
