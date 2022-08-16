@@ -37,5 +37,7 @@
     <string name="text_btn_Sign_in">Увійти</string>
     <string name="text_btn_Forgot_password">Забули пароль?</string>
     <string name="text_btn_Exit">Вихід</string>
+    <string name="cancel">Відміна</string>
+    <string name="signin">Вхід</string>
 
 </resources>

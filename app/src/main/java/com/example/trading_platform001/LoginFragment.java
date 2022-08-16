@@ -1,6 +1,7 @@
 package com.example.trading_platform001;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.trading_platform001.models.Http;
@@ -24,11 +26,12 @@ import org.json.JSONObject;
 
 public class LoginFragment extends Fragment {
 
-    EditText edEmail,edPassword;
+    EditText edEmail,edPassword,edDialogEmail;
     Button btnLogin;
     String strEmail, strPassword;
     LocalStorage localStorage;
-
+    TextView recPass;
+    Dialog dialog;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -48,7 +51,12 @@ public class LoginFragment extends Fragment {
         edEmail = view.findViewById(R.id.edEmail);
         edPassword = view.findViewById(R.id.edPassword);
         btnLogin = view.findViewById(R.id.btnLogin);
+        recPass = view.findViewById(R.id.recPass);
         localStorage = new LocalStorage(requireActivity());
+        recPass.setOnClickListener(v -> {
+            recoveryPassword();
+        });
+        dialog = new Dialog(requireActivity());
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,6 +172,27 @@ public class LoginFragment extends Fragment {
                 })
                 .show();
     }
+    private void recoveryPassword(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View view= inflater.inflate(R.layout.fragment_recover_password_dialog, null);
+        edDialogEmail = view.findViewById(R.id.edDialogEmail);
+        builder.setTitle("Відновлення паролю");
+        builder.setView(view)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
+                    }
+                })
+                .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        edEmail.setText(edDialogEmail.getText().toString());
+                    }
+                });
+
+         builder.show();
+
+    }
 
 }
