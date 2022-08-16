@@ -9,6 +9,7 @@
     <string name="authorization_button_name_registration">Реєстрація</string>
     <string name="authorization_button_name_authorization">Авторизація</string>
     <string name="Null">null</string>
+    <string name="Null1">null</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
