@@ -97,6 +97,10 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void sendRegister() {
+        edName.setEnabled(false);
+        edEmail.setEnabled(false);
+        edPassword.setEnabled(false);
+        edConfirmation.setEnabled(false);
         btnRegister.setEnabled(false);
         JSONObject params = new JSONObject();
         try {
@@ -134,12 +138,12 @@ public class RegistrationFragment extends Fragment {
                                 alertFail(msg);
                             }catch (JSONException ex){
                                 ex.printStackTrace();
-                                btnRegister.setEnabled(true);
+                                alertFail("");
                             }
                         }
                         else {
                             Toast.makeText(RegistrationFragment.this.getContext(),"Error "+ code,Toast.LENGTH_SHORT).show();
-                            btnRegister.setEnabled(true);
+                            alertFail("");
                         }
                     }
                 });
@@ -151,6 +155,11 @@ public class RegistrationFragment extends Fragment {
 
     private void alertSuccess(String s) {
 
+        btnRegister.setEnabled(true);
+        edName.setEnabled(true);
+        edEmail.setEnabled(true);
+        edPassword.setEnabled(true);
+        edConfirmation.setEnabled(true);
         new AlertDialog.Builder(this.getContext())
                 .setTitle("Успіх")
                 .setIcon(R.drawable.ic_check)
@@ -161,11 +170,18 @@ public class RegistrationFragment extends Fragment {
                         requireActivity().onBackPressed();
                     }
                 }).show();
-        btnRegister.setEnabled(true);
+
+
 
     }
 
     private void alertFail(String s) {
+        btnRegister.setEnabled(true);
+        edName.setEnabled(true);
+        edEmail.setEnabled(true);
+        edPassword.setEnabled(true);
+        edConfirmation.setEnabled(true);
+        if(!s.isEmpty())
         new AlertDialog.Builder(this.getContext())
                 .setTitle("Не вдалося")
                 .setIcon(R.drawable.ic_warning)
@@ -176,7 +192,7 @@ public class RegistrationFragment extends Fragment {
                         dialog.dismiss();
                     }
                 }).show();
-        btnRegister.setEnabled(true);
+
     }
 
 }

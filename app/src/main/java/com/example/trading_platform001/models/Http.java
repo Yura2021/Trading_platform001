@@ -64,8 +64,7 @@ public class Http {
             }
             if(data!=null){
                 OutputStream os = connection.getOutputStream();
-                //StandardCharsets.UTF_8
-                os.write(data.getBytes());
+                os.write(data.getBytes(StandardCharsets.UTF_8));
                 os.flush();
                 os.close();
 

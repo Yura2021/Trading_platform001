@@ -72,6 +72,8 @@ public class LoginFragment extends Fragment {
 
     private void sendLogin() {
         btnLogin.setEnabled(false);
+        edEmail.setEnabled(false);
+        edPassword.setEnabled(false);
         JSONObject params = new JSONObject();
         try {
             params.put("email",strEmail);
@@ -79,7 +81,7 @@ public class LoginFragment extends Fragment {
 
         }catch (JSONException ex){
             ex.printStackTrace();
-            btnLogin.setEnabled(true);
+            alertFail("");
         }
         String data = params.toString();
         String url = getString(R.string.api_server)+"/login";
@@ -104,14 +106,14 @@ public class LoginFragment extends Fragment {
                                 Intent intent = new Intent(requireActivity(),MainActivity.class);
                                 startActivity(intent);
                                 Toast.makeText(requireActivity(),"Успіх",Toast.LENGTH_SHORT).show();
-                                btnLogin.setEnabled(true);
+                                alertFail("");
                                 Thread.sleep(5000);
                                 requireActivity().finish();
 
 
                             }catch (JSONException | InterruptedException ex){
                                 ex.printStackTrace();
-                                btnLogin.setEnabled(true);
+                                alertFail("");
                             }
 
                         }
@@ -122,7 +124,7 @@ public class LoginFragment extends Fragment {
                                 alertFail(msg);
                             }catch (JSONException ex){
                                 ex.printStackTrace();
-                                btnLogin.setEnabled(true);
+                                alertFail("");
                             }
                         }
                         else if(code ==401){
@@ -132,12 +134,12 @@ public class LoginFragment extends Fragment {
                                 alertFail(msg);
                             }catch (JSONException ex){
                                 ex.printStackTrace();
-                                btnLogin.setEnabled(true);
+                                alertFail("");
                             }
                         }
                         else{
                             Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();
-                            btnLogin.setEnabled(true);
+                            alertFail("");
                         }
                     }
                 });
@@ -147,6 +149,9 @@ public class LoginFragment extends Fragment {
 
     private void alertFail(String s) {
         btnLogin.setEnabled(true);
+        edEmail.setEnabled(true);
+        edPassword.setEnabled(true);
+        if(!s.isEmpty())
         new AlertDialog.Builder(this.getContext())
                 .setTitle("Не вдалося")
                 .setIcon(R.drawable.ic_warning)
