@@ -20,6 +20,19 @@
 
     </LinearLayout>
 
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:columnWidth="90dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"
+        android:visibility="visible" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

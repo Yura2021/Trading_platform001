@@ -32,15 +32,23 @@
     <string name="text_password">Пароль</string>
     <string name="text_password_confirmation">Підтвердження паролю</string>
     <string name="api_server_">http://192.168.0.106:8000/api</string>
-    <string name="api_server">https://ecommerce.it-tree.com.ua/api</string>
+    <string name="api_server">http://ecommerce.it-tree.com.ua/api</string>
     <string name="text_name">Ім\'я</string>
     <string name="text_btn_Sign_in">Увійти</string>
     <string name="text_btn_Forgot_password">Забули пароль?</string>
     <string name="text_btn_Exit">Вихід</string>
     <string name="cancel">Відміна</string>
     <string name="signin">Вхід</string>
-    <string name="content_descrp">TODO</string>
-    <string name="text_price">Ціна</string>
-    <string name="text_rating">Рейтинг</string>
 
+    <string name="My_orders">Мої замовлення</string>
+    <string name="My_mesegges">Мої повідомлення</string>
+    <string name="My_correspondence">Моє Листування</string>
+    <string name="My_purse">Мій Гаманець</string>
+    <string name="comparison">Порівняння</string>
+    <string name="Sales">Знижкі</string>
+    <string name="action">Акції</string>
+    <string name="support">Служба підтримки</string>
+    <string name="Work_time">Час роботи</string>
+    <string name="Information">Інформація</string>
+    <string name="Account">Обліковий запис</string>
 </resources>

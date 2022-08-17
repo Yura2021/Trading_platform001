@@ -1,14 +1,16 @@
 package com.example.trading_platform001;
 
-import static java.lang.Thread.*;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 
 public class UserFragment extends Fragment {
     Button btnAuth,btnLogout;
+    ListView listMenu;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,7 +65,7 @@ public class UserFragment extends Fragment {
 
         btnAuth =  v.findViewById(R.id.btnAuth);
         btnLogout =  v.findViewById(R.id.btnLogout);
-
+        getUser();
         btnAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,48 +79,73 @@ public class UserFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-        getUser();
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Log.d("Token getUser run!!!!!!!",e.getMessage());
-            return v;
-        }
+
+        listMenu = (ListView) v.findViewById(R.id.UserMenu);
+
+        final String[] MenuItem = new String[] {
+                getResources().getString(R.string.signin),
+                getResources().getString(R.string.Account),
+                getResources().getString(R.string.My_orders),
+                getResources().getString(R.string.My_mesegges),
+                getResources().getString(R.string.My_correspondence),
+                getResources().getString(R.string.My_purse),
+                getResources().getString(R.string.comparison),
+                getResources().getString(R.string.Sales),
+                getResources().getString(R.string.action),
+                getResources().getString(R.string.support),
+                getResources().getString(R.string.Work_time),
+                getResources().getString(R.string.Information),
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.listmenu, MenuItem);
+       listMenu.setAdapter(adapter);
+
+        listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
+                                    long id) {
+                TextView textView = (TextView) itemClicked;
+                String strText = textView.getText().toString();
+
+                if(strText.equalsIgnoreCase(getResources().getString(R.string.signin))) {
+                    startActivity(new Intent(getContext(),AuthorizationMenuActivity.class));
+                }
+                if(strText.equalsIgnoreCase(getResources().getString(R.string.Account))) {
+                    startActivity(new Intent(getContext(),UserInformation.class));
+                }
+            }
+        });
+
         return v;
     }
 
-
     private void getUser() {
         String url = getString(R.string.api_server)+"/user";
-        Log.d("Token getUser run","Start ");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Http http = new Http(requireActivity(),url);
                 http.setToken(true);
-                http.setMethod("POST");
                 http.send();
-                Log.d("Token getUser run",http.getStringToken());
+
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Integer code = http.getStatusCode();
-                        Log.d("Token getUser ",http.getStringToken()+" code: "+code);
                         if(code == 200){
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String name = response.getString("name");
                                 btnAuth.setText(name);
-                                Log.d("Token getUser code 200: ",http.getStringToken());
+                                Log.d("Token getUser ",http.getStringToken());
                                 btnLogout.setEnabled(true);
-                                //btnAuth.setEnabled(false);
+                                btnAuth.setEnabled(false);
 
                             }catch (JSONException ex){
                                 ex.printStackTrace();
                             }
                         }
-                        else{Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();}
+                        //else{Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();}
                     }
                 });
             }
