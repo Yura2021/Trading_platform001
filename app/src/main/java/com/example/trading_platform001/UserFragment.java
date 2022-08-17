@@ -1,5 +1,7 @@
 package com.example.trading_platform001;
 
+import static java.lang.Thread.*;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,7 +62,7 @@ public class UserFragment extends Fragment {
 
         btnAuth =  v.findViewById(R.id.btnAuth);
         btnLogout =  v.findViewById(R.id.btnLogout);
-        getUser();
+
         btnAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,36 +76,48 @@ public class UserFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
+        getUser();
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Log.d("Token getUser run!!!!!!!",e.getMessage());
+            return v;
+        }
         return v;
     }
 
+
     private void getUser() {
         String url = getString(R.string.api_server)+"/user";
+        Log.d("Token getUser run","Start ");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Http http = new Http(requireActivity(),url);
                 http.setToken(true);
+                http.setMethod("POST");
                 http.send();
-
+                Log.d("Token getUser run",http.getStringToken());
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Integer code = http.getStatusCode();
+                        Log.d("Token getUser ",http.getStringToken()+" code: "+code);
                         if(code == 200){
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String name = response.getString("name");
                                 btnAuth.setText(name);
-                                Log.d("Token getUser ",http.getStringToken());
+                                Log.d("Token getUser code 200: ",http.getStringToken());
                                 btnLogout.setEnabled(true);
-                                btnAuth.setEnabled(false);
+                                //btnAuth.setEnabled(false);
 
                             }catch (JSONException ex){
                                 ex.printStackTrace();
                             }
                         }
-                        //else{Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();}
+                        else{Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();}
                     }
                 });
             }

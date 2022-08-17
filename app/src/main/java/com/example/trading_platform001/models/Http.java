@@ -60,7 +60,10 @@ public class Http {
             connection.setRequestProperty("Content-Type","application/json");
             connection.setRequestProperty("X-Requested-With","XMLHttpRequest");
             if (token){
-                connection.setRequestProperty("Authorization","Bearer "+localStorage.getToken());
+                String strToken = localStorage.getToken();
+                if(strToken.isEmpty())
+                    strToken = "No token";
+                connection.setRequestProperty("Authorization","Bearer "+strToken);
             }
             if(data!=null){
                 OutputStream os = connection.getOutputStream();

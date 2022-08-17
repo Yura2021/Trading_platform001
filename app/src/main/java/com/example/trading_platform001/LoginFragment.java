@@ -205,7 +205,7 @@ public class LoginFragment extends Fragment {
             ex.printStackTrace();
         }
         String data = params.toString();
-        String url = getString(R.string.api_server)+"/repass";
+        String url = getString(R.string.api_server)+"/forgot-password";
         new Thread(new Runnable() {
             @Override
             public void run() {
