@@ -39,5 +39,8 @@
     <string name="text_btn_Exit">Вихід</string>
     <string name="cancel">Відміна</string>
     <string name="signin">Вхід</string>
+    <string name="content_descrp">TODO</string>
+    <string name="text_price">Ціна</string>
+    <string name="text_rating">Рейтинг</string>
 
 </resources>
