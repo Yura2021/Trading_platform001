@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.MenuUserListAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +79,7 @@ public class UserFragment extends Fragment {
                 logout();
             }
         });
-        // Inflate the layout for this fragment
+
 
         listMenu = (ListView) v.findViewById(R.id.UserMenu);
 
@@ -97,21 +98,25 @@ public class UserFragment extends Fragment {
                 getResources().getString(R.string.Information),
         };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.listmenu, MenuItem);
+        MenuUserListAdapter adapter = new MenuUserListAdapter(getContext(), R.layout.listmenu, MenuItem);
        listMenu.setAdapter(adapter);
 
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
-                                    long id) {
-                TextView textView = (TextView) itemClicked;
-                String strText = textView.getText().toString();
+            public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
 
-                if(strText.equalsIgnoreCase(getResources().getString(R.string.signin))) {
-                    startActivity(new Intent(getContext(),AuthorizationMenuActivity.class));
-                }
-                if(strText.equalsIgnoreCase(getResources().getString(R.string.Account))) {
-                    startActivity(new Intent(getContext(),UserInformation.class));
+                String selectedItem = MenuItem[position];
+                switch (selectedItem)
+                {
+                    case "Вхід": {
+                        startActivity(new Intent(getContext(), AuthorizationMenuActivity.class));
+                        break;
+                    }
+                    case "Обліковий запис": {
+                        startActivity(new
+                                Intent(getContext(),UserInformation.class));
+                        break;
+                    }
                 }
             }
         });
