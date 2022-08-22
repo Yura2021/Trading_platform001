@@ -1,12 +1,18 @@
 package com.example.trading_platform001;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.SearchView;
+import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 
 import com.example.trading_platform001.models.Product;
@@ -29,7 +35,9 @@ public class HomeFragment extends Fragment  {
     SearchView searchView;
     GridView gridview;
     ProductAdapter productAdapter;
-    private List<Product> listProduct;
+    ImageView imgProduct;
+    TextView tvNameProduct,tvPriceProduct,tvIdProduct;
+    RatingBar rbRating;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -75,6 +83,7 @@ public class HomeFragment extends Fragment  {
             @Override
             public boolean onQueryTextChange(String newText) {
                 productAdapter.getFilter().filter(newText);
+                Log.d("GridOnItemClick","onQueryTextChange");
                 return true;
             }
         });
@@ -89,13 +98,25 @@ public class HomeFragment extends Fragment  {
         public void onItemClick(AdapterView<?> parent, View v, int position,
                                 long id) {
             // TODO Auto-generated method stub
-/*
-            // Sending image id to FullScreenActivity
-            Intent i = new Intent(requireActivity(), FullImageActivity.class);
+            Log.d("GridOnItemClick","True "+parent.getCount());
+            Intent i = new Intent(requireActivity(), ShowProductFullscreenActivity.class);
             // passing array index
+            imgProduct =  v.findViewById(R.id.imgProduct);
+            tvNameProduct =  v.findViewById(R.id.tvNameProduct);
+            tvPriceProduct =  v.findViewById(R.id.tvPriceProduct);
+            rbRating =  v.findViewById(R.id.rbRating);
+            tvIdProduct =  v.findViewById(R.id.tvIdProduct);
+
             i.putExtra("id", position);
-            startActivity(i);
-            */
+            i.putExtra("imgProduct", productAdapter.getItem(position).getImg_id());
+            i.putExtra("tvNameProduct", tvNameProduct.getText());
+            i.putExtra("tvPriceProduct", tvPriceProduct.getText());
+            i.putExtra("rbRating", rbRating.getRating());
+            i.putExtra("tvIdProduct", tvIdProduct.getText());
+
+           startActivity(i);
+
+
 
         }
     };

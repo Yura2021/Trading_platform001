@@ -6,14 +6,14 @@ public class Product {
     private String name;
     private String description;
     private int Price;
-    private double rating;
+    private float rating;
     private int category_id;
     private int shop_id;
     private int img_id;
 
     public Product() {}
 
-    public Product(int id, String name, String description,double rating ,int price, int category_id, int shop_id, int img_id) {
+    public Product(int id, String name, String description,float rating ,int price, int category_id, int shop_id, int img_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -24,7 +24,7 @@ public class Product {
         this.rating = rating;
     }
 
-    public Product(String name, int price, double rating,int img_id) {
+    public Product(String name, int price, float rating,int img_id) {
         this.name = name;
         Price = price;
         this.img_id = img_id;
@@ -87,11 +87,11 @@ public class Product {
         this.img_id = img_id;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 }
