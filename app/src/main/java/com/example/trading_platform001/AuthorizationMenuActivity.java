@@ -20,7 +20,7 @@ public class AuthorizationMenuActivity extends AppCompatActivity {
         binding = ActivityAuthorizationMenuBinding.inflate(getLayoutInflater());
         replaceFragment(new LoginFragment());
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.buttonMenuAutorization);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.buttonMenuAuthorization);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 

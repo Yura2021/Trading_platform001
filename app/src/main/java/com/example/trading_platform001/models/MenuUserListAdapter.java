@@ -38,7 +38,7 @@ public class MenuUserListAdapter extends ArrayAdapter<String> {
         ImageView iconImageView = (ImageView) row.findViewById(R.id.image_view_icon);
         label.setText(itemName[position]);
 
-        switch (itemName[position].toString()) {
+        switch (itemName[position]) {
             case "Вхід": {
                // iconImageView.setImageResource(R.drawable.dbc8ca135fe568c03bd135dc5c134453);
                 break;

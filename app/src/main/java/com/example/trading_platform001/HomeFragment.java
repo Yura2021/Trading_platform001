@@ -53,8 +53,6 @@ public class HomeFragment extends Fragment  {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-
     }
 
     @Override
@@ -62,32 +60,12 @@ public class HomeFragment extends Fragment  {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        listProduct = new ArrayList<>();
-        listProduct.add(new Product("Продукт 1",212,3,R.drawable.ic_main_catalog_btn_24));
-        listProduct.add(new Product("Продукт 2",112,5,R.drawable.ic_main_person_btn_24));
-        listProduct.add(new Product("Подукт 3",122,4,R.drawable.ic_main_home_btn_24));
-        listProduct.add(new Product("Продукт 4",312,1,R.drawable.ic_main_basket_btn_24));
-        listProduct.add(new Product("Продукт 5",152,3,R.drawable.ic_main_catalog_btn_24));
-        listProduct.add(new Product("Продукт 6",912,4.5,R.drawable.ic_main_person_btn_24));
-        listProduct.add(new Product("Продукт 7",142,2.5,R.drawable.ic_main_home_btn_24));
-        listProduct.add(new Product("Продукт 8",172,2,R.drawable.ic_main_basket_btn_24));
-        listProduct.add(new Product("Продукт 9",172,5,R.drawable.ic_main_catalog_btn_24));
-        listProduct.add(new Product("Продукт 10",172,5,R.drawable.ic_main_person_btn_24));
-        listProduct.add(new Product("Продукт 11",152,3.8,R.drawable.ic_main_catalog_btn_24));
-        listProduct.add(new Product("Продукт 12",272,5,R.drawable.ic_main_person_btn_24));
-        listProduct.add(new Product("Продукт 13",372,4.2,R.drawable.ic_main_home_btn_24));
-        listProduct.add(new Product("Продукт 14",672,2.8,R.drawable.ic_main_basket_btn_24));
-        listProduct.add(new Product("Продукт 15",192,5,R.drawable.ic_main_catalog_btn_24));
-        listProduct.add(new Product("Продукт 16",142,3.6,R.drawable.ic_main_person_btn_24));
-        listProduct.add(new Product("Продукт 17",1172,5,R.drawable.ic_main_home_btn_24));
-        listProduct.add(new Product("Продукт 18",1172,5,R.drawable.ic_main_basket_btn_24));
-
         searchView = view.findViewById(R.id.svSearch);
         searchView.clearFocus();
         gridview =view.findViewById(R.id.grid_product);
-        productAdapter = new ProductAdapter(view.getContext(),listProduct);
+        productAdapter = new ProductAdapter(view.getContext());
 
-        //gridview.setOnItemClickListener(gridviewOnItemClickListener);
+        gridview.setOnItemClickListener(gridviewOnItemClickListener);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -105,7 +83,7 @@ public class HomeFragment extends Fragment  {
         return view;
     }
 
-    private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
+    private final GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View v, int position,

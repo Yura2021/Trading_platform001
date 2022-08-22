@@ -19,9 +19,27 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
     public List<Product> listProduct;
     public final List<Product> dataListProduct;
 
-    public ProductAdapter(Context context,List<Product> listProduct) {
+    public ProductAdapter(Context context) {
         this.context = context;
-        this.listProduct = listProduct;
+        listProduct = new ArrayList<>();
+        listProduct.add(new Product("Продукт 1",212,3,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 2",112,5,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Подукт 3",122,4,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 4",312,1,R.drawable.ic_main_basket_btn_24));
+        listProduct.add(new Product("Продукт 5",152,3,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 6",912,4.5,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 7",142,2.5,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 8",172,2,R.drawable.ic_main_basket_btn_24));
+        listProduct.add(new Product("Продукт 9",172,5,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 10",172,5,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 11",152,3.8,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 12",272,5,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 13",372,4.2,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 14",672,2.8,R.drawable.ic_main_basket_btn_24));
+        listProduct.add(new Product("Продукт 15",192,5,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 16",142,3.6,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 17",1172,5,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 18",1172,5,R.drawable.ic_main_basket_btn_24));;
         this.dataListProduct = listProduct;
     }
 
