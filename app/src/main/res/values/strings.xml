@@ -51,4 +51,6 @@
     <string name="Work_time">Час роботи</string>
     <string name="Information">Інформація</string>
     <string name="Account">Обліковий запис</string>
+    <string name="text_price">Ціна</string>
+    <string name="text_rating">Рейтинг</string>
 </resources>

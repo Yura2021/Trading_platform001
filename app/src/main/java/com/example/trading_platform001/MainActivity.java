@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity  {
                         replaceFragment(new UserFragment());
                         break;
                 }
-                return false;
+                return true;
             }
         });
 

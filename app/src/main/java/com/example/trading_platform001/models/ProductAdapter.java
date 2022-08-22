@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import com.example.trading_platform001.R;
 import java.util.ArrayList;
@@ -19,9 +20,29 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
     public List<Product> listProduct;
     public final List<Product> dataListProduct;
 
-    public ProductAdapter(Context context,List<Product> listProduct) {
+    public ProductAdapter(Context context) {
         this.context = context;
-        this.listProduct = listProduct;
+        listProduct = new ArrayList<>();
+
+        listProduct.add(new Product("Продукт 1",212,3f,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 2",112,5f,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Подукт 3",122,4f,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 4",312,1f,R.drawable.ic_main_basket_btn_24));
+        listProduct.add(new Product("Продукт 5",152,3f,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 6",912,4.5f,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 7",142,2.5f,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 8",172,2f,R.drawable.ic_main_basket_btn_24));
+        listProduct.add(new Product("Продукт 9",172,5f,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 10",172,5f,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 11",152,3.8f,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 12",272,5f,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 13",372,4.2f,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 14",672,2.8f,R.drawable.ic_main_basket_btn_24));
+        listProduct.add(new Product("Продукт 15",192,5f,R.drawable.ic_main_catalog_btn_24));
+        listProduct.add(new Product("Продукт 16",142,3.6f,R.drawable.ic_main_person_btn_24));
+        listProduct.add(new Product("Продукт 17",1172,5f,R.drawable.ic_main_home_btn_24));
+        listProduct.add(new Product("Продукт 18",1172,5f,R.drawable.ic_main_basket_btn_24));;
+
         this.dataListProduct = listProduct;
     }
 
@@ -33,7 +54,7 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Product getItem(int position) {
         return listProduct.get(position);
     }
 
@@ -55,12 +76,16 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
             grid = convertView;
         }
 
-        ImageView imageView =  grid.findViewById(R.id.imgProduct);
-        TextView textView =  grid.findViewById(R.id.tvNameProduct);
-        TextView textView2 =  grid.findViewById(R.id.tvIdProduct);
-        imageView.setImageResource(listProduct.get(position).getImg_id());
-        textView.setText(listProduct.get(position).getName());
-        textView2.setText(String.valueOf(position));
+        ImageView imgProduct =  grid.findViewById(R.id.imgProduct);
+        TextView tvNameProduct =  grid.findViewById(R.id.tvNameProduct);
+        TextView tvPriceProduct =  grid.findViewById(R.id.tvPriceProduct);
+        RatingBar rbRating =  grid.findViewById(R.id.rbRating);
+        TextView tvIdProduct =  grid.findViewById(R.id.tvIdProduct);
+        imgProduct.setImageResource(listProduct.get(position).getImg_id());
+        tvNameProduct.setText(listProduct.get(position).getName());
+        tvPriceProduct.setText(listProduct.get(position).getPrice()+ " Грн");
+        rbRating.setRating(listProduct.get(position).getRating());
+        tvIdProduct.setText(String.valueOf(position));
 
         return grid;
     }

@@ -176,7 +176,7 @@ public class UserFragment extends Fragment {
                             Intent intent = new Intent(requireActivity(),MainActivity.class);
                             startActivity(intent);
                             Log.d("Token logout ",http.getStringToken());
-                            String strName = getResources().getResourceName(R.string.authorization_button_name_authorization).toString();
+                            String strName = getResources().getResourceName(R.string.authorization_button_name_authorization);
                             btnAuth.setText(strName);
                             btnAuth.setEnabled(true);
                             btnLogout.setEnabled(false);
