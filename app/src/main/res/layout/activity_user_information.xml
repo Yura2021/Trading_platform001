@@ -6,13 +6,109 @@
     android:layout_height="match_parent"
     tools:context=".UserInformation">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:contentDescription="@string/Account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="427dp"
+                android:layout_height="60dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginTop="-5dp"
+                android:text="Особистий Кабінет"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="427dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginTop="-5dp"
+                android:text="Ім'я\nКорнійчук Назар" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="427dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:layout_marginLeft="-10dp"
+                android:text="Електроний пошта\nnazar.korniychuk@ukr.net" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="427dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:layout_marginLeft="-10dp"
+                android:text="Номер телефону\n+380996367125" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="427dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:layout_marginLeft="-10dp"
+                android:text="Мова спілкування\nУкаїнська" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="427dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:layout_marginLeft="-10dp"
+                android:text="Стать\nЧоловіча" />
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="410dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:text="Змінити пароль" />
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="410dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:text="Вийти з акаунту" />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="410dp"
+                android:layout_height="60dp"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:layout_marginTop="15dp"
+                android:text="Видалення акаунту" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

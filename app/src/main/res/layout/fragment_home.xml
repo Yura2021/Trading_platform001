@@ -20,7 +20,9 @@
         android:clickable="true"
         android:focusable="true"
         android:inputType="text" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 <LinearLayout
     android:layout_below="@id/svSearch"
@@ -36,7 +38,6 @@
         android:layout_height="match_parent"
         android:horizontalSpacing="10dp"
         android:numColumns="2"
-        android:clickable="true"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

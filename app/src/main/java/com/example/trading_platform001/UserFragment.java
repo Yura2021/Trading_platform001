@@ -1,6 +1,7 @@
 package com.example.trading_platform001;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,7 +85,7 @@ public class UserFragment extends Fragment {
         listMenu = (ListView) v.findViewById(R.id.UserMenu);
 
         final String[] MenuItem = new String[] {
-                getResources().getString(R.string.signin),
+                getResources().getString(R.string.authorization_button_name_exit),
                 getResources().getString(R.string.Account),
                 getResources().getString(R.string.My_orders),
                 getResources().getString(R.string.My_mesegges),
@@ -97,8 +98,22 @@ public class UserFragment extends Fragment {
                 getResources().getString(R.string.Work_time),
                 getResources().getString(R.string.Information),
         };
+        final Drawable[] IconMenu = new Drawable[]{
+                getResources().getDrawable(R.drawable.my_null),
+                getResources().getDrawable(R.drawable.my_accaunt_ico),
+                getResources().getDrawable(R.drawable.my_orders_ico),
+                getResources().getDrawable(R.drawable.my_messeng_ico),
+                getResources().getDrawable(R.drawable.my_correspondence),
+                getResources().getDrawable(R.drawable.my_purse),
+                getResources().getDrawable(R.drawable.my_comparison),
+                getResources().getDrawable(R.drawable.my_sales),
+                getResources().getDrawable(R.drawable.my_action),
+                getResources().getDrawable(R.drawable.my_support),
+                getResources().getDrawable(R.drawable.my_shop),
+                getResources().getDrawable(R.drawable.my_information)
+        };
 
-        MenuUserListAdapter adapter = new MenuUserListAdapter(getContext(), R.layout.listmenu, MenuItem);
+        MenuUserListAdapter adapter = new MenuUserListAdapter(getContext(), R.layout.listmenu, MenuItem,IconMenu);
        listMenu.setAdapter(adapter);
 
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,8 +128,7 @@ public class UserFragment extends Fragment {
                         break;
                     }
                     case "Обліковий запис": {
-                        startActivity(new
-                                Intent(getContext(),UserInformation.class));
+                        startActivity(new Intent(getContext(),UserInformation.class));
                         break;
                     }
                 }
