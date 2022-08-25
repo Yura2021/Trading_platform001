@@ -18,14 +18,17 @@ import androidx.fragment.app.Fragment;
 
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.MenuUserListAdapter;
+import com.example.trading_platform001.models.StorageInformation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
 public class UserFragment extends Fragment {
+
     Button btnAuth,btnLogout;
     ListView listMenu;
+    StorageInformation Storage;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,7 +67,7 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user,
                 null);
-
+        Storage = new StorageInformation(getContext());
         btnAuth =  v.findViewById(R.id.btnAuth);
         btnLogout =  v.findViewById(R.id.btnLogout);
         getUser();
@@ -112,6 +115,16 @@ public class UserFragment extends Fragment {
                 getResources().getDrawable(R.drawable.my_shop),
                 getResources().getDrawable(R.drawable.my_information)
         };
+        if(Storage.IsEmpty())
+        {
+            MenuItem[0]=null;
+            IconMenu[0]=null;
+        }
+        else
+        {
+            MenuItem[0]=  getResources().getString(R.string.authorization_button_name_exit);
+            IconMenu[0]= getResources().getDrawable(R.drawable.my_null);
+        }
 
         MenuUserListAdapter adapter = new MenuUserListAdapter(getContext(), R.layout.listmenu, MenuItem,IconMenu);
        listMenu.setAdapter(adapter);
@@ -128,7 +141,14 @@ public class UserFragment extends Fragment {
                         break;
                     }
                     case "Обліковий запис": {
-                        startActivity(new Intent(getContext(),UserInformation.class));
+                        if(Storage.IsEmpty())
+                        {
+                            startActivity(new Intent(getContext(),UserInformation.class));
+                        }
+                        else
+                        {
+                            startActivity(new Intent(getContext(),AuthorizationMenuActivity.class));
+                        }
                         break;
                     }
                 }

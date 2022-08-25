@@ -19,9 +19,13 @@ import android.widget.Toast;
 
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.LocalStorage;
+import com.example.trading_platform001.models.StorageInformation;
+import com.example.trading_platform001.models.User;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 
 public class LoginFragment extends Fragment {
@@ -32,6 +36,8 @@ public class LoginFragment extends Fragment {
     LocalStorage localStorage;
     TextView recPass;
     Dialog dialog;
+    User user;
+    StorageInformation Storage;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -63,7 +69,8 @@ public class LoginFragment extends Fragment {
                 checkLogin();
             }
         });
-
+        user = new User();
+        Storage = new StorageInformation(getContext());
         return view;
 
     }
@@ -109,6 +116,8 @@ public class LoginFragment extends Fragment {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String token = response.getString("token");
+                                user = new Gson().fromJson(response.getString("user"),User.class);
+                                Storage.SetStorageUser(user);
                                 Log.d("Http response token:  ",token);
                                 localStorage.setToken(token);
                                 Intent intent = new Intent(requireActivity(),MainActivity.class);
