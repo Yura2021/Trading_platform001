@@ -1,39 +1,75 @@
 package com.example.trading_platform001.models;
 
+import com.example.trading_platform001.interfaces.Saleable;
 
-public class Product {
-    private int id;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class Product implements Saleable, Serializable {
+    private static final long serialVersionUID = -4_073_256_626_483_275_668L;
+
+    private long id;
     private String name;
     private String description;
-    private int Price;
+    private BigDecimal price = BigDecimal.ZERO;
     private float rating;
     private int category_id;
     private int shop_id;
     private int img_id;
+    private int quantity;
 
-    public Product() {}
+    public Product() {quantity=1;}
 
-    public Product(int id, String name, String description,float rating ,int price, int category_id, int shop_id, int img_id) {
+    public Product(long id, String name, String description,float rating ,BigDecimal price, int category_id, int shop_id, int img_id) {
         this.id = id;
         this.name = name;
         this.description = description;
-        Price = price;
+        this.price = price;
         this.category_id = category_id;
         this.shop_id = shop_id;
         this.img_id = img_id;
         this.rating = rating;
+        quantity=1;
     }
 
-    public Product(String name, int price, float rating,int img_id) {
+    public Product(long id,String name, BigDecimal price, float rating,int img_id) {
+
         this.name = name;
-        Price = price;
+        this.id = id;
+        this.price = price;
         this.img_id = img_id;
         this.rating = rating;
+        quantity=1;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (!(o instanceof Product)) return false;
+
+        return (this.id == ((Product) o).getId());
     }
 
-    public int getId() {
-        return id;
+    public int hashCode() {
+        final int prime = 31;
+        int hash = 1;
+        hash = (int) (hash * prime + id);
+        hash = hash * prime + (name == null ? 0 : name.hashCode());
+        hash = hash * prime + (price == null ? 0 : price.hashCode());
+        hash = hash * prime + (description == null ? 0 : description.hashCode());
+
+        return hash;
     }
+
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+
 
     public void setId(int id) {
         this.id = id;
@@ -41,6 +77,11 @@ public class Product {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     public void setName(String name) {
@@ -55,12 +96,12 @@ public class Product {
         this.description = description;
     }
 
-    public int getPrice() {
-        return Price;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setPrice(int price) {
-        Price = price;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public int getCategory_id() {

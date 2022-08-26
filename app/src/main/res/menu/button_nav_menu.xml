@@ -10,7 +10,8 @@
         android:id="@+id/catalog"/>
     <item android:title="@string/main_button_name_basket"
         android:icon="@drawable/ic_main_basket_btn_24"
-        android:id="@+id/basket"/>
+        android:background="@drawable/badge_background"
+        android:id="@+id/cart"/>
     <item
         android:id="@+id/person"
         android:icon="@drawable/ic_main_person_btn_24"

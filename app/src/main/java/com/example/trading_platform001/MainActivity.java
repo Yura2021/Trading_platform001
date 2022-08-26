@@ -22,14 +22,21 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+       setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
+
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.home:
                         replaceFragment(new HomeFragment());
+                        break;
+                    case R.id.catalog:
+                        replaceFragment(new ShowProductFullscreenFragment());
+                        break;
+                    case R.id.cart:
+                        replaceFragment(new CartFragment());
                         break;
                     case R.id.person:
                         replaceFragment(new UserFragment());
@@ -38,6 +45,8 @@ public class MainActivity extends AppCompatActivity  {
                 return true;
             }
         });
+
+
 
     }
 

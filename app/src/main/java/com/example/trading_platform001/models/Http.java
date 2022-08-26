@@ -1,8 +1,6 @@
 package com.example.trading_platform001.models;
 
 import android.content.Context;
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,7 +53,6 @@ public class Http {
         try {
             URL sUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection)  sUrl.openConnection();
-            Log.d("Http  ",method);
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type","application/json");
             connection.setRequestProperty("X-Requested-With","XMLHttpRequest");
@@ -93,7 +90,6 @@ public class Http {
             response = sb.toString();
         }catch (IOException ex){
             ex.printStackTrace();
-            Log.d("Http  ",ex.getMessage());
         }
 
     }

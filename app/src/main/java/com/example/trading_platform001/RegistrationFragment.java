@@ -3,7 +3,6 @@ package com.example.trading_platform001;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +119,6 @@ public class RegistrationFragment extends Fragment {
                 Http http = new Http(RegistrationFragment.this.getContext(),url);
                 http.setMethod("POST");
                 http.setData(data);
-                Log.d("Http send data:  ",data);
                 http.send();
 
                 requireActivity().runOnUiThread(new Runnable() {
@@ -134,7 +132,6 @@ public class RegistrationFragment extends Fragment {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String msg = response.getString("message");
-                                Log.d("Http response message:  ",msg);
                                 alertFail(msg);
                             }catch (JSONException ex){
                                 ex.printStackTrace();

@@ -1,8 +1,6 @@
 package com.example.trading_platform001;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +13,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.trading_platform001.models.Product;
 import com.example.trading_platform001.models.ProductAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class HomeFragment extends Fragment  {
@@ -83,7 +77,6 @@ public class HomeFragment extends Fragment  {
             @Override
             public boolean onQueryTextChange(String newText) {
                 productAdapter.getFilter().filter(newText);
-                Log.d("GridOnItemClick","onQueryTextChange");
                 return true;
             }
         });
@@ -95,27 +88,25 @@ public class HomeFragment extends Fragment  {
     private final GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View v, int position,
-                                long id) {
-            // TODO Auto-generated method stub
-            Log.d("GridOnItemClick","True "+parent.getCount());
-            Intent i = new Intent(requireActivity(), ShowProductFullscreenActivity.class);
-            // passing array index
+        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+            Bundle bundle = new Bundle();
             imgProduct =  v.findViewById(R.id.imgProduct);
             tvNameProduct =  v.findViewById(R.id.tvNameProduct);
             tvPriceProduct =  v.findViewById(R.id.tvPriceProduct);
             rbRating =  v.findViewById(R.id.rbRating);
             tvIdProduct =  v.findViewById(R.id.tvIdProduct);
+            bundle.putLong("id", productAdapter.getItem(position).getId());
+            bundle.putInt("imgProduct", productAdapter.getItem(position).getImg_id());
+            bundle.putString("tvNameProduct", tvNameProduct.getText().toString());
+            bundle.putString("tvPriceProduct", tvPriceProduct.getText().toString());
+            bundle.putFloat("rbRating", rbRating.getRating());
 
-            i.putExtra("id", position);
-            i.putExtra("imgProduct", productAdapter.getItem(position).getImg_id());
-            i.putExtra("tvNameProduct", tvNameProduct.getText());
-            i.putExtra("tvPriceProduct", tvPriceProduct.getText());
-            i.putExtra("rbRating", rbRating.getRating());
-            i.putExtra("tvIdProduct", tvIdProduct.getText());
-
-           startActivity(i);
-
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.layout_view_fragment, ShowProductFullscreenFragment.class,bundle)
+                    .setReorderingAllowed(true)
+                    .addToBackStack("replacement")
+                    .commit();
 
 
         }

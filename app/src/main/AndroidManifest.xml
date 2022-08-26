@@ -20,9 +20,6 @@
             android:name=".UserInformation"
             android:exported="false" />
         <activity
-            android:name=".ShowProductFullscreenActivity"
-            android:exported="false" />
-        <activity
             android:name=".AuthorizationMenuActivity"
             android:exported="false" />
         <activity
