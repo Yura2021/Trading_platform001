@@ -16,6 +16,7 @@ public class CartHelper {
 
         return cartEntity;
     }
+
     public static List<CartItemsEntityModel> getCartItems() {
         List<CartItemsEntityModel> cartItems = new ArrayList<>();
         Map<Saleable, Integer> itemMap = getCart().getItemWithQuantity();

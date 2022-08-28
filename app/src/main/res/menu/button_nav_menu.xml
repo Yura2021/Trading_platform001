@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/main_button_name_main"
+    <item
+        android:id="@+id/home"
         android:icon="@drawable/ic_main_home_btn_24"
-        android:id="@+id/home"/>
-    <item android:title="@string/main_button_name_catalogue"
+        android:title="@string/main_button_name_main" />
+    <item
+        android:id="@+id/catalog"
         android:icon="@drawable/ic_main_catalog_btn_24"
-        android:id="@+id/catalog"/>
-    <item android:title="@string/main_button_name_basket"
+        android:title="@string/main_button_name_catalogue" />
+    <item
+        android:id="@+id/cart"
         android:icon="@drawable/ic_main_basket_btn_24"
-        android:background="@drawable/badge_background"
-        android:id="@+id/cart"/>
+        android:title="@string/main_button_name_basket" />
     <item
         android:id="@+id/person"
         android:icon="@drawable/ic_main_person_btn_24"

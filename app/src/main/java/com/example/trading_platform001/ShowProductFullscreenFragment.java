@@ -1,8 +1,9 @@
 package com.example.trading_platform001;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,48 +15,23 @@ import android.widget.TextView;
 import com.example.trading_platform001.models.CartEntity;
 import com.example.trading_platform001.models.CartHelper;
 import com.example.trading_platform001.models.Product;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.math.BigDecimal;
 
 
 public class ShowProductFullscreenFragment extends Fragment {
 
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
     private ImageView imgProduct;
     private TextView tvNameProduct, tvPriceProduct, tvIdProduct;
     private RatingBar rbRating;
     private Button addCart;
     private long id;
     private int id_imgProduct;
-    private String nameProduct,priceProduct;
+    private String nameProduct, priceProduct;
     private float rating;
 
-    public ShowProductFullscreenFragment() {
-        // Required empty public constructor
-    }
-
-    // TODO: Rename and change types and number of parameters
-    public static ShowProductFullscreenFragment newInstance(String param1, String param2) {
-        ShowProductFullscreenFragment fragment = new ShowProductFullscreenFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     private void getResultFragment() {
         Bundle result = getArguments();
@@ -93,23 +69,25 @@ public class ShowProductFullscreenFragment extends Fragment {
         addCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("value id  ",String.valueOf(id));
                 Bundle bundle = new Bundle();
                 if (id != -1) {
                     bundle.putLong("id", id);
                     bundle.putInt("id_imgProduct", id_imgProduct);
-                    Log.d("value id  ",String.valueOf(id_imgProduct));
                     bundle.putString("tvNameProduct", nameProduct);
                     bundle.putString("tvPriceProduct", priceProduct);
                     bundle.putFloat("rbRating", rating);
                     CartEntity cart = CartHelper.getCart();
                     BigDecimal dec = new BigDecimal(priceProduct);
-                    Product product = new Product(id,nameProduct,dec ,rating,id_imgProduct);
+                    Product product = new Product(id, nameProduct, dec, rating, id_imgProduct);
                     cart.add(product, 1);
 
+                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
+                    BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.cart);
+                    badge.setVisible(true);
+                    badge.setNumber(CartHelper.getCartItems().size());
 
                     getParentFragmentManager().beginTransaction()
-                            .replace(R.id.layout_view_fragment, CartFragment.class,bundle,"cart")
+                            .replace(R.id.layout_view_fragment, CartFragment.class, bundle, "cart")
                             .setReorderingAllowed(true)
                             .addToBackStack("replacement")
                             .commit();

@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.trading_platform001.models.CartHelper;
 import com.example.trading_platform001.models.CartItemsEntityModel;
 import com.example.trading_platform001.models.CartRecyclerAdapter;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.math.BigDecimal;
 
@@ -32,13 +34,8 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
     public Activity context;
     private CartRecyclerAdapter productRecyclerAdapter;
     TextView tvSum;
+    BottomNavigationView bottomNavigationView;
 
-    public CartFragment() {}
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
     private void getResultFragment() {
         Bundle result = getArguments();
         if (result != null) {
@@ -53,6 +50,7 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
             }
         }
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -63,6 +61,7 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+
         recyclerView = view.findViewById(R.id.recyclerView);
         tvSum = view.findViewById(R.id.tvSum);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -70,9 +69,16 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Total Quantity::  "+ CartHelper.getCart().getTotalQuantity()+" Price:: "+ CartHelper.getCart().getTotalPrice(), Toast.LENGTH_LONG).show();
-                CartHelper.getCart().clear();
-                onUpdateList();
+                if (CartHelper.getCartItems().size() > 0) {
+                    Toast.makeText(context, "Total Quantity::  " + CartHelper.getCart().getTotalQuantity() + " Price:: " + CartHelper.getCart().getTotalPrice(), Toast.LENGTH_LONG).show();
+                    CartHelper.getCart().clear();
+                    BadgeDrawable badgeDrawable = bottomNavigationView.getBadge(R.id.cart);
+                    if (badgeDrawable != null) {
+                        badgeDrawable.setVisible(false);
+                        badgeDrawable.clearNumber();
+                    }
+                    onUpdateList();
+                }
             }
         });
         getResultFragment();
@@ -93,7 +99,7 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
         quantity++;
         cartModel.setQuantity(quantity);
         productRecyclerAdapter.updateItem(position, cartModel);
-        tvSum.setText("Sum: "+CartHelper.getCart().getTotalPrice());
+        tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
     }
 
     @Override
@@ -104,7 +110,7 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
         quantity--;
         cartModel.setQuantity(quantity);
         productRecyclerAdapter.updateItem(position, cartModel);
-        tvSum.setText("Sum: "+CartHelper.getCart().getTotalPrice());
+        tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
     }
 
     @Override
@@ -113,6 +119,14 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
         productRecyclerAdapter.setOnItemClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(productRecyclerAdapter);
-        tvSum.setText("Sum: "+CartHelper.getCart().getTotalPrice());
+        tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+        int size = CartHelper.getCartItems().size();
+        if (size > 0) {
+            bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
+            BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.cart);
+            badge.setVisible(true);
+            badge.setNumber(size);
+        }
+
     }
 }

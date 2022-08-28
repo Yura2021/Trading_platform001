@@ -13,39 +13,37 @@
         android:layout_margin="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:queryHint="Пошук"
         android:layout_marginEnd="8dp"
         android:background="@drawable/search_view_bg"
-        android:iconifiedByDefault="false"
         android:clickable="true"
         android:focusable="true"
-        android:inputType="text" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:iconifiedByDefault="false"
+        android:inputType="text"
+        android:queryHint="Пошук" />
 
-<LinearLayout
-    android:layout_below="@id/svSearch"
-    android:id="@+id/layout_grid1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentStart="true"
-    android:orientation="horizontal">
-    <GridView
-        android:id="@+id/grid_product"
+    <LinearLayout
+        android:id="@+id/layout_grid1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:horizontalSpacing="10dp"
-        android:numColumns="2"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" />
+        android:layout_below="@id/svSearch"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <GridView
+            android:id="@+id/grid_product"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -27,6 +27,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/color_nav_button"
         android:foregroundTint="#BC1010"
+        android:theme="@style/Theme.MaterialComponents.Light"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/button_nav_menu" />
 </RelativeLayout>

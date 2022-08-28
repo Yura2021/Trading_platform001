@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.JsonParser;
 import com.example.trading_platform001.models.LocalStorage;
 import com.example.trading_platform001.models.StorageInformation;
 import com.example.trading_platform001.models.User;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
 public class LoginFragment extends Fragment {
 
-    EditText edEmail,edPassword,edDialogEmail;
+    EditText edEmail, edPassword, edDialogEmail;
     Button btnLogin;
     String strEmail, strPassword;
     LocalStorage localStorage;
@@ -38,16 +36,6 @@ public class LoginFragment extends Fragment {
     Dialog dialog;
     User user;
     StorageInformation Storage;
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,13 +62,13 @@ public class LoginFragment extends Fragment {
         return view;
 
     }
+
     private void checkLogin() {
-        strEmail= edEmail.getText().toString();
+        strEmail = edEmail.getText().toString();
         strPassword = edPassword.getText().toString();
-        if(strPassword.isEmpty()||strEmail.isEmpty()){
+        if (strPassword.isEmpty() || strEmail.isEmpty()) {
             alertFail("Необхідно вказати адресу електронної пошти та пароль");
-        }
-        else{
+        } else {
             sendLogin();
         }
     }
@@ -91,19 +79,19 @@ public class LoginFragment extends Fragment {
         edPassword.setEnabled(false);
         JSONObject params = new JSONObject();
         try {
-            params.put("email",strEmail);
-            params.put("password",strPassword);
+            params.put("email", strEmail);
+            params.put("password", strPassword);
 
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
             alertFail("");
         }
         String data = params.toString();
-        String url = getString(R.string.api_server)+"/login";
+        String url = getString(R.string.api_server) + "/login";
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Http http = new Http(requireActivity(),url);
+                Http http = new Http(requireActivity(), url);
                 http.setMethod("POST");
                 http.setData(data);
                 http.send();
@@ -112,50 +100,47 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void run() {
                         Integer code = http.getStatusCode();
-                        if(code == 200){
+                        if (code == 200) {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String token = response.getString("token");
-                                user = new Gson().fromJson(response.getString("user"),User.class);
+                                //Update library org.json
+                                user = JsonParser.getClassUser(response);
                                 Storage.SetStorageUser(user);
-                                Log.d("Http response token:  ",token);
                                 localStorage.setToken(token);
-                                Intent intent = new Intent(requireActivity(),MainActivity.class);
-                                Toast.makeText(requireActivity(),"Успіх",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                                Toast.makeText(requireActivity(), "Успіх", Toast.LENGTH_SHORT).show();
                                 Thread.sleep(5000);
                                 startActivity(intent);
                                 alertFail("");
                                 requireActivity().finish();
 
 
-                            }catch (JSONException | InterruptedException ex){
+                            } catch (JSONException | InterruptedException ex) {
                                 ex.printStackTrace();
                                 alertFail("");
                             }
 
-                        }
-                        else if(code ==422){
+                        } else if (code == 422) {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String msg = response.getString("message");
                                 alertFail(msg);
-                            }catch (JSONException ex){
+                            } catch (JSONException ex) {
                                 ex.printStackTrace();
                                 alertFail("");
                             }
-                        }
-                        else if(code ==401){
+                        } else if (code == 401) {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String msg = response.getString("message");
                                 alertFail(msg);
-                            }catch (JSONException ex){
+                            } catch (JSONException ex) {
                                 ex.printStackTrace();
                                 alertFail("");
                             }
-                        }
-                        else{
-                            Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(requireActivity(), "Error " + code, Toast.LENGTH_SHORT).show();
                             alertFail("");
                         }
                     }
@@ -168,23 +153,24 @@ public class LoginFragment extends Fragment {
         btnLogin.setEnabled(true);
         edEmail.setEnabled(true);
         edPassword.setEnabled(true);
-        if(!s.isEmpty())
-        new AlertDialog.Builder(this.getContext())
-                .setTitle("Не вдалося")
-                .setIcon(R.drawable.ic_warning)
-                .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+        if (!s.isEmpty())
+            new AlertDialog.Builder(this.getContext())
+                    .setTitle("Не вдалося")
+                    .setIcon(R.drawable.ic_warning)
+                    .setMessage(s)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
     }
-    private void recPassDialogShow(){
+
+    private void recPassDialogShow() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View view= inflater.inflate(R.layout.fragment_recover_password_dialog, null);
+        View view = inflater.inflate(R.layout.fragment_recover_password_dialog, null);
         edDialogEmail = view.findViewById(R.id.edDialogEmail);
         builder.setTitle("Відновлення паролю");
         builder.setView(view)
@@ -200,25 +186,26 @@ public class LoginFragment extends Fragment {
                     }
                 });
 
-         builder.show();
+        builder.show();
 
     }
-    private void sendRecPass(){
 
-        strEmail= edDialogEmail.getText().toString();
+    private void sendRecPass() {
+
+        strEmail = edDialogEmail.getText().toString();
 
         JSONObject params = new JSONObject();
         try {
-            params.put("email",strEmail);
-        }catch (JSONException ex){
+            params.put("email", strEmail);
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
         String data = params.toString();
-        String url = getString(R.string.api_server)+"/forgot-password";
+        String url = getString(R.string.api_server) + "/forgot-password";
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Http http = new Http(requireActivity(),url);
+                Http http = new Http(requireActivity(), url);
                 http.setMethod("POST");
                 http.setData(data);
                 http.send();
@@ -227,44 +214,40 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void run() {
                         Integer code = http.getStatusCode();
-                        if(code == 200){
+                        if (code == 200) {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String token = response.getString("token");
-                                Log.d("Http response token:  ",token);
                                 localStorage.setToken(token);
-                                Intent intent = new Intent(requireActivity(),MainActivity.class);
-                                Toast.makeText(requireActivity(),"Лист для відновлення паролю відправлений",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                                Toast.makeText(requireActivity(), "Лист для відновлення паролю відправлений", Toast.LENGTH_SHORT).show();
                                 Thread.sleep(5000);
                                 startActivity(intent);
                                 requireActivity().finish();
 
 
-                            }catch (JSONException | InterruptedException ex){
+                            } catch (JSONException | InterruptedException ex) {
                                 ex.printStackTrace();
                             }
 
-                        }
-                        else if(code ==422){
+                        } else if (code == 422) {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String msg = response.getString("message");
                                 alertFail(msg);
-                            }catch (JSONException ex){
+                            } catch (JSONException ex) {
                                 ex.printStackTrace();
                             }
-                        }
-                        else if(code ==401){
+                        } else if (code == 401) {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 String msg = response.getString("message");
                                 alertFail(msg);
-                            }catch (JSONException ex){
+                            } catch (JSONException ex) {
                                 ex.printStackTrace();
                             }
-                        }
-                        else{
-                            Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(requireActivity(), "Error " + code, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -3,11 +3,10 @@
 
 
     <item
-        android:title="@string/authorization_button_name_exit"
         android:id="@+id/authorization"
-        />
+        android:title="@string/authorization_button_name_exit" />
     <item
-        android:title="@string/authorization_button_name_registration"
-        android:id="@+id/registration"/>
+        android:id="@+id/registration"
+        android:title="@string/authorization_button_name_registration" />
 
 </menu>

@@ -7,22 +7,20 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.trading_platform001.databinding.ActivityAuthorizationMenuBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AuthorizationMenuActivity extends AppCompatActivity {
-    ActivityAuthorizationMenuBinding binding;
+    BottomNavigationView btnNavView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization_menu);
-        binding = ActivityAuthorizationMenuBinding.inflate(getLayoutInflater());
         replaceFragment(new LoginFragment());
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.buttonMenuAuthorization);
+        btnNavView = findViewById(R.id.buttonMenuAuthorization);
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
+        btnNavView.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()) {
                 case R.id.authorization:

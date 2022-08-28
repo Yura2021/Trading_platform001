@@ -26,11 +26,12 @@ public class MenuUserListAdapter extends ArrayAdapter<String> {
         this.context = context;
         this.itemName = itemName;
     }
-    public MenuUserListAdapter(Context context, int textViewResourceId, String[] itemName,Drawable[] itemIcon) {
+
+    public MenuUserListAdapter(Context context, int textViewResourceId, String[] itemName, Drawable[] itemIcon) {
         super(context, textViewResourceId, itemName);
         this.context = context;
         this.itemName = itemName;
-        this.itemIcon=itemIcon;
+        this.itemIcon = itemIcon;
     }
 
     @Override

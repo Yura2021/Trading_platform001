@@ -1,6 +1,7 @@
 package com.example.trading_platform001.models;
 
 import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Http {
     Context context;
-    private String method="GET",data=null,response=null;
+    private String method = "GET", data = null, response = null;
     private final String url;
     private Integer statusCode = 0;
     private Boolean token = false;
@@ -46,23 +47,25 @@ public class Http {
     public Integer getStatusCode() {
         return statusCode;
     }
-    public String getStringToken(){
+
+    public String getStringToken() {
         return localStorage.getToken();
     }
-    public void send(){
+
+    public void send() {
         try {
             URL sUrl = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection)  sUrl.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) sUrl.openConnection();
             connection.setRequestMethod(method);
-            connection.setRequestProperty("Content-Type","application/json");
-            connection.setRequestProperty("X-Requested-With","XMLHttpRequest");
-            if (token){
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+            if (token) {
                 String strToken = localStorage.getToken();
-                if(strToken.isEmpty())
+                if (strToken.isEmpty())
                     strToken = "No token";
-                connection.setRequestProperty("Authorization","Bearer "+strToken);
+                connection.setRequestProperty("Authorization", "Bearer " + strToken);
             }
-            if(data!=null){
+            if (data != null) {
                 OutputStream os = connection.getOutputStream();
                 os.write(data.getBytes(StandardCharsets.UTF_8));
                 os.flush();
@@ -71,11 +74,10 @@ public class Http {
             }
             statusCode = connection.getResponseCode();
             InputStreamReader isr;
-            if(statusCode>=200&&statusCode<=299){
+            if (statusCode >= 200 && statusCode <= 299) {
                 //success response
                 isr = new InputStreamReader(connection.getInputStream());
-            }
-            else {
+            } else {
                 // Error response
                 isr = new InputStreamReader(connection.getErrorStream());
             }
@@ -83,12 +85,12 @@ public class Http {
             //StringBuffer
             StringBuilder sb = new StringBuilder();
             String line;
-            while ((line = br.readLine())!=null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
             br.close();
             response = sb.toString();
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 

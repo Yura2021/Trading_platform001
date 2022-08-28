@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,9 +19,9 @@
             android:layout_width="150dp"
             android:layout_height="250dp"
             android:layout_gravity="top|center"
+            android:contentDescription="@string/text_name"
             android:padding="5dp"
-            android:src="@drawable/ic_test_poduct_150"
-            android:contentDescription="@string/text_name" />
+            android:src="@drawable/ic_test_poduct_150" />
 
         <View
             android:layout_width="match_parent"
@@ -39,9 +38,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_toStartOf="@id/tvPriceProduct"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="2dp"
+                android:layout_toStartOf="@id/tvPriceProduct"
                 android:text="@string/text_name" />
 
             <TextView
@@ -56,10 +55,10 @@
                 android:id="@+id/tvRatingProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/tvPriceProduct"
-                android:text="@string/text_rating"
-            />
+                android:layout_alignParentStart="true"
+                android:text="@string/text_rating" />
+
             <RatingBar
                 android:id="@+id/rbRating"
                 style="@style/Widget.AppCompat.RatingBar.Small"
@@ -68,12 +67,13 @@
                 android:layout_below="@+id/tvPriceProduct"
                 android:layout_alignParentEnd="true"
                 android:rating="1" />
+
             <TextView
                 android:id="@+id/tvIdProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/rbRating"
+                android:layout_alignParentStart="true"
                 android:text="ID" />
         </RelativeLayout>
     </LinearLayout>

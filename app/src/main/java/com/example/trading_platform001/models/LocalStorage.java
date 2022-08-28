@@ -10,19 +10,19 @@ public class LocalStorage {
     String token;
 
     public LocalStorage(Context context) {
-        this.context=context;
-        sharedPreferences = context.getSharedPreferences("STORAGE_LOGIN_API",Context.MODE_PRIVATE);
-        editor= sharedPreferences.edit();
+        this.context = context;
+        sharedPreferences = context.getSharedPreferences("STORAGE_LOGIN_API", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
     }
 
     public String getToken() {
-        token = sharedPreferences.getString("TOKEN","");
+        token = sharedPreferences.getString("TOKEN", "");
         return token;
     }
 
     public void setToken(String token) {
-        editor.putString("TOKEN",token);
+        editor.putString("TOKEN", token);
         editor.commit();
         this.token = token;
     }

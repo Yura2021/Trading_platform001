@@ -13,13 +13,14 @@
         android:layout_weight="0.1">
 
     </androidx.recyclerview.widget.RecyclerView>
-<TextView
-    android:id="@+id/tvSum"
-    android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:gravity="center_vertical"
-    android:text="Сумма: "
-    />
+
+    <TextView
+        android:id="@+id/tvSum"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:text="Сумма: " />
+
     <Button
         android:id="@+id/btnBuy"
         android:layout_width="match_parent"

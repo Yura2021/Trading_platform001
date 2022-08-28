@@ -14,7 +14,7 @@ public class CartEntity implements Serializable {
         serialVersionUID = 42L;
     }
 
-    private Map<Saleable, Integer> cartItemMap = new HashMap<>();
+    private final Map<Saleable, Integer> cartItemMap = new HashMap<>();
     private BigDecimal totalPrice = BigDecimal.ZERO;
     private int totalQuantity = 0;
 
@@ -43,41 +43,41 @@ public class CartEntity implements Serializable {
         }
     }
 
-        public void remove ( final Saleable sellable){
+    public void remove(final Saleable sellable) {
 
-            if (cartItemMap.containsKey(sellable)) {
-                int quantity = cartItemMap.get(sellable);
-                cartItemMap.remove(sellable);
-                totalPrice = totalPrice.subtract(sellable.getPrice().multiply(BigDecimal.valueOf(quantity)));
-                totalQuantity -= quantity;
-            }
-
-
-        }
-
-        public void clear () {
-            cartItemMap.clear();
-            totalPrice = BigDecimal.ZERO;
-            totalQuantity = 0;
-        }
-
-        public int getQuantity ( final Saleable sellable) {
-            return cartItemMap.containsKey(sellable)?cartItemMap.get(sellable):0;
+        if (cartItemMap.containsKey(sellable)) {
+            int quantity = cartItemMap.get(sellable);
+            cartItemMap.remove(sellable);
+            totalPrice = totalPrice.subtract(sellable.getPrice().multiply(BigDecimal.valueOf(quantity)));
+            totalQuantity -= quantity;
         }
 
 
-        public BigDecimal getTotalPrice () {
-            return totalPrice;
-        }
+    }
 
-        public int getTotalQuantity () {
-            return totalQuantity;
-        }
+    public void clear() {
+        cartItemMap.clear();
+        totalPrice = BigDecimal.ZERO;
+        totalQuantity = 0;
+    }
 
-        public Map<Saleable, Integer> getItemWithQuantity () {
-            Map<Saleable, Integer> cartItemMap = new HashMap<Saleable, Integer>();
-            cartItemMap.putAll(this.cartItemMap);
-            return cartItemMap;
-        }
+    public int getQuantity(final Saleable sellable) {
+        return cartItemMap.containsKey(sellable) ? cartItemMap.get(sellable) : 0;
+    }
+
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public Map<Saleable, Integer> getItemWithQuantity() {
+        Map<Saleable, Integer> cartItemMap = new HashMap<Saleable, Integer>();
+        cartItemMap.putAll(this.cartItemMap);
+        return cartItemMap;
+    }
 
 }

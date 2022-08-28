@@ -18,9 +18,11 @@ public class Product implements Saleable, Serializable {
     private int img_id;
     private int quantity;
 
-    public Product() {quantity=1;}
+    public Product() {
+        quantity = 1;
+    }
 
-    public Product(long id, String name, String description,float rating ,BigDecimal price, int category_id, int shop_id, int img_id) {
+    public Product(long id, String name, String description, float rating, BigDecimal price, int category_id, int shop_id, int img_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,18 +31,19 @@ public class Product implements Saleable, Serializable {
         this.shop_id = shop_id;
         this.img_id = img_id;
         this.rating = rating;
-        quantity=1;
+        quantity = 1;
     }
 
-    public Product(long id,String name, BigDecimal price, float rating,int img_id) {
+    public Product(long id, String name, BigDecimal price, float rating, int img_id) {
 
         this.name = name;
         this.id = id;
         this.price = price;
         this.img_id = img_id;
         this.rating = rating;
-        quantity=1;
+        quantity = 1;
     }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
@@ -68,7 +71,6 @@ public class Product implements Saleable, Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
 
 
     public void setId(int id) {
