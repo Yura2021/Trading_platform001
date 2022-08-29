@@ -38,7 +38,7 @@ public class MenuUserListAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.listmenu, parent, false);
+        View row = inflater.inflate(R.layout.list_menu_template, parent, false);
         TextView label = (TextView) row.findViewById(R.id.text_view_menu);
         ImageView iconImageView = (ImageView) row.findViewById(R.id.image_view_icon);
         label.setText(itemName[position]);

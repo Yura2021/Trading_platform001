@@ -3,55 +3,52 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable-v24/badge_background.xml" value="0.185" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable/border_main_menu.xml" value="0.181" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable/button_cart_round_background_gradient.xml" value="0.1845" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_authorization_menu.xml" value="0.35104166666666664" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_main2.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_show_product_fullscreen.xml" value="0.35104166666666664" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/activity_user_information.xml" value="0.17708333333333334" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_cart.xml" value="0.17708333333333334" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_home.xml" value="0.17760416666666667" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_item.xml" value="0.29791666666666666" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_item_list.xml" value="0.2838541666666667" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_login.xml" value="0.29791666666666666" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_main__view.xml" value="0.1734375" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_recover_password_dialog.xml" value="0.17708333333333334" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_registration.xml" value="0.17708333333333334" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_scrolling_item_product.xml" value="0.29791666666666666" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_show_product_fullscreen.xml" value="0.17708333333333334" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/fragment_user.xml" value="0.17708333333333334" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/item_cart.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/item_product.xml" value="0.12169312169312169" />
         <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/layout/listmenu.xml" value="0.35104166666666664" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/menu/button_nav_menu.xml" value="0.17708333333333334" />
-        <entry key="..\:/AndroidStudioProjects/Trading_platform001/app/src/main/res/menu/button_nav_menu_authorization.xml" value="0.17760416666666667" />
         <entry key="..\:/ProgramFiles/Android Studio/SDK Locations/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.36666666666666664" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable-v24/badge_background.xml" value="0.2935" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable-v24/ic_warning.xml" value="0.2935" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/border.xml" value="0.133" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/border_main_menu.xml" value="0.14" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/ic_main_basket_btn_24.xml" value="0.2825" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/ic_main_home_btn_24.xml" value="0.1" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/ic_main_person_btn_24.xml" value="0.2935" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/ic_search_24.xml" value="0.2715" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/drawable/search_view_bg.xml" value="0.2575" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_authorization_menu.xml" value="0.278125" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_customlist.xml" value="0.365625" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_user.xml" value="0.340625" />
-        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_user_information.xml" value="0.36666666666666664" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_user_information.xml" value="0.33" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/activity_user_login.xml" value="0.3233695652173913" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/cellgrid.xml" value="0.3038949275362319" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_authorization.xml" value="0.3233695652173913" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_blank.xml" value="0.35280797101449274" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_fullscreen.xml" value="0.30052083333333335" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_home.xml" value="0.3038949275362319" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_login.xml" value="0.3145833333333333" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_orders.xml" value="0.35280797101449274" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_recover_password_dialog.xml" value="0.278125" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_registration.xml" value="0.3233695652173913" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/fragment_user.xml" value="0.3145833333333333" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/full_image.xml" value="0.3038949275362319" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/item_product.xml" value="0.18802083333333333" />
+        <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/list_order_item_template.xml" value="0.35280797101449274" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/layout/listmenu.xml" value="0.36666666666666664" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/menu/activity_customlist.xml" value="0.36666666666666664" />
         <entry key="..\:/ProgramFiles/Android Studio/Trading_platform001/app/src/main/res/menu/button_nav_menu.xml" value="0.340625" />

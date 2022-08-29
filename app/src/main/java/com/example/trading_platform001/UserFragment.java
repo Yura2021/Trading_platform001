@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.models.CartHelper;
 import com.example.trading_platform001.models.Http;
@@ -93,7 +94,7 @@ public class UserFragment extends Fragment {
             IconMenu[0] = getResources().getDrawable(R.drawable.my_null, theme);
         }
 
-        MenuUserListAdapter adapter = new MenuUserListAdapter(getContext(), R.layout.listmenu, MenuItem, IconMenu);
+        MenuUserListAdapter adapter = new MenuUserListAdapter(getContext(), R.layout.list_menu_template, MenuItem, IconMenu);
         listMenu.setAdapter(adapter);
 
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,11 +115,25 @@ public class UserFragment extends Fragment {
                         }
                         break;
                     }
+                    case "Мої замовлення": {
+                        replaceFragment(new OrdersFragment());
+                        break;
+                    }
+                    }
                 }
-            }
+
         });
 
+
+
         return v;
+    }
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.layout_view_fragment, fragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 
     private void getUser() {
