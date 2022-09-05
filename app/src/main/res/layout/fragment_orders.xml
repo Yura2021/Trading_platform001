@@ -17,7 +17,7 @@
         android:id="@+id/arr"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="55dp"
+        android:layout_marginStart="55dp"
         android:text="Мої Замовлення"
         android:paddingTop="10dp"
         android:textSize="20dp"
@@ -30,36 +30,26 @@
         android:src="@drawable/arrow_left"
         android:layout_marginLeft="0dp"
         android:padding="15dp"
-        />
-
-
-
-    <ImageView
-        android:id="@+id/SearchOrders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_search_24"
-        android:layout_marginTop="52dp"
-        android:layout_marginLeft="10dp"
-        android:paddingTop="12dp"/>
-
-    <EditText
-        android:id="@+id/editTextTextOrders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="52dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:paddingTop="5dp"
-        android:text="Пошук"
-        android:textSize="15dp" />
-
+        android:contentDescription="TODO" />
     <ListView
         android:id="@+id/list_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="103dp" />
+        android:layout_marginTop="105dp" />
+
+    <SearchView
+        android:id="@+id/SearchOrders"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:queryHint="Пошук"
+        android:clickable="true"
+        android:focusable="true"
+        android:iconifiedByDefault="false"
+        android:inputType="text"
+        android:background="@drawable/border_main_menu"
+        >
+
+    </SearchView>
 
 </FrameLayout>

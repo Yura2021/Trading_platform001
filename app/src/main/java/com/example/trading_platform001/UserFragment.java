@@ -27,7 +27,6 @@ import org.json.JSONObject;
 
 public class UserFragment extends Fragment {
 
-    Button btnAuth, btnLogout;
     ListView listMenu;
     StorageInformation Storage;
 
@@ -38,22 +37,6 @@ public class UserFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_user,
                 null);
         Storage = new StorageInformation(getContext());
-        btnAuth = v.findViewById(R.id.btnAuth);
-        btnLogout = v.findViewById(R.id.btnLogout);
-        getUser();
-        btnAuth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), AuthorizationMenuActivity.class));
-            }
-        });
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
-
 
         listMenu = (ListView) v.findViewById(R.id.UserMenu);
 
@@ -136,69 +119,5 @@ public class UserFragment extends Fragment {
         transaction.commit();
     }
 
-    private void getUser() {
-        String url = getString(R.string.api_server) + "/user";
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Http http = new Http(requireActivity(), url);
-                http.setToken(true);
-                http.send();
-
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String name = response.getString("name");
-                                btnAuth.setText(name);
-                                btnLogout.setEnabled(true);
-                                btnAuth.setEnabled(false);
-
-                            } catch (JSONException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                        //else{Toast.makeText(requireActivity(),"Error "+code,Toast.LENGTH_SHORT).show();}
-                    }
-                });
-            }
-        }).start();
-    }
-
-    private void logout() {
-        String url = getString(R.string.api_server) + "/logout";
-        CartHelper.getCartItems().clear();
-        Log.d("Value!!","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Http http = new Http(requireActivity(), url);
-                http.setMethod("POST");
-                http.setToken(true);
-                http.send();
-
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 200) {
-                            Intent intent = new Intent(requireActivity(), MainActivity.class);
-                            startActivity(intent);
-                            String strName = getResources().getResourceName(R.string.authorization_button_name_authorization);
-                            btnAuth.setText(strName);
-                            btnAuth.setEnabled(true);
-                            btnLogout.setEnabled(false);
-                            requireActivity().finish();
-                        } else {
-                            Toast.makeText(requireActivity(), "Error " + code, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }).start();
-    }
 
 }

@@ -1,22 +1,40 @@
 package com.example.trading_platform001;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
-import com.example.trading_platform001.models.MenuUserListAdapter;
-import com.example.trading_platform001.models.OrderUserList;
+import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.JsonParser;
+import com.example.trading_platform001.models.Order;
+import com.example.trading_platform001.models.OrderUserListAdapter;
+import com.example.trading_platform001.models.StorageInformation;
 
-import java.sql.Time;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +45,11 @@ public class OrdersFragment extends Fragment {
 
     ListView listView;
     ImageView imageView;
-    ImageView SearchButton;
-    EditText Searctext;
+    SearchView SearchOrders;
+    List<Order>  orderList = new ArrayList<>();
+    OrderUserListAdapter adapter;
+    View v;
+    StorageInformation storageInformation;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,12 +93,12 @@ public class OrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_orders, container, false);
-
+        v = inflater.inflate(R.layout.fragment_orders, container, false);
+        storageInformation = new StorageInformation(getContext());
         imageView = v.findViewById(R.id.imageView3);
         listView= v.findViewById(R.id.list_orders);
-        SearchButton = v.findViewById(R.id.SearchOrders);
-        Searctext = v.findViewById(R.id.editTextTextOrders);
+        SearchOrders = v.findViewById(R.id.SearchOrders);
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,69 +107,25 @@ public class OrdersFragment extends Fragment {
             }
         });
 
-        final String [] ordersItemName = new String[]{
-                "№123 123 123",
-                "№123 123 124",
-                "№123 123 125",
-                "№123 123 126",
-                "№123 123 127"
-        };
-        final Time[] orderTime=new Time[]{
-                new Time(10),
-                new Time(11),
-                new Time(12),
-                new Time(13),
-                new Time(14)
-        };
-        final String[] orderStatus= new String[]{
-                "Виконано",
-                "Скасовано користувачем",
-                "Виконано",
-                "Виконано",
-                "Виконано"
-        };
-        final int[]orderPrice = new int[]{
-                1,
-                20,
-                312,
-                446,
-                547
-        };
+        GetOrderUser();
 
-        OrderUserList adapter = new OrderUserList(getContext(),R.layout.list_order_item_template,ordersItemName,orderTime,orderStatus,orderPrice);
-       listView.setAdapter(adapter);
-
-
-
-        /*Searctext.setOnClickListener(new View.OnClickListener() {
+        SearchOrders.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onQueryTextSubmit(String query) {
 
-                for(int i = 0 ; i<listView.getCount();i++)
-                {
-                    if(Searctext.getText().equals("№"+listView.findViewById(i).findViewById(R.id.id_orders).toString()))
-                    {
-                        final String [] ordersItemName = new String[]{
-                                "№123 123 123",
-                        };
-                        final Time[] orderTime=new Time[]{
-                                new Time(10),
-                        };
-                        final String[] orderStatus= new String[]{
-                                "Виконано",
-                        };
-                        final int[]orderPrice = new int[]{
-                                1,
-                        };
-                        OrderUserList adapter = new OrderUserList(getContext(),R.layout.list_order_item_template,ordersItemName,orderTime,orderStatus,orderPrice);
-                        listView.setAdapter(adapter);
-                    }
-                }
-
+                return false;
             }
-        });*/
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+              //  adapter.SearchItem(newText);
+                return true;
+            }
+        });
 
 
+        adapter= new OrderUserListAdapter(getActivity(),R.layout.list_order_item_template,orderList);
+        listView.setAdapter(adapter);
         return v;
     }
     public void replaceFragment(Fragment fragment) {
@@ -157,5 +134,60 @@ public class OrdersFragment extends Fragment {
         transaction.addToBackStack(null);
 
         transaction.commit();
+    }
+    private void GetOrderUser() {
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("email", storageInformation.GetStorage("Email").toString());
+            params.put("password", storageInformation.GetStorage("Password").toString());
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        String data = params.toString();
+        String url = getString(R.string.api_server) + "/orders";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Http http = new Http(requireActivity(), url);
+                http.setMethod("POST");
+                http.setData(data);
+                http.send();
+
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if (code == 200) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                orderList = JsonParser.getClassOrder(response);
+                                adapter.updateReceiptsList(orderList);
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+
+                        } else if (code == 422) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+                        } else if (code == 401) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+                        } else {
+                            Toast.makeText(requireActivity(), "Error " + code, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 }

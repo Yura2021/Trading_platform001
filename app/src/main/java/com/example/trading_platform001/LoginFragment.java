@@ -107,6 +107,7 @@ public class LoginFragment extends Fragment {
                                 //Update library org.json
                                 user = JsonParser.getClassUser(response);
                                 Storage.SetStorageUser(user);
+                                Storage.SetStorage("Password",strPassword);
                                 localStorage.setToken(token);
                                 Intent intent = new Intent(requireActivity(), MainActivity.class);
                                 Toast.makeText(requireActivity(), "Успіх", Toast.LENGTH_SHORT).show();
