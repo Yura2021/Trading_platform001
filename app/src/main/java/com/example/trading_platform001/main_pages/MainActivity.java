@@ -149,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
     private void parseVolleyError(VolleyError error) {
 
         String responseBody;
-        if (error.networkResponse.data != null) {
+
+        if (error.networkResponse != null && error.networkResponse.data != null) {
             try {
                 responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject data = new JSONObject(responseBody);
