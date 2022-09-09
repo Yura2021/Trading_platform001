@@ -1,4 +1,6 @@
-package com.example.trading_platform001.models;
+package com.example.trading_platform001.carts_pages.models;
+
+import com.example.trading_platform001.models.Product;
 
 public class CartItemsEntityModel {
     private Product product;

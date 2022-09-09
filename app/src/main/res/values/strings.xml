@@ -32,7 +32,7 @@
     <string name="text_password">Пароль</string>
     <string name="text_password_confirmation">Підтвердження паролю</string>
     <string name="api_server_">http://192.168.0.106:8000/api</string>
-    <string name="api_server">http://ecommerce.it-tree.com.ua/api</string>
+    <string name="api_server">https://ecommerce.it-tree.com.ua/api</string>
     <string name="text_name">Ім\'я</string>
     <string name="text_btn_Sign_in">Увійти</string>
     <string name="text_btn_Forgot_password">Забули пароль?</string>
@@ -60,4 +60,7 @@
     <string name="symbol_minus">-</string>
     <string name="_1">1</string>
     <string name="symbol_plus">+</string>
+    <string name="text_sum">Сума</string>
+    <string name="text_btn_order">Оформити замовлення</string>
+    <string name="restore">Відновити</string>
 </resources>

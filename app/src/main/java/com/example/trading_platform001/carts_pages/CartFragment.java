@@ -1,8 +1,11 @@
-package com.example.trading_platform001;
+package com.example.trading_platform001.carts_pages;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,29 +15,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.trading_platform001.models.CartHelper;
-import com.example.trading_platform001.models.CartItemsEntityModel;
-import com.example.trading_platform001.models.CartRecyclerAdapter;
+import com.example.trading_platform001.R;
+import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
+import com.example.trading_platform001.adapters.CartRecyclerAdapter;
+import com.example.trading_platform001.interfaces.MyOnItemClickListener;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.math.BigDecimal;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItemClickListener {
-    private RecyclerView recyclerView;
-    private Button btnBuy;
-    private long id;
-    private int id_imgProduct;
-    private BigDecimal priceProduct;
-    private String nameProduct;
-    private float rating;
+@SuppressLint("NonConstantResourceId")
+public class CartFragment extends Fragment implements MyOnItemClickListener {
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.btnOrder)
+    Button btnOrder;
+    long id;
+    int id_imgProduct;
+    BigDecimal priceProduct;
+    String nameProduct;
+    float rating;
     public Activity context;
     private CartRecyclerAdapter productRecyclerAdapter;
+    @BindView(R.id.tvSum)
     TextView tvSum;
-    BottomNavigationView bottomNavigationView;
+    View view;
 
     private void getResultFragment() {
         Bundle result = getArguments();
@@ -51,39 +61,31 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
         }
     }
 
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cart, container, false);
-
-        recyclerView = view.findViewById(R.id.recyclerView);
-        tvSum = view.findViewById(R.id.tvSum);
+        if (view == null)
+            view = inflater.inflate(R.layout.fragment_cart, container, false);
+        ButterKnife.bind(this,view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        btnBuy = view.findViewById(R.id.btnBuy);
-        btnBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CartHelper.getCartItems().size() > 0) {
-                    Toast.makeText(context, "Total Quantity::  " + CartHelper.getCart().getTotalQuantity() + " Price:: " + CartHelper.getCart().getTotalPrice(), Toast.LENGTH_LONG).show();
-                    CartHelper.getCart().clear();
-                    BadgeDrawable badgeDrawable = bottomNavigationView.getBadge(R.id.cart);
-                    if (badgeDrawable != null) {
-                        badgeDrawable.setVisible(false);
-                        badgeDrawable.clearNumber();
-                    }
-                    onUpdateList();
-                }
-            }
-        });
+        btnOrder.setOnClickListener(v -> redirectOrders());
         getResultFragment();
         onUpdateList();
         return view;
+    }
+
+    private void redirectOrders() {
+        if (CartHelper.getCartItems().size() > 0) {
+            Intent intent = new Intent(getContext(), OrderActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -91,38 +93,38 @@ public class CartFragment extends Fragment implements CartRecyclerAdapter.OnItem
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onItemPlusClicked(int position, CartItemsEntityModel cartItemsEntityModel) {
-        int quantity = cartItemsEntityModel.getQuantity();
         CartItemsEntityModel cartModel = new CartItemsEntityModel();
         cartModel.setProduct(cartItemsEntityModel.getProduct());
-        quantity++;
-        cartModel.setQuantity(quantity);
+        cartModel.setQuantity(cartItemsEntityModel.getQuantity() + 1);
         productRecyclerAdapter.updateItem(position, cartModel);
         tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onItemMinusClicked(int position, CartItemsEntityModel cartItemsEntityModel) {
-        int quantity = cartItemsEntityModel.getQuantity();
         CartItemsEntityModel cartModel = new CartItemsEntityModel();
         cartModel.setProduct(cartItemsEntityModel.getProduct());
-        quantity--;
-        cartModel.setQuantity(quantity);
+        cartModel.setQuantity(cartItemsEntityModel.getQuantity() - 1);
         productRecyclerAdapter.updateItem(position, cartModel);
         tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onUpdateList() {
-        productRecyclerAdapter = new CartRecyclerAdapter(context, CartHelper.getCartItems());
+        productRecyclerAdapter = new CartRecyclerAdapter(CartHelper.getCartItems());
         productRecyclerAdapter.setOnItemClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(productRecyclerAdapter);
         tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
         int size = CartHelper.getCartItems().size();
         if (size > 0) {
-            bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
             BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.cart);
             badge.setVisible(true);
             badge.setNumber(size);

@@ -3,6 +3,8 @@ package com.example.trading_platform001.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.trading_platform001.authorizations_pages.models.User;
+
 public class StorageInformation {
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
@@ -21,6 +23,7 @@ public class StorageInformation {
     public void SetStorageUser(User user) {
         this.SetStorage("Name", user.getName());
         this.SetStorage("Email", user.getEmail());
+        this.SetStorage("Remember_token", user.getRemember_token());
     }
 
     public String GetStorage(String Key) {
@@ -33,10 +36,6 @@ public class StorageInformation {
     }
 
     public Boolean IsEmpty() {
-        if (sharedpreferences.getString("Name", null) == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return sharedpreferences.getString("Name", null) != null;
     }
 }

@@ -1,5 +1,6 @@
-package com.example.trading_platform001.models;
+package com.example.trading_platform001.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -14,18 +15,19 @@ import androidx.annotation.Nullable;
 
 import com.example.trading_platform001.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+@SuppressLint("NonConstantResourceId")
 public class MenuUserListAdapter extends ArrayAdapter<String> {
 
     String[] itemName;
     Drawable[] itemIcon;
     Context context;
-
-
-    public MenuUserListAdapter(Context context, int textViewResourceId, String[] itemName) {
-        super(context, textViewResourceId, itemName);
-        this.context = context;
-        this.itemName = itemName;
-    }
+    @BindView(R.id.text_view_menu)
+    TextView label;
+    @BindView(R.id.image_view_icon)
+    ImageView iconImageView;
 
     public MenuUserListAdapter(Context context, int textViewResourceId, String[] itemName, Drawable[] itemIcon) {
         super(context, textViewResourceId, itemName);
@@ -38,9 +40,9 @@ public class MenuUserListAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("ViewHolder")
         View row = inflater.inflate(R.layout.listmenu, parent, false);
-        TextView label = (TextView) row.findViewById(R.id.text_view_menu);
-        ImageView iconImageView = (ImageView) row.findViewById(R.id.image_view_icon);
+        ButterKnife.bind(this,row);
         label.setText(itemName[position]);
         iconImageView.setImageDrawable(itemIcon[position]);
 

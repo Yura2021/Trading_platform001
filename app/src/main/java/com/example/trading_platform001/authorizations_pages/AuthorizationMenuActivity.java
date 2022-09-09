@@ -1,15 +1,23 @@
-package com.example.trading_platform001;
+package com.example.trading_platform001.authorizations_pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+
+import com.example.trading_platform001.R;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+@SuppressLint("NonConstantResourceId")
 public class AuthorizationMenuActivity extends AppCompatActivity {
+
+    @BindView(R.id.buttonMenuAuthorization)
     BottomNavigationView btnNavView;
 
     @Override
@@ -17,8 +25,7 @@ public class AuthorizationMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization_menu);
         replaceFragment(new LoginFragment());
-
-        btnNavView = findViewById(R.id.buttonMenuAuthorization);
+        ButterKnife.bind(this);
 
         btnNavView.setOnItemSelectedListener(item -> {
 

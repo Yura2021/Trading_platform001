@@ -1,6 +1,7 @@
-package com.example.trading_platform001.models;
+package com.example.trading_platform001.adapters;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,24 +9,32 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
+import com.example.trading_platform001.interfaces.MyOnItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<CartItemsEntityModel> productEntityModel;
-    private OnItemClickListener onItemClickListener;
-    private final Context context;
+    private MyOnItemClickListener onItemClickListener;
 
-    public CartRecyclerAdapter(Context context, List<CartItemsEntityModel> productEntityModel) {
-        this.context = context;
+    public CartRecyclerAdapter( List<CartItemsEntityModel> productEntityModel) {
+
         this.productEntityModel = productEntityModel;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateItem(int position, CartItemsEntityModel cartItemsEntityModel) {
         if (cartItemsEntityModel.getQuantity() > 0) {
             productEntityModel.set(position, cartItemsEntityModel);
@@ -37,6 +46,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
@@ -44,7 +54,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
         viewHolder.name.setText(productEntityModel.get(position).getProduct().getName());
         viewHolder.description.setText(productEntityModel.get(position).getProduct().getDescription());
@@ -53,52 +63,43 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         viewHolder.price.setText(String.valueOf(a.multiply(b)));
         viewHolder.quantity.setText(String.valueOf(productEntityModel.get(position).getQuantity()));
-        viewHolder.image.setImageResource(productEntityModel.get(position).getProduct().getImg_id());
+        //viewHolder.image.setImageURI(Uri.parse(productEntityModel.get(position).getProduct().getCover_img()));
+        Picasso.get().load(Uri.parse(productEntityModel.get(position).getProduct().getCover_img())).into(viewHolder.image);
     }
 
     @Override
     public int getItemCount() {
         return productEntityModel.size();
     }
-
+    @SuppressLint("NonConstantResourceId")
     public class ReceiveViewHolder extends RecyclerView.ViewHolder {
-        final ImageView image;
-        final TextView description, name, quantity, price;
-        final Button minus, plus;
+        @BindView(R.id.image)
+        ImageView image;
+        @BindView(R.id.description)
+        TextView description;
+        @BindView(R.id.name)
+        TextView name;
+        @BindView(R.id.quantity)
+        TextView quantity;
+        @BindView(R.id.price)
+        TextView price;
+        @BindView(R.id.minus)
+        Button minus;
+        @BindView(R.id.plus)
+        Button plus;
 
         public ReceiveViewHolder(View view) {
             super(view);
-            image = view.findViewById(R.id.image);
-            name = view.findViewById(R.id.name);
-            quantity = view.findViewById(R.id.quantity);
-            price = view.findViewById(R.id.price);
-            description = view.findViewById(R.id.description);
-            minus = view.findViewById(R.id.minus);
-            plus = view.findViewById(R.id.plus);
+            ButterKnife.bind(this,view);
 
-            itemView.setOnClickListener(v -> {
-                onItemClickListener.onItemClick(productEntityModel.get(getBindingAdapterPosition()));
-            });
-            minus.setOnClickListener(v -> {
-                onItemClickListener.onItemMinusClicked(getBindingAdapterPosition(), productEntityModel.get(getBindingAdapterPosition()));
-            });
-            plus.setOnClickListener(v -> {
-                onItemClickListener.onItemPlusClicked(getBindingAdapterPosition(), productEntityModel.get(getBindingAdapterPosition()));
-            });
+            itemView.setOnClickListener(v -> onItemClickListener.onItemClick(productEntityModel.get(getBindingAdapterPosition())));
+            minus.setOnClickListener(v -> onItemClickListener.onItemMinusClicked(getBindingAdapterPosition(), productEntityModel.get(getBindingAdapterPosition())));
+            plus.setOnClickListener(v -> onItemClickListener.onItemPlusClicked(getBindingAdapterPosition(), productEntityModel.get(getBindingAdapterPosition())));
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(MyOnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(CartItemsEntityModel cartItemsEntityModel);
-
-        void onItemPlusClicked(int position, CartItemsEntityModel cartItemsEntityModel);
-
-        void onItemMinusClicked(int position, CartItemsEntityModel cartItemsEntityModel);
-
-        void onUpdateList();
-    }
 }

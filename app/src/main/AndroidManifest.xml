@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.trading_platform001" >
+    package="com.example.trading_platform001">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,22 +15,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trading_platform001"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="31">
         <activity
-            android:name=".UserInformation"
-            android:exported="false" />
-        <activity
-            android:name=".AuthorizationMenuActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
+            android:name=".main_pages.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+
+            android:name=".carts_pages.OrderActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+
+            android:name=".authorizations_pages.UserInformation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".authorizations_pages.AuthorizationMenuActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
     </application>
 

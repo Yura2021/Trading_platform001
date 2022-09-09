@@ -6,7 +6,7 @@
     android:background="#e6e6e6"
     android:orientation="vertical"
     android:padding="1dp"
-    tools:context=".ShowProductFullscreenFragment">
+    tools:context=".products_pages.ShowProductFullscreenFragment">
 
 
     <LinearLayout
