@@ -21,7 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
-import com.example.trading_platform001.authorizations_pages.UserFragment;
+import com.example.trading_platform001.user_pages.UserFragment;
 import com.example.trading_platform001.carts_pages.CartFragment;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.home_pages.HomeFragment;
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         url = getString(R.string.api_server);
-
         if (LocalProducts.isNull()) {
             getAllProduct();
             progressBar.setIndeterminate(true);

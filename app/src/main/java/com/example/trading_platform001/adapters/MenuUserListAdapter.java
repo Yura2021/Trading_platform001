@@ -2,6 +2,7 @@ package com.example.trading_platform001.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,25 +16,29 @@ import androidx.annotation.Nullable;
 
 import com.example.trading_platform001.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressLint("NonConstantResourceId")
 public class MenuUserListAdapter extends ArrayAdapter<String> {
 
-    String[] itemName;
-    Drawable[] itemIcon;
+    List<String> itemName;
+    List<Drawable> itemIcon;
     Context context;
     @BindView(R.id.text_view_menu)
     TextView label;
     @BindView(R.id.image_view_icon)
     ImageView iconImageView;
 
-    public MenuUserListAdapter(Context context, int textViewResourceId, String[] itemName, Drawable[] itemIcon) {
+    public MenuUserListAdapter(Context context, int textViewResourceId, List<String> itemName, List<Drawable> itemIcon) {
         super(context, textViewResourceId, itemName);
         this.context = context;
         this.itemName = itemName;
         this.itemIcon = itemIcon;
+
     }
 
     @Override
@@ -43,9 +48,8 @@ public class MenuUserListAdapter extends ArrayAdapter<String> {
         @SuppressLint("ViewHolder")
         View row = inflater.inflate(R.layout.listmenu, parent, false);
         ButterKnife.bind(this,row);
-        label.setText(itemName[position]);
-        iconImageView.setImageDrawable(itemIcon[position]);
-
+        label.setText(itemName.get(position).toString());
+        iconImageView.setImageDrawable(itemIcon.get(position));
         return row;
     }
 

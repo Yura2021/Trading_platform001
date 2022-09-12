@@ -1,4 +1,4 @@
-package com.example.trading_platform001.authorizations_pages;
+package com.example.trading_platform001.user_pages;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -54,7 +54,6 @@ public class UserInformation extends AppCompatActivity {
         http.logout();
         startActivity(new Intent(context, MainActivity.class));
         finish();
-
     }
 
 }

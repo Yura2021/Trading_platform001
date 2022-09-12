@@ -23,6 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.authorizations_pages.models.User;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.user_pages.models.Order;
+import com.example.trading_platform001.user_pages.models.OrderList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,6 +36,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -97,8 +100,6 @@ public class Http {
             } catch (JSONException  e) {
                 e.printStackTrace();
             }
-
-
         }, error -> parseVolleyError(error,context)) {
             @NonNull
             @Override
@@ -123,9 +124,10 @@ public class Http {
         strToken = storage.GetStorage("Remember_token");
         if (strToken.isEmpty())
             strToken = "No token";
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/logout", response -> {
             storage.ClearStorage();
-        }, error -> parseVolleyError(error)) {
+            }, error -> parseVolleyError(error)) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
@@ -138,6 +140,38 @@ public class Http {
             }
         };
 
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+    public void GetOrdersUser() {
+        strToken = storage.GetStorage("Remember_token");
+        if (strToken.isEmpty())
+            strToken = "No token";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/orders", response -> {
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                String str_array = obj.getString("order");
+                Type listType = new TypeToken<ArrayList<Order>>() {
+                }.getType();
+                OrderList.setOrderList(new Gson().fromJson(str_array, listType));
+
+            } catch (JSONException  e) {
+                e.printStackTrace();
+            }
+        }, error -> parseVolleyError(error)) {
+            @NonNull
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                    header.put("Authorization", "Bearer " + strToken);
+                }
+                return header;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }

@@ -34,7 +34,7 @@
             android:screenOrientation="portrait" />
         <activity
 
-            android:name=".authorizations_pages.UserInformation"
+            android:name=".user_pages.UserInformation"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".authorizations_pages.UserFragment">
+    tools:context=".user_pages.UserFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -13,30 +13,6 @@
         android:layout_height="75dp"
         android:layout_margin="15dp"
         tools:src="@drawable/ic_launcher_background" />
-
-    <Button
-        android:id="@+id/btnAuth"
-        style="@style/MainButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="80dp"
-        android:text="@string/authorization_button_name_authorization"
-        android:textSize="15sp"
-        android:visibility="gone"
-        tools:ignore="DuplicateClickableBoundsCheck,DuplicateSpeakableTextCheck" />
-
-    <Button
-        android:id="@+id/btnLogout"
-        style="@style/MainButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="80dp"
-        android:enabled="false"
-        android:text="@string/text_btn_Exit"
-        android:textSize="15sp"
-        android:visibility="gone" />
 
     <ListView
         android:id="@+id/UserMenu"
