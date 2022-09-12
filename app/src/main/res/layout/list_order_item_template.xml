@@ -34,7 +34,7 @@
 
     <TextView
 
-        android:layout_marginLeft="140dp"
+        android:layout_marginLeft="120dp"
         android:id="@+id/data_orders"
         android:layout_width="130dp"
         android:layout_height="wrap_content"

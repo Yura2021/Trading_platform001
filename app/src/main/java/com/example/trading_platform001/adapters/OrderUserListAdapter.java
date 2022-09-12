@@ -44,7 +44,7 @@ public class OrderUserListAdapter extends ArrayAdapter<Order> implements Filtera
         ImageView image = (ImageView) row.findViewById(R.id.OrderImage);
         TextView text = (TextView) row.findViewById(R.id.OrdertextView);
 
-        id.setText("№ "+this.orderList.get(position).getOrder_number());
+        id.setText("№ "+this.orderList.get(position).getOrder_number().split(" ")[1].toString());
         data.setText(this.orderList.get(position).getCreated_at().toString());
         if(this.orderList.get(position).getStatus().equals("pending"))
         {

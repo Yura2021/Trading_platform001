@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.OrderUserListAdapter;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.StorageInformation;
 import com.example.trading_platform001.user_pages.models.Order;
-import com.example.trading_platform001.user_pages.models.OrderList;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +43,7 @@ public class User_OrderList_Informations extends Fragment {
     OrderUserListAdapter adapter;
     View view;
     Http http;
+    Intent intent;
     StorageInformation storageInformation;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,22 +94,9 @@ public class User_OrderList_Informations extends Fragment {
         storageInformation = new StorageInformation(getContext());
         http = new Http(getContext());
         imageView.setOnClickListener(v->onClick(view));
-       /* SearchOrders.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
 
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //  adapter.SearchItem(newText);
-                return true;
-            }
-        });*/
-        http.GetOrdersUser();
-        adapter= new OrderUserListAdapter(getActivity(),R.layout.list_order_item_template, OrderList.getOrderList());
-       // listView.setAdapter(adapter);
+        adapter= new OrderUserListAdapter(getActivity(),R.layout.list_order_item_template,  orderList);
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,14 +105,15 @@ public class User_OrderList_Informations extends Fragment {
                 {
                     if(item==orderList.get(position).getOrder_number())
                     {
-                     //   Intent intent = new Intent(getContext(),OrderItemActivity.class);
-                   //     intent.putExtra("order",orderList.get(position));
-                     //   startActivity(intent);
+                        Intent intent = new Intent(getContext(),UserOrderItemActivity.class);
+                        intent.putExtra("order",orderList.get(position));
+                        startActivity(intent);
                         break;
                     }
                 }
             }
         });
+        http.GetOrdersUser(adapter);
         return view;
     }
     public void onClick(View v) {
