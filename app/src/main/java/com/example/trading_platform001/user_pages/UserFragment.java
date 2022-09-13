@@ -1,30 +1,24 @@
 package com.example.trading_platform001.user_pages;
 
 import android.annotation.SuppressLint;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.trading_platform001.authorizations_pages.AuthorizationMenuActivity;
-import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.R;
-import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.adapters.MenuUserListAdapter;
+import com.example.trading_platform001.authorizations_pages.AuthorizationMenuActivity;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.StorageInformation;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +44,8 @@ public class UserFragment extends Fragment {
         if (v == null)
             v = inflater.inflate(R.layout.fragment_user, container, false);
         ButterKnife.bind(this, v);
-        MenuItem = new ArrayList<String>();
-        IconMenu = new ArrayList<Drawable>();
+        MenuItem = new ArrayList<>();
+        IconMenu = new ArrayList<>();
         Storage = new StorageInformation(getContext());
         http = new Http(v.getContext());
         MenuItem=GetListName();
@@ -91,10 +85,6 @@ public class UserFragment extends Fragment {
 
         return v;
     }
-
-    private void requiredAuthorization() {
-        startActivity(new Intent(getContext(), AuthorizationMenuActivity.class));
-    }
     public List<String>GetListName()
     {
         List<String> MenuItem = new ArrayList<>();
@@ -112,6 +102,7 @@ public class UserFragment extends Fragment {
         MenuItem.add(getContext().getResources().getString(R.string.Information));
         return MenuItem;
     }
+    @SuppressLint("UseCompatLoadingForDrawables")
     public List<Drawable>GetListIco()
     {
         Resources.Theme theme = getContext().getTheme();
@@ -131,6 +122,7 @@ public class UserFragment extends Fragment {
         return IconMenu;
     }
     public void replaceFragment(Fragment fragment) {
+        assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.layout_view_fragment, fragment);
         transaction.addToBackStack(null);

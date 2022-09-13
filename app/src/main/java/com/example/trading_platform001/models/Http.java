@@ -21,10 +21,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
-import com.example.trading_platform001.adapters.MenuUserListAdapter;
 import com.example.trading_platform001.adapters.OrderUserListAdapter;
 import com.example.trading_platform001.authorizations_pages.models.User;
 import com.example.trading_platform001.user_pages.models.Order;
+import com.example.trading_platform001.user_pages.models.OrderInformation;
+import com.example.trading_platform001.user_pages.models.OrderList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -44,7 +45,7 @@ public class Http {
     private final Context context;
     private final String url;
     private User user;
-    private List<Order> listorder;
+    private List<OrderInformation> listorder;
     private boolean isStatusCode;
     private final StorageInformation storage;
     private String strToken;
@@ -95,9 +96,7 @@ public class Http {
                 String str_array = obj.getString("products");
                 Type listType = new TypeToken<ArrayList<ProductEntity>>() {
                 }.getType();
-               LocalProducts.setProducts(new Gson().fromJson(str_array, listType));
-
-
+                LocalProducts  .setProducts(new Gson().fromJson(str_array, listType));
             } catch (JSONException  e) {
                 e.printStackTrace();
             }
@@ -153,9 +152,9 @@ public class Http {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/orders ", response -> {
             try {
                 JSONObject obj = new JSONObject(response);
-                Type listType = new TypeToken<ArrayList<Order>>() {
-                }.getType();
-                adapter.updateReceiptsList(new Gson().fromJson(obj.getString("order"),listType));
+                Type listType = new TypeToken<ArrayList<Order>>() {}.getType();
+                OrderList orderList =new OrderList((boolean)obj.get("status"),obj.getString("message"),new Gson().fromJson(obj.getString("order"), listType));
+                adapter.updateReceiptsList(orderList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

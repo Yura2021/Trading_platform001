@@ -63,4 +63,5 @@
     <string name="text_sum">Сума</string>
     <string name="text_btn_order">Оформити замовлення</string>
     <string name="restore">Відновити</string>
+    <string name="todo">TODO</string>
 </resources>

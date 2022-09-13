@@ -22,10 +22,13 @@ public class UserInformation extends AppCompatActivity {
 
     StorageInformation storage;
     Context context;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.textView2)
     TextView textView2;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.textView3)
     TextView textView3;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.textView8)
     TextView textView8;
     Http http;
