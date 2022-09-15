@@ -2,11 +2,14 @@ package com.example.trading_platform001.user_pages.models;
 
 import java.util.ArrayList;
 
-public class OrderList {
+public class OrderList  {
 
-    public boolean status;
-    public String message;
-    public ArrayList<Order> orders;
+    private boolean status;
+    private String message;
+    private ArrayList<Order> orders;
+    public  OrderList(){
+        this.orders=new ArrayList<>();
+    }
 
     public OrderList(Boolean status,String message,ArrayList<Order> orders)
     {
@@ -15,15 +18,6 @@ public class OrderList {
         this.status=status;
     }
 
-    public ArrayList<OrderInformation> GetAllOrderInformation()
-    {
-        ArrayList<OrderInformation> orderInformations = new ArrayList<>();
-        for(int i = 0 ; i <this.orders.size();i++)
-        {
-            orderInformations.add(this.orders.get(i).getOrder());
-        }
-        return orderInformations;
-    }
     public ArrayList<ArrayList<ItemOrder>> GetAllItemOrder()
     {
         ArrayList<ArrayList<ItemOrder>> ItemOrder = new ArrayList<>();
@@ -34,4 +28,12 @@ public class OrderList {
         return ItemOrder;
     }
 
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void add(Order order)
+    {
+        this.orders.add(order);
+    }
 }

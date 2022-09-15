@@ -1,6 +1,8 @@
 package com.example.trading_platform001.user_pages.models;
 
-public class ItemOrder {
+import java.io.Serializable;
+
+public class ItemOrder implements Serializable {
     private final int id;
     private final int order_id;
     private final int product_id;

@@ -18,10 +18,8 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.OrderUserListAdapter;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.StorageInformation;
-import com.example.trading_platform001.user_pages.models.OrderInformation;
+import com.example.trading_platform001.user_pages.models.OrderList;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -43,7 +41,7 @@ public class User_OrderList_Informations extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.SearchOrders)
     SearchView SearchOrders;
-    List<OrderInformation> orderList = new ArrayList<>();
+    OrderList orderList ;
     OrderUserListAdapter adapter;
     View view;
     Http http;
@@ -71,24 +69,25 @@ public class User_OrderList_Informations extends Fragment {
         storageInformation = new StorageInformation(getContext());
         http = new Http(getContext());
         imageView.setOnClickListener(v->onClick());
-
-        adapter= new OrderUserListAdapter(getActivity(),R.layout.list_order_item_template,  orderList, new ArrayList<>());
+        orderList = new OrderList();
+        adapter= new OrderUserListAdapter(getActivity(),R.layout.list_order_item_template, orderList.getOrders());
+        http.GetOrdersUser(adapter);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(( parent, view, position, id)-> {
-                String item = orderList.get(position).getOrder_number();
-                for (int i = 0 ; i<orderList.size();i++)
+                String item = orderList.getOrders().get(position).getOrder().getOrder_number();
+                for (int i = 0 ; i<orderList.getOrders().size();i++)
                 {
-                    if(Objects.equals(item, orderList.get(position).getOrder_number()))
+                    if(Objects.equals(item, orderList.getOrders().get(position).getOrder().getOrder_number()))
                     {
                         Intent intent = new Intent(getContext(),UserOrderItemActivity.class);
-                        intent.putExtra("order",orderList.get(position));
+                        intent.putExtra("orderitem",orderList.GetAllItemOrder().get(position));
+                        intent.putExtra("order",orderList.getOrders().get(position).getOrder());
                         startActivity(intent);
                         break;
                     }
                 }
         });
-        http.GetOrdersUser(adapter);
-        orderList = adapter.getOrderInformations();
+
         SearchOrders.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -97,9 +96,12 @@ public class User_OrderList_Informations extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-              adapter.searchItemList(newText,orderList);  return true;
+              adapter.getFilter().filter(newText);
+              return true;
             }
         });
+
+       adapter.getFilter().filter("-");
         return view;
     }
     public void onClick() {

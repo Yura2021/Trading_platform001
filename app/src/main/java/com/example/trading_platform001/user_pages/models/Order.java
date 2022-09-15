@@ -3,14 +3,14 @@ package com.example.trading_platform001.user_pages.models;
 import java.util.ArrayList;
 
 public class Order {
-    public ArrayList<ItemOrder> item_order;
-    public OrderInformation order;
+    private ArrayList<ItemOrder> item_order;
+    private OrderInformation order;
 
     public OrderInformation getOrder() {
-        return order;
+        return this.order;
     }
 
     public ArrayList<ItemOrder> getItemOrder() {
-        return item_order;
+        return this.item_order;
     }
 }

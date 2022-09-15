@@ -27,7 +27,6 @@ public class OrderInformation implements Serializable {
     private String billing_phone;
     private Date created_at;
     private Date updated_at;
-    public OrderInformation() {}
 
     public OrderInformation(String order_number, int grand_total, Date created_at, String status){
         this.order_number=order_number;
@@ -50,5 +49,21 @@ public class OrderInformation implements Serializable {
 
     public String getStatus() {
         return this.status;
+    }
+
+    public String getPayment_method() {
+        return payment_method;
+    }
+    public String getAddress()
+    {
+        return this.shipping_state+","+shipping_city+","+shipping_address;
+    }
+
+    public String getShipping_fullname() {
+        return shipping_fullname;
+    }
+
+    public String getShipping_phone() {
+        return shipping_phone;
     }
 }

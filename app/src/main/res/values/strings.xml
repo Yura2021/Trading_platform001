@@ -64,4 +64,5 @@
     <string name="text_btn_order">Оформити замовлення</string>
     <string name="restore">Відновити</string>
     <string name="todo">TODO</string>
+    <string name="my_orders">Мої Замовлення</string>
 </resources>
