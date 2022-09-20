@@ -4,21 +4,304 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".carts_pages.OrderActivity">
 
-    <TextView
-        android:id="@+id/tvSum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="@string/text_sum" />
+    <ImageView
+        android:id="@+id/imageBackOrder"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/arrow_left"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        android:padding="15dp"
+        android:contentDescription=""
+        tools:ignore="ContentDescription" />
 
-    <Button
-        android:id="@+id/btnBuy"
+    <TextView
+        android:id="@+id/NamePageOrders"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:backgroundTint="@color/orange"
-        android:text="@string/buy" />
+        android:layout_height="50dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="-50dp"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/my_cart_orders"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/add_cart">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/NameOrderCart"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editNameOrderCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/StringNull"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/RegionOrderCart"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editRegionOrderCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/StringNull"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/CitiOrderCart"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editCitiOrderCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/StringNull"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/StreetOrderCart"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editStreetOrderCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/StringNull"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/PhoneOrderCart"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editPhoneOrderCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/StringNull"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/ZipCodeOrderCart"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editZipCodeOrderCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/StringNull"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="@string/generalSumOrderCard"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/TextSum"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/text_sum"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/tvSum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:textAlignment="viewEnd"
+                        />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/NamedeliveryText"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/deliveriCard"
+                        android:layout_weight="1"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:id="@+id/deliveryText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:text="@string/deliveriCardText"
+                        android:textAlignment="viewEnd"
+                        />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/generalTextSum"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/generalSumText"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tvSumGeneral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:textAlignment="viewEnd"
+                        />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Спосіб оплати"
+                android:textSize="18dp"
+                android:layout_margin="15dp"/>
+
+            <CheckBox
+                android:id="@+id/checkBoxCartPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/CartPayment"
+                android:layout_marginLeft="10dp"/>
+
+            <CheckBox
+                android:id="@+id/checkBoxCashPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/CashPayment"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+            <Button
+                android:id="@+id/btnBuy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/orange"
+                android:text="@string/buy" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

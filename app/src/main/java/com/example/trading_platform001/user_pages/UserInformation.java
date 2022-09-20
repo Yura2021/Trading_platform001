@@ -4,9 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.main_pages.MainActivity;
@@ -31,6 +35,8 @@ public class UserInformation extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.textView8)
     TextView textView8;
+    @BindView(R.id.imageBackAccaunt)
+    ImageView imageView;
     Http http;
 
     @SuppressLint("SetTextI18n")
@@ -49,7 +55,7 @@ public class UserInformation extends AppCompatActivity {
         textView2.setText("Ім`я\n" + (name.isEmpty() ? "no name" : name));
         textView3.setText("Електроний пошта\n" + (email.isEmpty() ? "no email" : email));
         textView8.setOnClickListener(v -> redirectMainActivity());
-
+        imageView.setOnClickListener(v->onClick());
     }
 
     private void redirectMainActivity() {
@@ -58,5 +64,7 @@ public class UserInformation extends AppCompatActivity {
         startActivity(new Intent(context, MainActivity.class));
         finish();
     }
-
+    public void onClick() {
+        finish();
+    }
 }

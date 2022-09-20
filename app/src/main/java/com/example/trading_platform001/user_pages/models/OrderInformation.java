@@ -34,6 +34,21 @@ public class OrderInformation implements Serializable {
         this.created_at=created_at;
         this.status=status;
     }
+    public OrderInformation(int grand_total,Date created_at,String shipping_fullname,String shipping_address,
+                            String shipping_city,String shipping_state,String shipping_zipcode,String shipping_phone,
+                            int item_count,String payment_method)
+    {
+       this.grand_total=grand_total;
+       this.created_at=created_at;
+       this.shipping_fullname=shipping_fullname;
+       this.shipping_address=shipping_address;
+       this.shipping_city=shipping_city;
+       this.shipping_state=shipping_state;
+       this.shipping_zipcode=shipping_zipcode;
+       this.shipping_phone=shipping_phone;
+       this.item_count=item_count;
+       this.payment_method=payment_method;
+    }
 
     public String getOrder_number() {
         return this.order_number;
@@ -65,5 +80,25 @@ public class OrderInformation implements Serializable {
 
     public String getShipping_phone() {
         return shipping_phone;
+    }
+
+    public String getShipping_address() {
+        return shipping_address;
+    }
+
+    public String getShipping_city() {
+        return shipping_city;
+    }
+
+    public String getShipping_state() {
+        return shipping_state;
+    }
+
+    public String getShipping_zipcode() {
+        return shipping_zipcode;
+    }
+
+    public int getItem_count() {
+        return item_count;
     }
 }

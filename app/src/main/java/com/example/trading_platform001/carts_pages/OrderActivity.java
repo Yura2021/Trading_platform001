@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.StorageInformation;
+import com.example.trading_platform001.user_pages.models.OrderInformation;
+import com.google.gson.Gson;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
@@ -29,6 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +56,29 @@ public class OrderActivity extends AppCompatActivity {
     Button btnBuy;
     @BindView(R.id.tvSum)
     TextView tvSum;
+    @BindView(R.id.tvSumGeneral)
+    TextView tvSumGeneral;
+    @BindView(R.id.imageBackOrder)
+    ImageView imageView;
+    @BindView(R.id.editNameOrderCart)
+    EditText NameeditText;
+    @BindView(R.id.editRegionOrderCart)
+    EditText RegioneditText;
+    @BindView(R.id.editCitiOrderCart)
+    EditText CitieditText;
+    @BindView(R.id.editStreetOrderCart)
+    EditText StreeteditText;
+    @BindView(R.id.editPhoneOrderCart)
+    EditText PhoneeditText;
+    @BindView(R.id.editZipCodeOrderCart)
+    EditText ZipCodeeditText;
+    @BindView(R.id.checkBoxCartPayment)
+    CheckBox checkBoxCartPayment;
+    StorageInformation storageInformation;
+    OrderInformation orderInformation ;
+    Http http;
+    String payment;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +86,21 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
         funPlayShop();
+        http = new Http(this);
+        storageInformation = new StorageInformation(this);
         btnBuy.setOnClickListener(v -> operationOrder());
         tvSum.setText(CartHelper.getCart().getTotalPrice()+" $");
+        tvSumGeneral.setText(CartHelper.getCart().getTotalPrice()+" $");
+        imageView.setOnClickListener(v->onclick());
 
+        if(storageInformation.GetStorage("Name")!=null)
+        {
+            NameeditText.setText(storageInformation.GetStorage("Name"));
+        }
+    }
 
+    private void onclick() {
+        finish();
     }
 
     void funPlayShop() {
@@ -89,22 +132,46 @@ public class OrderActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    private void setOrder()
+    {
+        orderInformation = new OrderInformation(CartHelper.getCart().getTotalPrice().intValue(),Calendar.getInstance().getTime(),
+                NameeditText.getText().toString(),StreeteditText.getText().toString(),
+                CitieditText.getText().toString(),RegioneditText.getText().toString(),
+                ZipCodeeditText.getText().toString(),PhoneeditText.getText().toString(),
+                CartHelper.getCartItems().size(),payment);
+
+         http.setOrderUser(orderInformation,CartHelper.getCartItems());
+    }
+
     private void operationOrder() {
-        if (CartHelper.getCartItems().size() > 0) {
-            paymentFlow();
+        if(checkBoxCartPayment.isChecked()) {
+            payment="paypal";//можна змінити на інший ти карти
+            if (CartHelper.getCartItems().size() > 0) {
+                paymentFlow();
+            }
+        }
+        else
+        {
+            payment="cash_on_delivery";
+            ClearCart();
         }
     }
 
+    public void ClearCart()
+    {
+        setOrder();
+        if (CartHelper.getCartItems().size() > 0) {
+            CartHelper.getCart().clear();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             Toast.makeText(this, "Платіж опрацьовано успішно", Toast.LENGTH_SHORT).show();
-            if (CartHelper.getCartItems().size() > 0) {
-                CartHelper.getCart().clear();
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+            ClearCart();
         }
     }
 

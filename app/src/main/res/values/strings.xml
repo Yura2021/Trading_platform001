@@ -64,5 +64,22 @@
     <string name="text_btn_order">Оформити замовлення</string>
     <string name="restore">Відновити</string>
     <string name="todo">TODO</string>
-    <string name="my_orders">Мої Замовлення</string>
+    <string name="my_orders">Мої замовлення</string>
+
+    <string name="my_cart_orders">Оформити замовлення</string>
+
+    <string name="NameOrderCart">Імя та Прізвище</string>
+    <string name="RegionOrderCart">Область</string>
+    <string name="CitiOrderCart">Місто</string>
+    <string name="StreetOrderCart">Вулиця та № будинку</string>
+    <string name="PhoneOrderCart">Телефон</string>
+    <string name="ZipCodeOrderCart">Поштовий код</string>
+    <string name="generalSumOrderCard">Загальна сума замовлення</string>
+    <string name="StringNull"></string>
+    <string name="deliveriCard">Доставка</string>
+    <string name="deliveriCardText">за тарифами перевізника</string>
+    <string name="generalSumText">Сума до сплати</string>
+
+    <string name="CartPayment">Оплата картою</string>
+    <string name="CashPayment">Оплата при отриманні</string>
 </resources>
