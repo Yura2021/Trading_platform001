@@ -82,4 +82,5 @@
 
     <string name="CartPayment">Оплата картою</string>
     <string name="CashPayment">Оплата при отриманні</string>
+    <string name="Category">Category</string>
 </resources>

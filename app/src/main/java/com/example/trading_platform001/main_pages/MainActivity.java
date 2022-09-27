@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.catalog_page.CatalogFragment;
+import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.user_pages.UserFragment;
 import com.example.trading_platform001.carts_pages.CartFragment;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
@@ -54,12 +56,14 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private String url;
     BadgeDrawable badgeDrawable;
+    Http http;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        http= new Http(this);
         url = getString(R.string.api_server);
         if (LocalProducts.isNull()) {
             getAllProduct();
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment());
                     break;
                 case R.id.catalog:
-                    replaceFragment(new ShowProductFullscreenFragment());
+                    replaceFragment(new CatalogFragment());
                     break;
                 case R.id.cart:
                     replaceFragment(new CartFragment());
@@ -103,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
             badgeDrawable.clearNumber();
 
         }
-
+        if(LocalProducts.isNull()) {
+            http.GetCategory();
+        }
     }
 
 

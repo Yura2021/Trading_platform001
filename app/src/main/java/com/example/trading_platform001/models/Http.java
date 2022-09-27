@@ -24,6 +24,7 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.OrderUserListAdapter;
 import com.example.trading_platform001.authorizations_pages.models.User;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
+import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.user_pages.models.Order;
 import com.example.trading_platform001.user_pages.models.OrderInformation;
 import com.example.trading_platform001.user_pages.models.OrderList;
@@ -205,6 +206,30 @@ public class Http {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
 
+    }
+    public void GetCategory() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/category", response -> {
+            try {
+                JSONObject obj = new JSONObject(response);
+                Type listType = new TypeToken<ArrayList<Category>>() {}.getType();
+                LocalCategory.setProducts(new  Gson().fromJson(obj.getString("category"),listType));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> onErrorResponse(error)) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                }
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
     }
 
     public void getUser() {
