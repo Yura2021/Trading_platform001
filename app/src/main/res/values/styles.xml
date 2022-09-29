@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="MyAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+    <style name="BottomNavigation.ActiveItemTextAppearance" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:color">@color/green</item>
+        <item name="android:itemBackground">@color/green</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:backgroundTint">@color/green</item>
+    </style>
     <style name="MainButtonStyle">
         <item name="android:layout_width">@dimen/main_button_width</item>
         <item name="android:layout_height">wrap_content</item>

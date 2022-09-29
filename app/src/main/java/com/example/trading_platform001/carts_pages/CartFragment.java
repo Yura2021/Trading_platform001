@@ -25,6 +25,7 @@ import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +46,8 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     @BindView(R.id.tvSum)
     TextView tvSum;
     View view;
+    BadgeDrawable badgeDrawable;
+    BottomNavigationView btnNavView;
 
     private void getResultFragment() {
         Bundle result = getArguments();
@@ -73,9 +76,10 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
                              Bundle savedInstanceState) {
         if (view == null)
             view = inflater.inflate(R.layout.fragment_cart, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         btnOrder.setOnClickListener(v -> redirectOrders());
+        btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         getResultFragment();
         onUpdateList();
         return view;
@@ -95,22 +99,26 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onItemPlusClicked(int position, CartItemsEntityModel cartItemsEntityModel) {
-        CartItemsEntityModel cartModel = new CartItemsEntityModel();
-        cartModel.setProduct(cartItemsEntityModel.getProduct());
-        cartModel.setQuantity(cartItemsEntityModel.getQuantity() + 1);
-        productRecyclerAdapter.updateItem(position, cartModel);
-        tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+    public void onItemPlusClicked(int position, List<CartItemsEntityModel> carts) {
+        if (carts != null && position != -1 && position < carts.size()) {
+            CartItemsEntityModel cartModel = new CartItemsEntityModel();
+            cartModel.setProduct(carts.get(position).getProduct());
+            cartModel.setQuantity(carts.get(position).getQuantity() + 1);
+            productRecyclerAdapter.updateItem(position, cartModel);
+            tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+        }
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onItemMinusClicked(int position, CartItemsEntityModel cartItemsEntityModel) {
-        CartItemsEntityModel cartModel = new CartItemsEntityModel();
-        cartModel.setProduct(cartItemsEntityModel.getProduct());
-        cartModel.setQuantity(cartItemsEntityModel.getQuantity() - 1);
-        productRecyclerAdapter.updateItem(position, cartModel);
-        tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+    public void onItemMinusClicked(int position, List<CartItemsEntityModel> carts) {
+        if (carts != null && position != -1 && position < carts.size()) {
+            CartItemsEntityModel cartModel = new CartItemsEntityModel();
+            cartModel.setProduct(carts.get(position).getProduct());
+            cartModel.setQuantity(carts.get(position).getQuantity() - 1);
+            productRecyclerAdapter.updateItem(position, cartModel);
+            tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+        }
 
     }
 
@@ -123,11 +131,16 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
         recyclerView.setAdapter(productRecyclerAdapter);
         tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
         int size = CartHelper.getCartItems().size();
+        if (badgeDrawable == null)
+            badgeDrawable = btnNavView.getOrCreateBadge(R.id.cart);
         if (size > 0) {
-            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
-            BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.cart);
-            badge.setVisible(true);
-            badge.setNumber(size);
+            badgeDrawable.setVisible(true);
+            badgeDrawable.setNumber(size);
+        }
+        if (size == 0) {
+            badgeDrawable.setVisible(false);
+            badgeDrawable.clearNumber();
+
         }
 
     }

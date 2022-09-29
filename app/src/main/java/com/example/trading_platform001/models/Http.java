@@ -47,7 +47,6 @@ public class Http {
     private final Context context;
     private final String url;
     private User user;
-    private List<OrderInformation> listorder;
     private boolean isStatusCode;
     private final StorageInformation storage;
     private String strToken;
@@ -90,7 +89,7 @@ public class Http {
     }
 
     public static void getAllProduct(Context context) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://ecommerce.it-tree.com.ua/api" + "/products",  response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://ecommerce.it-tree.com.ua/api" + "/products", response -> {
 
             JSONObject obj = null;
             try {
@@ -98,11 +97,15 @@ public class Http {
                 String str_array = obj.getString("products");
                 Type listType = new TypeToken<ArrayList<ProductEntity>>() {
                 }.getType();
-                LocalProducts  .setProducts(new Gson().fromJson(str_array, listType));
-            } catch (JSONException  e) {
+                LocalProducts.setProducts(new Gson().fromJson(str_array, listType));
+
+
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> parseVolleyError(error,context)) {
+
+
+        }, error -> parseVolleyError(error, context)) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
@@ -126,10 +129,9 @@ public class Http {
         strToken = storage.GetStorage("Remember_token");
         if (strToken.isEmpty())
             strToken = "No token";
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/logout", response -> {
             storage.ClearStorage();
-            }, error -> parseVolleyError(error)) {
+        }, error -> parseVolleyError(error)) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
@@ -145,96 +147,10 @@ public class Http {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
-    public void GetOrdersUser(OrderUserListAdapter adapter) {
-        strToken = storage.GetStorage("Remember_token");
-        if (strToken.isEmpty())
-            strToken = "No token";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/orders ", response -> {
-            try {
-                JSONObject obj = new JSONObject(response);
-                Type listType = new TypeToken<ArrayList<Order>>() {}.getType();
-                OrderList orderList =new OrderList((boolean)obj.get("status"),obj.getString("message"),new Gson().fromJson(obj.getString("order"), listType));
-                adapter.updateReceiptsList(orderList);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> onErrorResponse(error)) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<>();
-                {
-                    header.put("Content-Length", "application/json");
-                    header.put("Authorization", "Bearer "+strToken);
-                }
-                return header;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-    }
-    public void setOrderUser(OrderInformation order, List<CartItemsEntityModel> cartItemsEntityModels) {
-        strToken = storage.GetStorage("Remember_token");
-        if (strToken.isEmpty())
-            strToken = "No token";
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/setorder", response -> {}, error -> onErrorResponse(error)) {
-
-            @NonNull
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("CardOrder", new Gson().toJson(order));
-                params.put("CatItem",new Gson().toJson(cartItemsEntityModels));
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<>();
-                {
-                    header.put("Content-Length", "application/json");
-                    header.put("Authorization", "Bearer "+strToken);
-                }
-                return header;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-
-    }
-    public void GetCategory() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/category", response -> {
-            try {
-                JSONObject obj = new JSONObject(response);
-                Type listType = new TypeToken<ArrayList<Category>>() {}.getType();
-                LocalCategory.setProducts(new  Gson().fromJson(obj.getString("category"),listType));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> onErrorResponse(error)) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<>();
-                {
-                    header.put("Content-Length", "application/json");
-                }
-                return header;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-    }
 
     public void getUser() {
         strToken = storage.GetStorage("Remember_token");
-        if (strToken.isEmpty())
+        if (strToken == null && strToken.isEmpty())
             strToken = "No token";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/user", response -> {
 
@@ -264,7 +180,7 @@ public class Http {
         requestQueue.add(stringRequest);
     }
 
-    private static void parseVolleyError(VolleyError error,Context context) {
+    private static void parseVolleyError(VolleyError error, Context context) {
 
         String responseBody;
         if (error.networkResponse.data != null) {
@@ -275,7 +191,7 @@ public class Http {
                 JSONObject jsonMessage = errors.getJSONObject(0);
                 String message = jsonMessage.getString("message");
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-               // alertFail(message);
+                // alertFail(message);
                 Log.d("Token error", message);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -414,6 +330,91 @@ public class Http {
 
 
     }
+    public void GetOrdersUser(OrderUserListAdapter adapter) {
+        strToken = storage.GetStorage("Remember_token");
+        if (strToken.isEmpty())
+            strToken = "No token";
 
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/orders ", response -> {
+            try {
+                JSONObject obj = new JSONObject(response);
+                Type listType = new TypeToken<ArrayList<Order>>() {}.getType();
+                OrderList orderList =new OrderList((boolean)obj.get("status"),obj.getString("message"),new Gson().fromJson(obj.getString("order"), listType));
+                adapter.updateReceiptsList(orderList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> onErrorResponse(error)) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                    header.put("Authorization", "Bearer "+strToken);
+                }
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+    public void setOrderUser(OrderInformation order, List<CartItemsEntityModel> cartItemsEntityModels) {
+        strToken = storage.GetStorage("Remember_token");
+        if (strToken.isEmpty())
+            strToken = "No token";
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/setorder", response -> {}, error -> onErrorResponse(error)) {
+
+            @NonNull
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("CardOrder", new Gson().toJson(order));
+                params.put("CatItem",new Gson().toJson(cartItemsEntityModels));
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                    header.put("Authorization", "Bearer "+strToken);
+                }
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+    public void GetCategory() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/category", response -> {
+            try {
+                JSONObject obj = new JSONObject(response);
+                Type listType = new TypeToken<ArrayList<Category>>() {}.getType();
+                LocalCategory.setProducts(new  Gson().fromJson(obj.getString("category"),listType));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> onErrorResponse(error)) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                }
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
 
 }

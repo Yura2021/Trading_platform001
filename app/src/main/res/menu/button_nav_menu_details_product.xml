@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/allInfo"
+        android:title="@string/text_item_menu_details_product_allinfo" />
+    <item android:id="@+id/characteristic" android:title="@string/text_item_menu_details_product_characteristic" />
+    <item android:id="@+id/feedback" android:title="@string/text_item_menu_details_product_feedback" />
+    <item android:id="@+id/question" android:title="@string/text_item_menu_details_product_question" />
+    <item android:id="@+id/accessories" android:title="@string/text_item_menu_details_product_accessories" />
+</menu>

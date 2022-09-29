@@ -3,15 +3,16 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
+    namespace 'com.example.trading_platform001'
+    testNamespace 'com.example.myapplication'
 
     defaultConfig {
         applicationId "com.example.trading_platform001"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -27,26 +28,30 @@ android {
     }
 }
 
-
-
 dependencies {
-
-    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //image slider
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+
 
     //new lib
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-    
+
+
     implementation 'com.google.code.gson:gson:2.9.1'
 
     implementation 'com.stripe:stripe-java:20.77.0'
-    implementation 'com.stripe:stripe-android:17.2.0'
+    implementation 'com.stripe:stripe-android:20.11.0'
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    //Lottie animation
+    implementation 'com.airbnb.android:lottie:5.2.0'
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'

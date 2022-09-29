@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Торгова платформа</string>
+    <string name="app_name">Roztoka</string>
     <string name="main_button_name_main">Головна</string>
     <string name="main_button_name_catalogue">Каталог</string>
     <string name="main_button_name_basket">Кошик</string>
@@ -63,6 +63,19 @@
     <string name="text_sum">Сума</string>
     <string name="text_btn_order">Оформити замовлення</string>
     <string name="restore">Відновити</string>
+    <string name="text_UAH">Грн</string>
+    <string name="text_codeProd">Код</string>
+    <string name="text_seller">Продавець</string>
+    <string name="text_item_menu_details_product_allinfo">ВСЕ ПРО ТОВАР</string>
+    <string name="text_item_menu_details_product_characteristic">ХАРАКТЕРИСТИКИ</string>
+    <string name="text_item_menu_details_product_feedback">ВІДГУКИ</string>
+    <string name="text_item_menu_details_product_question">ПИТАННЯ</string>
+    <string name="text_item_menu_details_product_accessories">АКСЕСУАРИ</string>
+    <string name="money">\₴</string>
+    <string name="Default_code_product">125568</string>
+    <string name="text_sort">Сортування</string>
+    <string name="text_accept">Прийняти</string>
+    <string name="text_close">ЗАКРИТИ</string>
     <string name="todo">TODO</string>
     <string name="my_orders">Мої замовлення</string>
 

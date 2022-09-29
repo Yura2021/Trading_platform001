@@ -5,26 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
+    app:backgroundTint="@color/white"
+    android:fitsSystemWindows="false"
     tools:context=".main_pages.MainActivity">
-
     <ProgressBar
-        android:id="@+id/loadPB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:indeterminate="true"
-        android:visibility="visible" />
+    android:id="@+id/loadPB"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:indeterminate="true"
+    android:background="@color/white"
+    app:backgroundTint="@color/white"
+    android:visibility="visible" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/layout_view_fragment"
+        android:id="@+id/fcContainerMain"
+        android:name="com.example.trading_platform001.home_pages.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigationView"
         android:orientation="vertical"
+        android:background="@color/white"
+        app:backgroundTint="@color/white"
         android:padding="@dimen/main_padding_button"
         android:visibility="visible"
-        android:name="com.example.trading_platform001.home_pages.HomeFragment"
         tools:layout="@layout/fragment_home">
 
 
@@ -35,9 +41,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/color_nav_button"
-        android:foregroundTint="#BC1010"
-        android:theme="@style/Theme.MaterialComponents.Light"
+        android:background="@color/white"
+        android:clickable="true"
+        app:backgroundTint="@color/white"
+        app:elevation="0dp"
+        app:itemTextAppearanceActive="@style/BottomNavigation.ActiveItemTextAppearance"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/button_nav_menu" />
 </RelativeLayout>

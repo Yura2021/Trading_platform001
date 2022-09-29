@@ -14,7 +14,8 @@ public class ProductEntity{
     private int shop_id;
     private Timestamp created_at;
     private Timestamp updated_at;
-
+    private int favorite;
+    private boolean isFavorite;
     public ProductEntity() {
     }
 
@@ -64,6 +65,19 @@ public class ProductEntity{
         this.cover_img = cover_img ;
     }
 
+    private void setFavorite(int favorite) {
+        this.isFavorite = Boolean.parseBoolean(String.valueOf(favorite));
+        this.favorite = favorite;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean isfavorite) {
+
+        this.isFavorite = isfavorite;
+    }
 
     public void setId(int id) {
         this.id = id;

@@ -18,5 +18,9 @@
     <color name="black_overlay">#66000000</color>
     <color name="orange">#ffbb38</color>
     <color name="orangeText">#ffbb38</color>
-    <color name="Gray">#C0C0C0</color>
+    <color name="colorPrimary">#222E3E</color>
+    <color name="colorPrimaryDark">#10161d</color>
+    <color name="colorAccent">#222E3E</color>
+    <color name="colorPrimaryLight">#3A4E68</color>
+    <color name="colorSecondary">#FF9900</color>
 </resources>

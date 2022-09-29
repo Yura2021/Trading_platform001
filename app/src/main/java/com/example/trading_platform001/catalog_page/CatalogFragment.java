@@ -1,5 +1,6 @@
 package com.example.trading_platform001.catalog_page;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,7 +27,9 @@ import butterknife.ButterKnife;
  * Use the {@link CatalogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@SuppressLint("NonConstantResourceId")
 public class CatalogFragment extends Fragment {
+
 
     @BindView(R.id.layoutLeftCategory)
     LinearLayout layoutLeftCategory;
@@ -128,7 +131,7 @@ public class CatalogFragment extends Fragment {
        fragment.setArguments(bundle);
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.layout_view_fragment, fragment);
+        transaction.replace(R.id.fcContainerMain, fragment);
         transaction.addToBackStack(null);
 
         transaction.commit();

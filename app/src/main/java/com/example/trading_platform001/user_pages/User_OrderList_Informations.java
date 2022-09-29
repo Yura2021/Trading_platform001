@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -110,7 +110,7 @@ public class User_OrderList_Informations extends Fragment {
     public void replaceFragment(Fragment fragment) {
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.layout_view_fragment, fragment);
+        transaction.replace(R.id.fcContainerMain, fragment);
         transaction.addToBackStack(null);
 
         transaction.commit();

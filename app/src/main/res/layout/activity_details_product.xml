@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#e6e6e6"
+    android:orientation="vertical"
+    android:padding="1dp"
+    tools:context=".products_pages.DetailsProductActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        style="@style/MyAppTheme"
+        android:background="@color/white"
+        android:clickable="true"
+        android:contentDescription="@string/Default_text"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tbDetails"
+        style="@style/MyAppTheme"
+        android:contentDescription="@string/Default_text"
+        app:tabMode="scrollable" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcDetailsInfo"
+        android:name="com.example.trading_platform001.products_pages.product_details_fragment.AllInfoProductFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/llMainButtonNav"
+        android:layout_below="@id/tablayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        tools:layout="@layout/fragment_all_info_product">
+
+    </androidx.fragment.app.FragmentContainerView>
+
+    <LinearLayout
+        android:id="@+id/llMainButtonNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="1.5dp">
+
+
+        <LinearLayout
+            android:id="@+id/llfaworite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgFav"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/ic_is_not_favorite"
+                tools:ignore="ImageContrastCheck" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="invisible"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAddCart"
+            android:layout_width="wrap_content"
+            style="@style/MyAppTheme"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/add_cart" />
+    </LinearLayout>
+</RelativeLayout>

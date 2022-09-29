@@ -21,15 +21,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
-import com.example.trading_platform001.catalog_page.CatalogFragment;
-import com.example.trading_platform001.models.Http;
-import com.example.trading_platform001.user_pages.UserFragment;
 import com.example.trading_platform001.carts_pages.CartFragment;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.catalog_page.CatalogFragment;
 import com.example.trading_platform001.home_pages.HomeFragment;
+import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.ProductEntity;
-import com.example.trading_platform001.products_pages.ShowProductFullscreenFragment;
+import com.example.trading_platform001.user_pages.UserFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.loadPB)
     ProgressBar progressBar;
     private String url;
-    BadgeDrawable badgeDrawable;
+    public BadgeDrawable badgeDrawable;
     Http http;
 
     @Override
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment());
                     break;
                 case R.id.catalog:
+                    //replaceFragment(new CategoryFilterFragment());
                     replaceFragment(new CatalogFragment());
                     break;
                 case R.id.cart:
@@ -107,13 +107,14 @@ public class MainActivity extends AppCompatActivity {
             badgeDrawable.clearNumber();
 
         }
-        if(LocalProducts.isNull()) {
+        if (LocalProducts.isNull()) {
             http.GetCategory();
         }
     }
 
 
     public void getAllProduct() {
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/products", response -> {
 
             JSONObject obj = null;
@@ -139,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, String> header = new HashMap<>();
                 {
                     header.put("Content-Length", "application/json");
-
                 }
                 return header;
             }
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_view_fragment, fragment);
+        fragmentTransaction.replace(R.id.fcContainerMain, fragment);
         fragmentTransaction.commit();
     }
 

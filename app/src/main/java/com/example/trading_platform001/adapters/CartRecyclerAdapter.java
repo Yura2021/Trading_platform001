@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +29,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final List<CartItemsEntityModel> productEntityModel;
     private MyOnItemClickListener onItemClickListener;
 
-    public CartRecyclerAdapter( List<CartItemsEntityModel> productEntityModel) {
+    public CartRecyclerAdapter(List<CartItemsEntityModel> productEntityModel) {
 
         this.productEntityModel = productEntityModel;
     }
@@ -54,7 +54,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
         viewHolder.name.setText(productEntityModel.get(position).getProduct().getName());
         viewHolder.description.setText(productEntityModel.get(position).getProduct().getDescription());
@@ -71,6 +71,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return productEntityModel.size();
     }
+
     @SuppressLint("NonConstantResourceId")
     public class ReceiveViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image)
@@ -79,22 +80,23 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView description;
         @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.quantity)
+        @BindView(R.id.tvQuantity)
         TextView quantity;
         @BindView(R.id.price)
         TextView price;
         @BindView(R.id.minus)
-        Button minus;
+        ImageButton minus;
         @BindView(R.id.plus)
-        Button plus;
+        ImageButton plus;
 
         public ReceiveViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
 
-            itemView.setOnClickListener(v -> onItemClickListener.onItemClick(productEntityModel.get(getBindingAdapterPosition())));
-            minus.setOnClickListener(v -> onItemClickListener.onItemMinusClicked(getBindingAdapterPosition(), productEntityModel.get(getBindingAdapterPosition())));
-            plus.setOnClickListener(v -> onItemClickListener.onItemPlusClicked(getBindingAdapterPosition(), productEntityModel.get(getBindingAdapterPosition())));
+            //itemView.setOnClickListener(v -> onItemClickListener.onItemClick(productEntityModel.get(getBindingAdapterPosition())));
+            minus.setOnClickListener(v -> onItemClickListener.onItemMinusClicked(getBindingAdapterPosition(), productEntityModel));
+            plus.setOnClickListener(v -> onItemClickListener.onItemPlusClicked(getBindingAdapterPosition(), productEntityModel));
+
         }
     }
 

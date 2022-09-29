@@ -1,7 +1,5 @@
 package com.example.trading_platform001.authorizations_pages.models;
 
-import android.annotation.SuppressLint;
-
 public class User {
     private long id;
     private int role_id;

@@ -124,7 +124,7 @@ public class UserFragment extends Fragment {
     public void replaceFragment(Fragment fragment) {
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.layout_view_fragment, fragment);
+        transaction.replace(R.id.fcContainerMain, fragment);
         transaction.addToBackStack(null);
 
         transaction.commit();

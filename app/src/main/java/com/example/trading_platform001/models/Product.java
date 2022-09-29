@@ -20,6 +20,7 @@ public class Product implements Saleable, Serializable {
     private int quantity;
     private Timestamp created_at;
     private Timestamp updated_at;
+    private boolean favorite;
 
     public Product() {
         quantity = 1;
@@ -102,6 +103,13 @@ public class Product implements Saleable, Serializable {
         this.quantity = quantity;
     }
 
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 
     public void setId(int id) {
         this.id = id;

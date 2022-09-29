@@ -1,6 +1,7 @@
 package com.example.trading_platform001.home_pages;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +10,30 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.adapters.ProductAdapter;
+import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.models.LocalProducts;
-import com.example.trading_platform001.products_pages.ShowProductFullscreenFragment;
-import com.example.trading_platform001.adapters.ProductAdapter;
+import com.example.trading_platform001.models.Product;
+import com.example.trading_platform001.models.ProductEntity;
+import com.example.trading_platform001.products_pages.DetailsProductActivity;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +41,8 @@ import butterknife.ButterKnife;
 @SuppressLint("NonConstantResourceId")
 public class HomeFragment extends Fragment {
 
-    @BindView(R.id.svSearch)
+    @Nullable
+    @BindView(R.id.svSearch1)
     SearchView searchView;
     @BindView(R.id.grid_product)
     GridView gridview;
@@ -37,13 +50,25 @@ public class HomeFragment extends Fragment {
     BottomNavigationView btnNavView;
     View view;
     ImageView imgProduct;
-    TextView tvNameProduct, tvPriceProduct, tvIdProduct;
+    TextView tvNameProduct, tvPriceProduct;
     RatingBar rbRating;
     BadgeDrawable badgeDrawable;
+    @BindView(R.id.image_slider)
+    ImageSlider imageSlider;
+
+    ImageView ibAddCart;
+    private long itemId;
+    private String url_imgProduct;
+    private String nameProduct, priceProduct;
+    private float rating;
+    boolean favorite;
+    int productPosition;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         if (view == null)
             view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
@@ -52,8 +77,9 @@ public class HomeFragment extends Fragment {
         if (productAdapter == null)
             productAdapter = new ProductAdapter(view.getContext(), LocalProducts.getProducts());
 
-            btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
+        btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         gridview.setOnItemClickListener(gridviewOnItemClickListener);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -66,7 +92,6 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
-
         int size = CartHelper.getCartItems().size();
         if (badgeDrawable == null)
             badgeDrawable = btnNavView.getOrCreateBadge(R.id.cart);
@@ -79,43 +104,59 @@ public class HomeFragment extends Fragment {
 
         }
         gridview.setAdapter(productAdapter);
+        ArrayList<SlideModel> imageList = new ArrayList<>();
+        for (ProductEntity item : LocalProducts.getProducts()) {
+            imageList.add(new SlideModel(item.getCover_img(), ScaleTypes.FIT));
+        }
 
+        imageSlider.setImageList(imageList, ScaleTypes.FIT);
         return view;
     }
 
+
+    private void addCartItem() {
+
+        CartEntity cart = CartHelper.getCart();
+        BigDecimal dec = new BigDecimal(priceProduct);
+        Product product = new Product(itemId, nameProduct, dec, rating, url_imgProduct);
+        cart.add(product, 1);
+        Toast.makeText(this.getContext(), "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
+
+
+    }
 
     private final GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
 
 
         @Override
         public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            imgProduct = v.findViewById(R.id.imgProduct);
+            tvNameProduct = v.findViewById(R.id.tvNameProduct);
+            tvPriceProduct = v.findViewById(R.id.tvPriceProduct);
+            rbRating = v.findViewById(R.id.rbRating);
+            Intent intent = new Intent(HomeFragment.this.getContext(), DetailsProductActivity.class);
 
-            Bundle bundle = new Bundle();
-            if (imgProduct == null)
-                imgProduct = v.findViewById(R.id.imgProduct);
-            if (tvNameProduct == null)
-                tvNameProduct = v.findViewById(R.id.tvNameProduct);
-            if (tvPriceProduct == null)
-                tvPriceProduct = v.findViewById(R.id.tvPriceProduct);
-            if (rbRating == null)
-                rbRating = v.findViewById(R.id.rbRating);
-            if (tvIdProduct == null)
-                tvIdProduct = v.findViewById(R.id.tvIdProduct);
-            bundle.putLong("id", productAdapter.getItem(position).getId());
-            bundle.putString("imgProduct", productAdapter.getItem(position).getCover_img());
-            bundle.putString("tvNameProduct", tvNameProduct.getText().toString());
-            bundle.putString("tvPriceProduct", tvPriceProduct.getText().toString());
-            bundle.putFloat("rbRating", rbRating.getRating());
+            itemId = productAdapter.getItem(position).getId();
+            productPosition = position;
+            favorite = LocalProducts.getProducts().get(productPosition).isFavorite();
+            nameProduct = tvNameProduct.getText().toString();
+            priceProduct = tvPriceProduct.getText().toString();
+            rating = rbRating.getRating();
+            url_imgProduct = productAdapter.getItem(position).getCover_img();
 
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.layout_view_fragment, ShowProductFullscreenFragment.class, bundle)
-                    .setReorderingAllowed(true)
-                    .addToBackStack("replacement")
-                    .commit();
 
+            intent.putExtra("id", itemId);
+            intent.putExtra("position", productPosition);
+            intent.putExtra("imgProduct", url_imgProduct);
+            intent.putExtra("tvNameProduct", nameProduct);
+            intent.putExtra("tvPriceProduct", priceProduct);
+            intent.putExtra("rbRating", rating);
+            startActivity(intent);
 
         }
+
     };
+
 
 }
 

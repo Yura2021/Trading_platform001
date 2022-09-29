@@ -14,6 +14,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.carts_pages.models.CartEntity;
+import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
+import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.ProductEntity;
 import com.squareup.picasso.Picasso;
 
@@ -32,16 +36,28 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
     public final ArrayList<ProductEntity> dataListProduct;
     View grid;
 
+    long itemId;
+    String url_imgProduct;
+    String nameProduct, priceProduct;
+    float rating;
+    boolean favorite;
+    int productPosition;
     @BindView(R.id.imgProduct)
     ImageView imgProduct;
     @BindView(R.id.tvNameProduct)
-    TextView tvNameProduct ;
+    TextView tvNameProduct;
     @BindView(R.id.tvPriceProduct)
-    TextView tvPriceProduct ;
+    TextView tvPriceProduct;
     @BindView(R.id.rbRating)
-    RatingBar rbRating ;
-    @BindView(R.id.tvIdProduct)
-    TextView positionProduct;
+    RatingBar rbRating;
+    @BindView(R.id.ivAddCart)
+    ImageView ivAddCart;
+    CartEntity cart;
+    private MyOnClickAddCartItem myOnClickAddCartItem;
+
+    public void setMyOnClickAddCartItem(MyOnClickAddCartItem myOnClickAddCartItem) {
+        this.myOnClickAddCartItem = myOnClickAddCartItem;
+    }
 
     public ProductAdapter(Context context, ArrayList<ProductEntity> dataListProduct) {
         this.context = context;
@@ -50,6 +66,8 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
             listProduct = new ArrayList<>();
 
         this.dataListProduct = listProduct;
+        cart = CartHelper.getCart();
+
     }
 
 
@@ -71,8 +89,6 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-
 
         if (convertView == null) {
             grid = new View(context);
@@ -81,13 +97,21 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
         } else {
             grid = convertView;
         }
-        ButterKnife.bind(this,grid);
+        ButterKnife.bind(this, grid);
+        itemId = getItem(position).getId();
+        productPosition = position;
+        favorite = LocalProducts.getProducts().get(productPosition).isFavorite();
+        nameProduct = listProduct.get(position).getName();
+        priceProduct = String.valueOf(listProduct.get(position).getPrice());
+        rating = listProduct.get(position).getRating();
+        url_imgProduct = listProduct.get(position).getCover_img();
 
-        tvNameProduct.setText(listProduct.get(position).getName());
-        tvPriceProduct.setText(String.valueOf(listProduct.get(position).getPrice()));
-        rbRating.setRating(listProduct.get(position).getRating());
-        positionProduct.setText(String.valueOf(position));
-        Picasso.get().load(Uri.parse(listProduct.get(position).getCover_img())).into(imgProduct);
+
+        tvNameProduct.setText(nameProduct);
+        tvPriceProduct.setText(priceProduct);
+        rbRating.setRating(rating);
+        Picasso.get().load(Uri.parse(url_imgProduct)).into(imgProduct);
+
         return grid;
     }
 
@@ -122,4 +146,5 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
         };
 
     }
+
 }

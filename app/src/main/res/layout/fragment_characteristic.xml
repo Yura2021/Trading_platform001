@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llCharacteristicMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
+    android:orientation="vertical"
+    tools:context=".products_pages.product_details_fragment.CharacteristicFragment">
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="dfasalsdjf;lkasdjfk dskfj kasldfj klasdjf klasd jaksdlfj aklsdjf aksdlj fadksl jaksldjfkalsdjf kasjdfkl jasdfk dask flasdfkasjdfasjdfalsdfa" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            style="@style/MyAppTheme"
+            android:text="dfasalsdjf;lkasdjfk dskfj kasldfj klasdjf klasd jaksdlfj aklsdjf aksdlj fadksl jaksldjfkalsdjf kasjdfkl jasdfk dask flasdfkasjdfasjdfalsdfa" />
+    </LinearLayout>
+-->
+</LinearLayout>

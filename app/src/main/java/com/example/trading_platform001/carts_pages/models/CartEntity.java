@@ -75,7 +75,7 @@ public class CartEntity implements Serializable {
     }
 
     public Map<Saleable, Integer> getItemWithQuantity() {
-        Map<Saleable, Integer> cartItemMap = new HashMap<Saleable, Integer>();
+        Map<Saleable, Integer> cartItemMap = new HashMap<>();
         cartItemMap.putAll(this.cartItemMap);
         return cartItemMap;
     }
