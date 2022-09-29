@@ -31,6 +31,39 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/Category">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layoutLeftCategoryChildren"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutRightCategoryChildren"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"></LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:src="@drawable/logo"
+                android:padding="5dp"
+                android:layout_marginTop="1dp"/>
+        </LinearLayout>
     </ScrollView>
 
 
