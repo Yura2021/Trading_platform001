@@ -96,4 +96,7 @@
     <string name="CartPayment">Оплата картою</string>
     <string name="CashPayment">Оплата при отриманні</string>
     <string name="Category">Category</string>
+    <string name="text_CheckBox_Filter_Other_sellers">Інші продавці</string>
+    <string name="ed_filter_from">від</string>
+    <string name="ed_filter_to">до</string>
 </resources>

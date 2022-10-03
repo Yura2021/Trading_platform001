@@ -4,11 +4,11 @@ import java.util.List;
 
 public class OptionFilterDataModel {
 
-    private List<String> nestedList;
+    private List<GroupElementNested> nestedList;
     private String itemText;
     private boolean isExpandable;
 
-    public OptionFilterDataModel(List<String> itemList, String itemText) {
+    public OptionFilterDataModel(List<GroupElementNested> itemList, String itemText) {
         this.nestedList = itemList;
         this.itemText = itemText;
         isExpandable = false;
@@ -18,7 +18,7 @@ public class OptionFilterDataModel {
         isExpandable = expandable;
     }
 
-    public List<String> getNestedList() {
+    public List<GroupElementNested> getNestedList() {
         return nestedList;
     }
 

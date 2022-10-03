@@ -37,8 +37,8 @@ public class DetailsProductActivity extends AppCompatActivity {
     @BindView(R.id.btnAddCart)
     Button addCart;
     private long id;
-    private String url_imgProduct;
-    private String nameProduct, priceProduct;
+    private String url_imgProduct,description;
+    private String nameProduct, priceProduct,nameShop;
     private float rating;
     @BindView(R.id.imgFav)
     ImageView imgFav;
@@ -177,9 +177,10 @@ public class DetailsProductActivity extends AppCompatActivity {
                 favorite = LocalProducts.getProducts().get(productPosition).isFavorite();
                 nameProduct = resultData.getString("tvNameProduct", "No name");
                 priceProduct = resultData.getString("tvPriceProduct");
+                nameShop = resultData.getString("nameShop");
                 rating = resultData.getFloat("rbRating", 0f);
                 url_imgProduct = resultData.getString("imgProduct", "no image");
-
+                description = resultData.getString("description", "no description");
                 if (favorite) {
                     imgFav.setImageResource(R.drawable.ic_is_favorite);
                 } else {
@@ -195,7 +196,7 @@ public class DetailsProductActivity extends AppCompatActivity {
 
             CartEntity cart = CartHelper.getCart();
             BigDecimal dec = new BigDecimal(priceProduct);
-            Product product = new Product(id, nameProduct, dec, rating, url_imgProduct);
+            Product product = new Product(id, nameProduct, dec, rating, url_imgProduct,description);
             cart.add(product, 1);
             Toast.makeText(this, "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
             //Toast.makeText(this, "Товар доданий у кошик", Toast.LENGTH_SHORT).show();

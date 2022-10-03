@@ -136,8 +136,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
         if (size > 0) {
             badgeDrawable.setVisible(true);
             badgeDrawable.setNumber(size);
-        }
-        if (size == 0) {
+        }else {
             badgeDrawable.setVisible(false);
             badgeDrawable.clearNumber();
 

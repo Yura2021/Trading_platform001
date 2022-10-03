@@ -16,13 +16,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.FilterAdapter;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
+import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.Product;
 import com.example.trading_platform001.models.ProductEntity;
@@ -40,6 +45,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     SearchView searchView;
     @BindView(R.id.grid_product)
     GridView gridview;
+    @SuppressLint("StaticFieldLeak")
     public static FilterAdapter productAdapter;
     BottomNavigationView btnNavView;
     View view;
@@ -52,8 +58,10 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     Button btnSort;
     @BindView(R.id.btnFilter)
     Button btnFilter;
+    @BindView(R.id.tbFilter)
+    Toolbar tbFilter;
     private long itemId;
-    private String url_imgProduct;
+    private String url_imgProduct, nameCatecory;
     private String nameProduct, priceProduct;
     private float rating;
     boolean favorite;
@@ -68,8 +76,12 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
         btnSort.setOnClickListener(v -> settingDialogSort(container));
         btnFilter.setOnClickListener(v -> settingDialogFilter(container));
         searchView.clearFocus();
+        nameCatecory = "Мережеве обладнання";
         if (productAdapter == null)
-            productAdapter = new FilterAdapter(view.getContext(), LocalProducts.getProducts());
+            productAdapter = new FilterAdapter(view.getContext(), LocalProducts.getProducts(), nameCatecory);
+        tbFilter.setTitle(nameCatecory);
+        tbFilter.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        tbFilter.setNavigationOnClickListener(v -> replaceFragment(new HomeFragment()));
         productAdapter.setMyOnClickAddCartItem(this);
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         gridview.setOnItemClickListener(gridviewOnItemClickListener);
@@ -199,5 +211,12 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
         }
 
         Toast.makeText(getContext(), "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fcContainerMain, fragment);
+        fragmentTransaction.commit();
     }
 }

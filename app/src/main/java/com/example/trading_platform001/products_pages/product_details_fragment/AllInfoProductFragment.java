@@ -30,11 +30,13 @@ public class AllInfoProductFragment extends Fragment {
     TextView tvNameProduct;
     @BindView(R.id.tvPriceProduct)
     TextView tvPriceProduct;
+    @BindView(R.id.tvNameSeller)
+    TextView tvNameSeller;
     @BindView(R.id.rbRating)
     RatingBar rbRating;
     long id;
-    String url_imgProduct;
-    String nameProduct, priceProduct;
+    String url_imgProduct,description;
+    String nameProduct,nameShop, priceProduct;
     float rating;
     View view;
     Bundle result;
@@ -70,6 +72,9 @@ public class AllInfoProductFragment extends Fragment {
                 priceProduct = result.getString("tvPriceProduct");
                 rating = result.getFloat("rbRating", 0f);
                 url_imgProduct = result.getString("imgProduct", "no image");
+                description = result.getString("description", "no description");
+                nameShop = result.getString("nameShop", "no nameShop");
+                tvNameSeller.setText(nameShop);
                 imgProduct.setImageURI(Uri.parse(url_imgProduct));
                 Picasso.get().load(Uri.parse(url_imgProduct)).into(imgProduct);
                 tvNameProduct.setText(nameProduct);

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EDE6E6"
     tools:context=".filter_pages.CategoryFilterFragment">
 
     <LinearLayout
@@ -13,12 +14,20 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical">
-
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/MyAppTheme"
+            android:clickable="true"
+            android:contentDescription="@string/Default_text"
+            tools:ignore="DuplicateSpeakableTextCheck" />
         <androidx.appcompat.widget.SearchView
             android:id="@+id/svSearch"
             style="@style/MyAppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"

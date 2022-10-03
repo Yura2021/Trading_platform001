@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-   >
+    android:padding="5dp"
+    app:cardCornerRadius="5dp">
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linear_layout">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,38 +21,40 @@
                 android:id="@+id/itemTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_alignParentStart="true"
+                android:layout_gravity="center"
                 android:layout_toStartOf="@id/arro_imageview"
-                android:text="CodingSTUFF"
-                android:textColor="@color/purple_700"
+                android:gravity="center"
+                android:minHeight="30dp"
+                style="@style/MyAppTheme"
+                android:text="@string/Default_text"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/arro_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_alignTop="@id/itemTv"
+                android:layout_alignBottom="@id/itemTv"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/arrow_down"
-                />
-
+                android:layout_marginEnd="16dp"
+                style="@style/MyAppTheme"
+                android:src="@drawable/arrow_down" />
         </RelativeLayout>
 
 
         <LinearLayout
+            android:id="@+id/expandable_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/expandable_layout">
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/child_rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="5dp" />
         </LinearLayout>
     </LinearLayout>
 

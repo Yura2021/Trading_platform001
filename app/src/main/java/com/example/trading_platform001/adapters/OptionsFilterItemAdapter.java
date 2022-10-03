@@ -1,6 +1,7 @@
 package com.example.trading_platform001.adapters;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +14,37 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.filter_pages.models.GroupElementNested;
 import com.example.trading_platform001.filter_pages.models.OptionFilterDataModel;
+import com.example.trading_platform001.interfaces.NestedOnCheckedCheckBoxFilter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OptionsFilterItemAdapter extends RecyclerView.Adapter<OptionsFilterItemAdapter.ItemViewHolder> {
+public class OptionsFilterItemAdapter extends RecyclerView.Adapter<OptionsFilterItemAdapter.ItemViewHolder>  {
 
     List<OptionFilterDataModel> mList;
-    List<String> list;
+    List<GroupElementNested> list;
+    private Map<String, Boolean> saveCheck;
+    private NestedOnCheckedCheckBoxFilter onCheckedCheckBoxFilter;
+
+    public void setOnCheckedCheckBoxFilter(NestedOnCheckedCheckBoxFilter onCheckedCheckBoxFilter) {
+        this.onCheckedCheckBoxFilter = onCheckedCheckBoxFilter;
+    }
 
     public OptionsFilterItemAdapter() {
         list = new ArrayList<>();
     }
 
-    public OptionsFilterItemAdapter(List<OptionFilterDataModel> mList) {
+    public OptionsFilterItemAdapter(List<OptionFilterDataModel> mList,Map<String, Boolean> saveCheck) {
         list = new ArrayList<>();
         this.mList = mList;
+        this.saveCheck=saveCheck;
+
     }
 
     @NonNull
@@ -57,7 +69,8 @@ public class OptionsFilterItemAdapter extends RecyclerView.Adapter<OptionsFilter
             holder.mArrowImage.setImageResource(R.drawable.arrow_down);
         }
 
-        OptionsFilterNestedAdapter adapter = new OptionsFilterNestedAdapter(list);
+        OptionsFilterNestedAdapter adapter = new OptionsFilterNestedAdapter(list,saveCheck);
+        adapter.setOnCheckedCheckBoxFilter(onCheckedCheckBoxFilter);
         holder.nestedRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.nestedRecyclerView.setHasFixedSize(true);
         holder.nestedRecyclerView.setAdapter(adapter);
@@ -67,6 +80,7 @@ public class OptionsFilterItemAdapter extends RecyclerView.Adapter<OptionsFilter
                 model.setExpandable(!model.isExpandable());
                 list = model.getNestedList();
                 notifyItemChanged(holder.getBindingAdapterPosition());
+                Log.d("OptionsFilterNestedAdapter ","saveCheck.size:  "+saveCheck.size());
             }
         });
     }
@@ -75,6 +89,10 @@ public class OptionsFilterItemAdapter extends RecyclerView.Adapter<OptionsFilter
     public int getItemCount() {
         return mList.size();
     }
+
+
+
+
     @SuppressLint("NonConstantResourceId")
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 

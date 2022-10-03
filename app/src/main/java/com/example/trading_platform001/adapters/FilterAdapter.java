@@ -3,6 +3,7 @@ package com.example.trading_platform001.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,24 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
+import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.LocalTableProductCategories;
+import com.example.trading_platform001.models.ProductCategoriesEntity;
 import com.example.trading_platform001.models.ProductEntity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +42,7 @@ import butterknife.ButterKnife;
 public class FilterAdapter extends BaseAdapter implements Filterable {
     Context context;
 
-    public  ArrayList<ProductEntity> getListProduct() {
+    public ArrayList<ProductEntity> getListProduct() {
         return listProduct;
     }
 
@@ -64,11 +72,26 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         this.myOnClickAddCartItem = myOnClickAddCartItem;
     }
 
-    public FilterAdapter(Context context, ArrayList<ProductEntity> dataListProduct) {
-        this.context = context;
-        listProduct = dataListProduct;
+    public void setListProduct(ArrayList<ProductEntity> listProduct) {
+        this.listProduct = listProduct;
+    }
+
+    public FilterAdapter(Context context, ArrayList<ProductEntity> dataListProduct, String nameCategory) {
         if (listProduct == null)
             listProduct = new ArrayList<>();
+        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCategory)).findFirst();
+        if (category.isPresent()) {
+            int category_id = category.get().getId();
+
+            List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
+            for (ProductCategoriesEntity item : list) {
+                Optional<ProductEntity> prod = dataListProduct.stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
+                prod.ifPresent(product -> listProduct.add(product));
+            }
+            Log.d("Id ", " " + category_id);
+        }
+
+        this.context = context;
 
         this.dataListProduct = listProduct;
         cart = CartHelper.getCart();
@@ -97,7 +120,7 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
 
         ViewHolder holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_product2, parent, false);
+            convertView = inflater.inflate(R.layout.category_filter_item_product, parent, false);
             holder = new ViewHolder();
             holder.ivAddCart = convertView.findViewById(R.id.ivAddCart);
             holder.ivAddCart.setOnClickListener(v -> myOnClickAddCartItem.onClickAddCartItem(v, listProduct.get(position)));

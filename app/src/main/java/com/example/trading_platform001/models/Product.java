@@ -16,7 +16,7 @@ public class Product implements Saleable, Serializable {
     private BigDecimal price = BigDecimal.ZERO;
     private float rating;
     private int category_id;
-    private int shop_id;
+    private long shop_id;
     private int quantity;
     private Timestamp created_at;
     private Timestamp updated_at;
@@ -44,6 +44,16 @@ public class Product implements Saleable, Serializable {
         this.id = id;
         this.price = price;
         this.cover_img = cover_img;
+        this.rating = rating;
+        quantity = 1;
+    }
+
+    public Product(long id, String name, BigDecimal price, float rating, String cover_img, String description) {
+        this.id = id;
+        this.name = name;
+        this.cover_img = cover_img;
+        this.description = description;
+        this.price = price;
         this.rating = rating;
         quantity = 1;
     }
@@ -152,7 +162,7 @@ public class Product implements Saleable, Serializable {
         this.category_id = category_id;
     }
 
-    public int getShop_id() {
+    public long getShop_id() {
         return shop_id;
     }
 

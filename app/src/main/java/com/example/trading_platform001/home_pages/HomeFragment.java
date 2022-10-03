@@ -26,14 +26,19 @@ import com.example.trading_platform001.adapters.ProductAdapter;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.LocalShops;
 import com.example.trading_platform001.models.Product;
 import com.example.trading_platform001.models.ProductEntity;
+import com.example.trading_platform001.models.ShopEntity;
 import com.example.trading_platform001.products_pages.DetailsProductActivity;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.annotations.SerializedName;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,8 +63,8 @@ public class HomeFragment extends Fragment {
 
     ImageView ibAddCart;
     private long itemId;
-    private String url_imgProduct;
-    private String nameProduct, priceProduct;
+    private String url_imgProduct, description;
+    private String nameProduct, nameShop, priceProduct;
     private float rating;
     boolean favorite;
     int productPosition;
@@ -143,14 +148,18 @@ public class HomeFragment extends Fragment {
             priceProduct = tvPriceProduct.getText().toString();
             rating = rbRating.getRating();
             url_imgProduct = productAdapter.getItem(position).getCover_img();
-
+            description = productAdapter.getItem(position).getDescription();
+            description = productAdapter.getItem(position).getDescription();
+            nameShop = LocalShops.getShops().stream().filter(i -> i.getId() == productAdapter.getItem(position).getShop_id()).collect(Collectors.toList()).get(0).getName();
 
             intent.putExtra("id", itemId);
             intent.putExtra("position", productPosition);
+            intent.putExtra("nameShop", nameShop);
             intent.putExtra("imgProduct", url_imgProduct);
             intent.putExtra("tvNameProduct", nameProduct);
             intent.putExtra("tvPriceProduct", priceProduct);
             intent.putExtra("rbRating", rating);
+            intent.putExtra("description", description);
             startActivity(intent);
 
         }

@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="1dp"
-    android:layout_margin="8dp">
-
-    <TextView
+    android:layout_margin="8dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="1dp">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:layout_marginStart="5dp">
+    <CheckBox
+        android:id="@+id/nestedItemCb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/nestedItemTv"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         android:text="Grocery and Stationary"
         android:textColor="#8c8c8c"
         android:textSize="16sp"
-        android:layout_gravity="center"
-        android:textStyle="bold"/>
-
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvCountElement"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/nestedItemCb"
+        android:layout_alignTop="@id/nestedItemCb"
+        android:layout_marginStart="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/nestedItemCb"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(1)"/>
+</RelativeLayout>
 
 </androidx.cardview.widget.CardView>

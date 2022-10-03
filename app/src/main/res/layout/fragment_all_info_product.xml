@@ -1,158 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#EDE6E6"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvSlider"
+        style="@style/MyAppTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="50dp"
-        android:background="#e6e6e6"
-        android:orientation="vertical"
-        android:padding="5dp">
-
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="#ffffff"
+            android:layout_margin="10dp"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="5dp">
 
             <androidx.cardview.widget.CardView
                 style="@style/MyAppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
-                <ImageView
-                    android:id="@+id/imgProduct"
-                    style="@style/MyAppTheme"
-                    android:layout_width="150dp"
-                    android:layout_height="250dp"
-                    android:layout_gravity="top|center"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/text_name"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_test_poduct_150" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.cardview.widget.CardView
+                        style="@style/MyAppTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="4dp"
+                        app:cardUseCompatPadding="true">
+
+                        <ImageView
+                            android:id="@+id/imgProduct"
+                            style="@style/MyAppTheme"
+                            android:layout_width="150dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="top|center"
+                            android:layout_marginBottom="20dp"
+                            android:contentDescription="@string/text_name"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_test_poduct_150" />
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        style="@style/MyAppTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="#e6e6e6" />
+
+                    <TextView
+                        android:id="@+id/tvNameProduct"
+                        style="@style/MyAppTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/text_name" />
+
+                    <View
+                        style="@style/MyAppTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="#e6e6e6" />
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <View
+            <androidx.cardview.widget.CardView
                 style="@style/MyAppTheme"
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="#e6e6e6" />
-
-            <TextView
-                android:id="@+id/tvNameProduct"
-                style="@style/MyAppTheme"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="@string/text_name" />
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
-            <View
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/tvRatingProduct"
+                        style="@style/MyAppTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/text_codeProd" />
+
+                    <TextView
+                        android:id="@+id/tvCodeProd"
+                        style="@style/MyAppTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.8"
+                        android:text="@string/Default_code_product" />
+
+                    <RatingBar
+                        android:id="@+id/rbRating"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:layout_weight="0"
+                        android:clickable="true"
+                        android:contentDescription="@string/text_rating"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:padding="0dp"
+                        android:progressTint="@color/orange"
+                        android:rating="5"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/MyAppTheme"
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="#e6e6e6" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal"
-            android:background="#ffffff"
-            android:padding="20dp"
-            android:weightSum="3">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#ffffff"
+                    android:padding="10dp">
 
-            <TextView
-                android:id="@+id/tvRatingProduct"
+                    <TextView
+                        android:id="@+id/tvPriceProduct"
+                        style="@style/MyAppTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_price" />
+
+                    <TextView
+                        android:id="@+id/tvTypeValute"
+                        style="@style/MyAppTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="@string/text_UAH" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/MyAppTheme"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:text="@string/text_codeProd" />
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
-            <TextView
-                android:id="@+id/tvCodeProd"
-                style="@style/MyAppTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.8"
-                android:text="@string/Default_code_product" />
+                <LinearLayout
+                    style="@style/MyAppTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#ffffff"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-            <RatingBar
-                android:id="@+id/rbRating"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:layout_weight="0"
-                android:clickable="true"
-                android:contentDescription="@string/text_rating"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:padding="0dp"
-                android:progressTint="@color/orange"
-                android:rating="5"
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
+                    <ImageView
+                        android:id="@+id/ivImgLogoSeller"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/Default_text"
+                        android:text="@string/text_UAH"
+                        tools:srcCompat="@drawable/badge_background" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:layout_marginBottom="20dp"
-            android:padding="20dp">
+                    <TextView
+                        android:id="@+id/tvNameSeller"
+                        style="@style/MyAppTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_seller" />
 
-            <TextView
-                android:id="@+id/tvPriceProduct"
-                style="@style/MyAppTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_price" />
-
-            <TextView
-                android:id="@+id/tvTypeValute"
-                style="@style/MyAppTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:text="@string/text_UAH" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/MyAppTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:background="#ffffff"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <ImageView
-                android:id="@+id/ivImgLogoSeller"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:text="@string/text_UAH"
-                tools:srcCompat="@drawable/badge_background"
-                android:contentDescription="@string/Default_text" />
-
-            <TextView
-                android:id="@+id/tvNameSeller"
-                style="@style/MyAppTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_seller" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

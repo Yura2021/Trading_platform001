@@ -3,6 +3,7 @@ package com.example.trading_platform001.models;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.example.trading_platform001.adapters.OrderUserListAdapter;
 import com.example.trading_platform001.authorizations_pages.models.User;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.catalog_page.models.Category;
+import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.user_pages.models.Order;
 import com.example.trading_platform001.user_pages.models.OrderInformation;
 import com.example.trading_platform001.user_pages.models.OrderList;
@@ -87,8 +89,80 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
+    public void getAllShop() {
 
-    public static void getAllProduct(Context context) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/shops", response -> {
+
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                String str_array = obj.getString("shops");
+
+                Type listType = new TypeToken<ArrayList<ShopEntity>>() {
+                }.getType();
+                LocalShops.setShops(new Gson().fromJson(str_array, listType));
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }, error -> parseVolleyError(error)) {
+            @NonNull
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                }
+                return header;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+    public void getAllProductCategoriesID() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/catandprodid", response -> {
+
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                String str_array = obj.getString("productIDCategoryID");
+
+                Type listType = new TypeToken<ArrayList<ProductCategoriesEntity>>() {
+                }.getType();
+                LocalTableProductCategories.setProductCategoriesID(new Gson().fromJson(str_array, listType));
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }, error -> parseVolleyError(error)) {
+            @NonNull
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                }
+                return header;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void getAllProduct(Context context) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://ecommerce.it-tree.com.ua/api" + "/products", response -> {
 
             JSONObject obj = null;

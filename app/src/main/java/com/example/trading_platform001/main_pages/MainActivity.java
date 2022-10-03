@@ -24,9 +24,12 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.CartFragment;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.catalog_page.CatalogFragment;
+import com.example.trading_platform001.filter_pages.CategoryFilterFragment;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.LocalShops;
+import com.example.trading_platform001.models.LocalTableProductCategories;
 import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.user_pages.UserFragment;
 import com.google.android.material.badge.BadgeDrawable;
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         url = getString(R.string.api_server);
         if (LocalProducts.isNull()) {
             getAllProduct();
+            http.getAllShop();
+            http.getAllProductCategoriesID();
             progressBar.setIndeterminate(true);
             progressBar.setVisibility(View.VISIBLE);
         } else {
@@ -77,14 +82,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
         btnNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
                     replaceFragment(new HomeFragment());
+                    Log.d("LocalTableProductCategories size", String.valueOf(LocalTableProductCategories.getProductCategoriesID().size()));
                     break;
                 case R.id.catalog:
-                    //replaceFragment(new CategoryFilterFragment());
-                    replaceFragment(new CatalogFragment());
+                    replaceFragment(new CategoryFilterFragment());
+                    //replaceFragment(new CatalogFragment());
                     break;
                 case R.id.cart:
                     replaceFragment(new CartFragment());

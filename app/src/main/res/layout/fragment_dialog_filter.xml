@@ -8,38 +8,38 @@
 
 
     <LinearLayout
-        android:id="@+id/svScroll"
+        android:id="@+id/llContainerHeadAtribute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:padding="5dp"
         android:orientation="vertical">
 
         <LinearLayout
             style="@style/MyAppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:orientation="vertical"
-            android:padding="5dp">
-
+            >
+<!--
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/cbShop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Roztoka" />
+                android:text="@string/app_name" />
 
             <CheckBox
                 android:id="@+id/checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Інші продавці" />
+                android:text="@string/text_CheckBox_Filter_Other_sellers" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
+-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,24 +51,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:autofillHints=""
                     android:ems="10"
-                    android:hint="від"
-                    android:inputType="number" />
+                    android:hint="@string/ed_filter_from"
+                    android:inputType="number"
+                    android:minHeight="48dp" />
 
                 <EditText
                     android:id="@+id/eTseekBar2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:autofillHints=""
                     android:ems="10"
-                    android:hint="до"
-                    android:inputType="number" />
+                    android:hint="@string/ed_filter_to"
+                    android:inputType="number"
+                    android:minHeight="48dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
                 android:weightSum="2">
 
                 <SeekBar
@@ -102,7 +105,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_recyclervie"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:minHeight="500dp" />
@@ -111,14 +114,21 @@
     <Button
         android:id="@+id/btnClose"
         style="@style/MyAppTheme"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/svScroll"
+        android:layout_below="@+id/llContainerHeadAtribute"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/white"
+        android:minHeight="32dp"
+        android:padding="5dp"
         android:text="@string/text_close"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@color/colorPrimary"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </RelativeLayout>

@@ -2,7 +2,6 @@ package com.example.trading_platform001.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
 
 import com.example.trading_platform001.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

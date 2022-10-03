@@ -11,7 +11,7 @@ public class ProductEntity{
     private String description;
     private BigDecimal price = BigDecimal.ZERO;
     private float rating;
-    private int shop_id;
+    private long shop_id;
     private Timestamp created_at;
     private Timestamp updated_at;
     private int favorite;
@@ -111,7 +111,7 @@ public class ProductEntity{
         this.price = price;
     }
 
-    public int getShop_id() {
+    public long getShop_id() {
         return shop_id;
     }
 
