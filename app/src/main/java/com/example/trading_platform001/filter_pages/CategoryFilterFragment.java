@@ -3,6 +3,7 @@ package com.example.trading_platform001.filter_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +26,25 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.FilterAdapter;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
 import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.LocalTableProductCategories;
 import com.example.trading_platform001.models.Product;
+import com.example.trading_platform001.models.ProductCategoriesEntity;
 import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.products_pages.DetailsProductActivity;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +77,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     private float rating;
     boolean favorite;
     int productPosition;
-
+    ArrayList<ProductEntity> listProduct;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -77,8 +88,9 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
         btnFilter.setOnClickListener(v -> settingDialogFilter(container));
         searchView.clearFocus();
         nameCatecory = "Мережеве обладнання";
+        compliteFilter();
         if (productAdapter == null)
-            productAdapter = new FilterAdapter(view.getContext(), LocalProducts.getProducts(), nameCatecory);
+            productAdapter = new FilterAdapter(view.getContext(), listProduct);
         tbFilter.setTitle(nameCatecory);
         tbFilter.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         tbFilter.setNavigationOnClickListener(v -> replaceFragment(new HomeFragment()));
@@ -135,6 +147,20 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
     }
 
+    private void compliteFilter() {
+        listProduct = new ArrayList<>();
+        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCatecory)).findFirst();
+        if (category.isPresent()) {
+            int category_id = category.get().getId();
+
+            List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
+            for (ProductCategoriesEntity item : list) {
+                Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
+                prod.ifPresent(product -> listProduct.add(product));
+            }
+            Log.d("Id ", " " + category_id);
+        }
+    }
 
     private void settingDialogFilter(ViewGroup container) {
 

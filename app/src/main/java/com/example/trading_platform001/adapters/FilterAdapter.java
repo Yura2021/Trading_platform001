@@ -76,20 +76,10 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         this.listProduct = listProduct;
     }
 
-    public FilterAdapter(Context context, ArrayList<ProductEntity> dataListProduct, String nameCategory) {
+    public FilterAdapter(Context context, ArrayList<ProductEntity> dataListProduct) {
+        listProduct = dataListProduct;
         if (listProduct == null)
             listProduct = new ArrayList<>();
-        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCategory)).findFirst();
-        if (category.isPresent()) {
-            int category_id = category.get().getId();
-
-            List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
-            for (ProductCategoriesEntity item : list) {
-                Optional<ProductEntity> prod = dataListProduct.stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
-                prod.ifPresent(product -> listProduct.add(product));
-            }
-            Log.d("Id ", " " + category_id);
-        }
 
         this.context = context;
 
