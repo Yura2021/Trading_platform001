@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EDE6E6"
     tools:context=".catalog_page.CatalogFragment">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/Category">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            >
+
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/svSearch"
                 android:layout_width="match_parent"
@@ -53,11 +54,10 @@
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:src="@drawable/logo"
+                android:background="@drawable/border_radius"
+                android:src="@drawable/app_logo"
                 android:padding="5dp"
-                android:layout_marginTop="1dp"/>
+                android:layout_marginTop="1dp" />
 
         </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+</ScrollView>

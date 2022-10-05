@@ -24,8 +24,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.FilterAdapter;
+import com.example.trading_platform001.adapters.ProductAdapter;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.catalog_page.ChildrenCategoryFragment;
 import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
@@ -78,22 +80,27 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     boolean favorite;
     int productPosition;
     ArrayList<ProductEntity> listProduct;
+    Bundle bundle;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if (view == null)
             view = inflater.inflate(R.layout.fragment_category_filter, container, false);
         ButterKnife.bind(this, view);
+        bundle=getArguments();
         btnSort.setOnClickListener(v -> settingDialogSort(container));
         btnFilter.setOnClickListener(v -> settingDialogFilter(container));
         searchView.clearFocus();
-        nameCatecory = "Мережеве обладнання";
-        compliteFilter();
+        if(bundle!=null) {
+            nameCatecory = bundle.getString("NameParenCategory");
+            bundle.putInt("tagParenCategory", bundle.getInt("tagParenCategory"));
+        }
         if (productAdapter == null)
             productAdapter = new FilterAdapter(view.getContext(), listProduct);
         tbFilter.setTitle(nameCatecory);
+        compliteFilter(productAdapter);
         tbFilter.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
-        tbFilter.setNavigationOnClickListener(v -> replaceFragment(new HomeFragment()));
+        tbFilter.setNavigationOnClickListener(v -> replaceFragment(new ChildrenCategoryFragment(),bundle));
         productAdapter.setMyOnClickAddCartItem(this);
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         gridview.setOnItemClickListener(gridviewOnItemClickListener);
@@ -122,7 +129,6 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
         }
         gridview.setAdapter(productAdapter);
-
         return view;
     }
 
@@ -147,9 +153,9 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
     }
 
-    private void compliteFilter() {
+    private void compliteFilter(FilterAdapter adapter) {
         listProduct = new ArrayList<>();
-        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCatecory)).findFirst();
+        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), bundle.getString("NameParenCategory").toString())).findFirst();
         if (category.isPresent()) {
             int category_id = category.get().getId();
 
@@ -158,6 +164,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
                 Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
                 prod.ifPresent(product -> listProduct.add(product));
             }
+            adapter.updateReceiptsList(listProduct);
             Log.d("Id ", " " + category_id);
         }
     }
@@ -239,7 +246,8 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
         Toast.makeText(getContext(), "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
     }
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment,Bundle bundle) {
+        fragment.setArguments(bundle);
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fcContainerMain, fragment);

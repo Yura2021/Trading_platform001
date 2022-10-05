@@ -10,11 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.catalog_page.models.Category;
+import com.example.trading_platform001.filter_pages.CategoryFilterFragment;
+import com.example.trading_platform001.filter_pages.FilterDialogFragment;
 import com.example.trading_platform001.models.LocalCategory;
 
 import java.util.ArrayList;
@@ -26,11 +29,8 @@ import butterknife.ButterKnife;
 public class ChildrenCategoryFragment extends Fragment {
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.NameBackCategoriChildren)
-    TextView NameBackCategoriChildren;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.imageBackCategoriChildren)
-    ImageView imageBackCategoriChildren;
+    @BindView(R.id.toolbarCategoryCildren)
+    Toolbar toolbar;
     Bundle bundle;
     View view;
     ArrayList<Category> categories;
@@ -64,13 +64,13 @@ public class ChildrenCategoryFragment extends Fragment {
         ButterKnife.bind(this, view);
         bundle = getArguments();
         if (bundle != null) {
-            NameBackCategoriChildren.setText(bundle.getString("NameParenCategory"));
+            toolbar.setTitle(bundle.getString("NameParenCategory"));
             parent_id=bundle.getInt("tagParenCategory");
         }
-        imageBackCategoriChildren.setOnClickListener(v->onClick());
         categories= LocalCategory.getCategory();
         ShowCategoryItem(inflater);
-
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        toolbar.setNavigationOnClickListener(v -> replaceFragment(new CatalogFragment()));
         return view;
     }
 
@@ -78,13 +78,14 @@ public class ChildrenCategoryFragment extends Fragment {
 
     public void ShowCategoryItem(LayoutInflater inflater)
     {
+        categories=sortArrayCategory(categories);
         for(int i = 0 ; i<categories.size();i++)
         {
             View row = inflater.inflate(R.layout.category_item_template,viewGroup, false);
             TextView name = row.findViewById(R.id.NameCategoryItemTemplate);
             ImageView image = row.findViewById(R.id.ImageCategoryItemTemplate);
 
-            //row.setOnClickListener(k->onClick(row));
+            row.setOnClickListener(k->onClick(row));
 
             if(categories.get(i).getParent_id()==parent_id) {
                 image.setImageResource(R.drawable.ic_launcher_background);
@@ -98,11 +99,40 @@ public class ChildrenCategoryFragment extends Fragment {
         }
 
     }
-    public  void onClick()
+
+    public ArrayList<Category> sortArrayCategory(ArrayList<Category> categori)
     {
-        replaceFragment(new CatalogFragment());
+        ArrayList<Category> categoryArrayList= new ArrayList<>();
+        for(int i =0;i<categori.size();i++ )
+        {
+            if(categori.get(i).getParent_id()==parent_id)
+            {
+                categoryArrayList.add(categori.get(i));
+            }
+        }
+        return categoryArrayList;
     }
+    public void onClick(View row)
+    {
+        for(int i = 0 ; i <categories.size();i++) {
+            if (((TextView)row.findViewById(R.id.NameCategoryItemTemplate)).getText() == categories.get(i).getName()) {
+                bundle.putInt("tagParenCategory", bundle.getInt("tagParenCategory"));
+                bundle.putString("NameParenCategory", categories.get(i).getName());
+                replaceFragment(new CategoryFilterFragment(),bundle);
+            }
+        }
+    }
+
     public void replaceFragment(Fragment fragment) {
+        assert getFragmentManager() != null;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fcContainerMain, fragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
+    }
+    public void replaceFragment(Fragment fragment,Bundle bundle) {
+        fragment.setArguments(bundle);
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fcContainerMain, fragment);

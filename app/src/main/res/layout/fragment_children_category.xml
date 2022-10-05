@@ -3,38 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:contentDescription="@string/Account"
     tools:context=".catalog_page.ChildrenCategoryFragment">
 
-    <ImageView
-        android:id="@+id/imageBackCategoriChildren"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/arrow_left"
-        android:layout_marginStart="0dp"
-        android:padding="15dp"
-        android:contentDescription=""
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/NameBackCategoriChildren"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="55dp"
-        android:paddingTop="10dp"
-        android:text="@string/Account"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#EDE6E6"
+        android:layout_margin="0dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:padding="6dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarCategoryCildren"
+        style="@style/MyAppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <ScrollView
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/Category">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,26 +45,26 @@
                     android:id="@+id/layoutLeftCategoryChildren"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
 
                 <LinearLayout
                     android:id="@+id/layoutRightCategoryChildren"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:src="@drawable/logo"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/border_radius"
                 android:padding="5dp"
-                android:layout_marginTop="1dp"/>
+                android:src="@drawable/app_logo" />
         </LinearLayout>
     </ScrollView>
-
-
+    </LinearLayout>
 </FrameLayout>

@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("LocalTableProductCategories size", String.valueOf(LocalTableProductCategories.getProductCategoriesID().size()));
                     break;
                 case R.id.catalog:
-                    replaceFragment(new CategoryFilterFragment());
-                    //replaceFragment(new CatalogFragment());
+                  //  replaceFragment(new CategoryFilterFragment());
+                    replaceFragment(new CatalogFragment());
                     break;
                 case R.id.cart:
                     replaceFragment(new CartFragment());

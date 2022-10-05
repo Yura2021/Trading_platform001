@@ -108,7 +108,7 @@ public class UserFragment extends Fragment {
         Resources.Theme theme = getContext().getTheme();
         List<Drawable> IconMenu = new ArrayList<>();
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_null, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_accaunt_ico, theme));
+        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_accaunt, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_orders_ico, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_messeng_ico, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_correspondence, theme));

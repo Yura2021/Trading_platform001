@@ -24,6 +24,7 @@ import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.LocalTableProductCategories;
 import com.example.trading_platform001.models.ProductCategoriesEntity;
 import com.example.trading_platform001.models.ProductEntity;
+import com.example.trading_platform001.user_pages.models.OrderList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -172,4 +173,11 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         ImageView ivAddCart;
     }
 
+    public void updateReceiptsList(ArrayList<ProductEntity> listProduct) {
+        this.listProduct.clear();
+        this.listProduct.addAll(listProduct);
+        this.dataListProduct.clear();
+        this.dataListProduct.addAll(listProduct);
+        this.notifyDataSetChanged();
+    }
 }

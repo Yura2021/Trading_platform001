@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -104,7 +106,6 @@ public class CatalogFragment extends Fragment {
             ImageView image = row.findViewById(R.id.ImageCategoryItemTemplate);
 
             row.setOnClickListener(k->onClick(row));
-
             if(categories.get(i).getParent_id()==0) {
                 image.setImageResource(R.drawable.ic_launcher_background);
                 name.setText(categories.get(i).getName());

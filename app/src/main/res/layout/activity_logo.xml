@@ -16,7 +16,7 @@
         android:contentDescription="@string/app_name"
         android:minWidth="220dp"
         android:minHeight="220dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/app_logo" />
        <!--
     <TextView
         android:layout_width="wrap_content"
