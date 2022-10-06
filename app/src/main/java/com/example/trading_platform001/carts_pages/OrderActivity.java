@@ -85,6 +85,7 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
+        PaymentConfiguration.init(getApplicationContext(), PUBLISH_KEY);
         funPlayShop();
         http = new Http(this);
         storageInformation = new StorageInformation(this);
@@ -103,10 +104,10 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     void funPlayShop() {
-
-        PaymentConfiguration.init(this, PUBLISH_KEY);
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
-
+        customerID = "cus_MZ5HQSF7R567BJ";
+        getEphericalKey();
+/*
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/customers", response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -129,6 +130,8 @@ public class OrderActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
+ */
     }
 
     private void setOrder() {
@@ -177,7 +180,7 @@ public class OrderActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 EphericalKey = object.getString("id");
-               // Toast.makeText(this, EphericalKey, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, EphericalKey, Toast.LENGTH_SHORT).show();
                 getClientSecret();
 
             } catch (JSONException e) {
@@ -213,7 +216,7 @@ public class OrderActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 Log.d("object", object.toString());
                 ClientSecret = object.getString("client_secret");
-               // Log.d("paymentFlow() 1", "CartHelper.getCart().getTotalPrice(): " + CartHelper.getCart().getTotalPrice().toString() + "  ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
+                Log.d("paymentFlow() 1", "CartHelper.getCart().getTotalPrice(): " + CartHelper.getCart().getTotalPrice().toString() + "  ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
                 Toast.makeText(getBaseContext(), ClientSecret, Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e) {

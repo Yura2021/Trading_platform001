@@ -8,6 +8,7 @@ import android.provider.ContactsContract;
 import androidx.annotation.NonNull;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -64,7 +65,7 @@ public class ProductEntity implements Parcelable {
         name = in.readString();
         cover_img = in.readString();
         description = in.readString();
-        price = BigDecimal.valueOf(Double.parseDouble(in.readString()));
+        price = BigDecimal.valueOf(Integer.parseInt(in.readString()));
         rating = in.readFloat();
         shop_id = in.readLong();
         created_at = Timestamp.valueOf(in.readString());
