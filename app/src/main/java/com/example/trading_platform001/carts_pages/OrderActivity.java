@@ -105,9 +105,7 @@ public class OrderActivity extends AppCompatActivity {
 
     void funPlayShop() {
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
-        customerID = "cus_MZ5HQSF7R567BJ";
-        getEphericalKey();
-/*
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/customers", response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -131,7 +129,6 @@ public class OrderActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
- */
     }
 
     private void setOrder() {
