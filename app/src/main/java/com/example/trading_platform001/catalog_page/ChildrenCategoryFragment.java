@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
+@SuppressLint("NonConstantResourceId")
 public class ChildrenCategoryFragment extends Fragment {
 
-    @SuppressLint("NonConstantResourceId")
+
     @BindView(R.id.toolbarCategoryCildren)
     Toolbar toolbar;
     Bundle bundle;

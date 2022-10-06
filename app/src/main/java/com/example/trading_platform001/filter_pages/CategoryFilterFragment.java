@@ -3,7 +3,6 @@ package com.example.trading_platform001.filter_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,20 +23,20 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.FilterAdapter;
-import com.example.trading_platform001.adapters.ProductAdapter;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.catalog_page.ChildrenCategoryFragment;
 import com.example.trading_platform001.catalog_page.models.Category;
-import com.example.trading_platform001.home_pages.HomeFragment;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
-import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.LocalShops;
 import com.example.trading_platform001.models.LocalTableProductCategories;
 import com.example.trading_platform001.models.Product;
 import com.example.trading_platform001.models.ProductCategoriesEntity;
 import com.example.trading_platform001.models.ProductEntity;
+import com.example.trading_platform001.models.ShopEntity;
 import com.example.trading_platform001.products_pages.DetailsProductActivity;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -79,19 +78,20 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     private float rating;
     boolean favorite;
     int productPosition;
-    ArrayList<ProductEntity> listProduct;
+    ArrayList<HomeValueExProductEntity> listProduct;
     Bundle bundle;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if (view == null)
             view = inflater.inflate(R.layout.fragment_category_filter, container, false);
         ButterKnife.bind(this, view);
-        bundle=getArguments();
+        bundle = getArguments();
         btnSort.setOnClickListener(v -> settingDialogSort(container));
         btnFilter.setOnClickListener(v -> settingDialogFilter(container));
         searchView.clearFocus();
-        if(bundle!=null) {
+        if (bundle != null) {
             nameCatecory = bundle.getString("NameParenCategory");
             bundle.putInt("tagParenCategory", bundle.getInt("tagParenCategory"));
         }
@@ -100,7 +100,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
         tbFilter.setTitle(nameCatecory);
         compliteFilter(productAdapter);
         tbFilter.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
-        tbFilter.setNavigationOnClickListener(v -> replaceFragment(new ChildrenCategoryFragment(),bundle));
+        tbFilter.setNavigationOnClickListener(v -> replaceFragment(new ChildrenCategoryFragment(), bundle));
         productAdapter.setMyOnClickAddCartItem(this);
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         gridview.setOnItemClickListener(gridviewOnItemClickListener);
@@ -135,44 +135,37 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
     private void settingDialogSort(ViewGroup container) {
 
-        // From another Fragment or Activity where you wish to show this
-        // PurchaseConfirmationDialogFragment.
         // new SortDialogFragment().show(getChildFragmentManager(), SortDialogFragment.TAG);
         SortDialogFragment dialogFragment = new SortDialogFragment();
         dialogFragment.show(getParentFragmentManager(), "My  Fragment");
-        /*
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = requireActivity().getLayoutInflater();
-        dSortView = inflater.inflate(R.layout.fragment_dialog_sort, container, false);
-        builder.setTitle("Сортування");
-        builder.setView(dSortView).setNegativeButton("Відмінити", (dialog, id) -> Toast.makeText(CategoryFilterFragment.this.getContext(), "Налаштування Відмінено", Toast.LENGTH_SHORT).show())
-                .setPositiveButton("Прийняти", (dialog, id) -> Toast.makeText(CategoryFilterFragment.this.getContext(), "Налаштування Прийняті", Toast.LENGTH_SHORT).show());
-        builder.show();
-
-         */
 
     }
 
     private void compliteFilter(FilterAdapter adapter) {
+
         listProduct = new ArrayList<>();
-        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), bundle.getString("NameParenCategory").toString())).findFirst();
+        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCatecory)).findFirst();
         if (category.isPresent()) {
             int category_id = category.get().getId();
 
             List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
             for (ProductCategoriesEntity item : list) {
                 Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
-                prod.ifPresent(product -> listProduct.add(product));
+                if (prod.isPresent()) {
+                    Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == prod.get().getShop_id()).findFirst();
+                    shopEntity.ifPresent(entity -> listProduct.add(new HomeValueExProductEntity(prod.get(), entity.getName())));
+
+                }
             }
             adapter.updateReceiptsList(listProduct);
-            Log.d("Id ", " " + category_id);
         }
+
     }
 
     private void settingDialogFilter(ViewGroup container) {
 
         FilterDialogFragment dialogFragment = new FilterDialogFragment();
-        dialogFragment.show(getParentFragmentManager(), "My  Fragment");
+        dialogFragment.show(getParentFragmentManager(), "MyFragment");
 
     }
 
@@ -182,54 +175,25 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
         @Override
         public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-            imgProduct = v.findViewById(R.id.imgProduct);
-            tvNameProduct = v.findViewById(R.id.tvNameProduct);
-            tvPriceProduct = v.findViewById(R.id.tvPriceProduct);
-            rbRating = v.findViewById(R.id.rbRating);
-            ibAddCart = v.findViewById(R.id.ivAddCart);
 
+            HomeValueExProductEntity homeValueExProductEntity = new HomeValueExProductEntity(productAdapter.getItem(position));
 
-            itemId = productAdapter.getItem(position).getId();
-            productPosition = position;
-            favorite = LocalProducts.getProducts().get(productPosition).isFavorite();
-            nameProduct = tvNameProduct.getText().toString();
-            priceProduct = tvPriceProduct.getText().toString();
-            rating = rbRating.getRating();
-            url_imgProduct = productAdapter.getItem(position).getCover_img();
+            Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == productAdapter.getItem(position).getShop_id()).findFirst();
+            shopEntity.ifPresent(entity -> homeValueExProductEntity.setNameShop(entity.getName()));
 
             Intent intent = new Intent(CategoryFilterFragment.this.getContext(), DetailsProductActivity.class);
-            intent.putExtra("id", itemId);
-            intent.putExtra("position", productPosition);
-            intent.putExtra("imgProduct", url_imgProduct);
-            intent.putExtra("tvNameProduct", nameProduct);
-            intent.putExtra("tvPriceProduct", priceProduct);
-            intent.putExtra("rbRating", rating);
+            intent.putExtra("ParceHomeValueExProductEntity", homeValueExProductEntity);
             startActivity(intent);
-
 
         }
 
     };
 
     @Override
-    public void onClickAddCartItem(View v, ProductEntity productEntity) {
+    public void onClickAddCartItem(View v, HomeValueExProductEntity productEntity) {
 
-        /*
-        imgProduct = v.findViewById(R.id.imgProduct);
-        tvNameProduct = v.findViewById(R.id.tvNameProduct);
-        tvPriceProduct = v.findViewById(R.id.tvPriceProduct);
-        rbRating = v.findViewById(R.id.rbRating);
-        ibAddCart = v.findViewById(R.id.ivAddCart);
-        itemId = productAdapter.getItem(position).getId();
-        productPosition = position;
-        favorite = LocalProducts.getProducts().get(productPosition).isFavorite();
-        nameProduct = tvNameProduct.getText().toString();
-        priceProduct = tvPriceProduct.getText().toString();
-        rating = rbRating.getRating();
-        url_imgProduct = productAdapter.getItem(position).getCover_img();
-*/
         CartEntity cart = CartHelper.getCart();
-        Product product = new Product(productEntity.getId(), productEntity.getName(), productEntity.getPrice(), productEntity.getRating(), productEntity.getCover_img());
+        Product product = new Product(productEntity);
         cart.add(product, 1);
         int size = CartHelper.getCartItems().size();
         if (badgeDrawable == null)
@@ -246,7 +210,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
         Toast.makeText(getContext(), "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
     }
 
-    public void replaceFragment(Fragment fragment,Bundle bundle) {
+    public void replaceFragment(Fragment fragment, Bundle bundle) {
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

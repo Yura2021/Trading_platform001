@@ -1,7 +1,5 @@
 package com.example.trading_platform001.carts_pages;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,20 +11,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.StorageInformation;
 import com.example.trading_platform001.user_pages.models.OrderInformation;
-import com.google.gson.Gson;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
@@ -35,9 +35,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,8 +46,8 @@ import butterknife.ButterKnife;
 
 @SuppressLint("NonConstantResourceId")
 public class OrderActivity extends AppCompatActivity {
-    String SECRET_KEY = "sk_test_51Lc59aFu7opmpVrhzFf6bzG1Jhzc3mu9hLwIsdaKZaR37btWvE0Q9q6anpRMRgfdET9Lth0jaJXsalStuQfFTbqi00s6fbDvcU";
-    String PUBLISH_KEY = "pk_test_51Lc59aFu7opmpVrhs994HUGKEybp5utIf1RViqf59Td3x7fA8i3zdIo5XzCOZD6W6xXFMh2IcuJYnTjA4qd1y3AJ00BETWtNNM";
+    private static final String SECRET_KEY = "Bearer sk_test_51Lc59aFu7opmpVrhzFf6bzG1Jhzc3mu9hLwIsdaKZaR37btWvE0Q9q6anpRMRgfdET9Lth0jaJXsalStuQfFTbqi00s6fbDvcU";
+    private static final String PUBLISH_KEY = "pk_test_51Lc59aFu7opmpVrhs994HUGKEybp5utIf1RViqf59Td3x7fA8i3zdIo5XzCOZD6W6xXFMh2IcuJYnTjA4qd1y3AJ00BETWtNNM";
     PaymentSheet paymentSheet;
     String customerID;
     String EphericalKey;
@@ -75,7 +75,7 @@ public class OrderActivity extends AppCompatActivity {
     @BindView(R.id.checkBoxCartPayment)
     CheckBox checkBoxCartPayment;
     StorageInformation storageInformation;
-    OrderInformation orderInformation ;
+    OrderInformation orderInformation;
     Http http;
     String payment;
 
@@ -89,12 +89,11 @@ public class OrderActivity extends AppCompatActivity {
         http = new Http(this);
         storageInformation = new StorageInformation(this);
         btnBuy.setOnClickListener(v -> operationOrder());
-        tvSum.setText(CartHelper.getCart().getTotalPrice()+" $");
-        tvSumGeneral.setText(CartHelper.getCart().getTotalPrice()+" $");
-        imageView.setOnClickListener(v->onclick());
+        tvSum.setText(CartHelper.getCart().getTotalPrice() + " " + getString(R.string.money_ua));
+        tvSumGeneral.setText(CartHelper.getCart().getTotalPrice() + " " + getString(R.string.money_ua));
+        imageView.setOnClickListener(v -> onclick());
 
-        if(storageInformation.GetStorage("Name")!=null)
-        {
+        if (storageInformation.GetStorage("Name") != null) {
             NameeditText.setText(storageInformation.GetStorage("Name"));
         }
     }
@@ -112,17 +111,17 @@ public class OrderActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 customerID = object.getString("id");
-                getEphericalKey(customerID);
+                getEphericalKey();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<>();
                 {
-                    header.put("Authorization", "Bearer " + SECRET_KEY);
+                    header.put("Authorization", SECRET_KEY);
                 }
                 return header;
             }
@@ -132,33 +131,31 @@ public class OrderActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void setOrder()
-    {
-        orderInformation = new OrderInformation(CartHelper.getCart().getTotalPrice().intValue(),Calendar.getInstance().getTime(),
-                NameeditText.getText().toString(),StreeteditText.getText().toString(),
-                CitieditText.getText().toString(),RegioneditText.getText().toString(),
-                ZipCodeeditText.getText().toString(),PhoneeditText.getText().toString(),
-                CartHelper.getCartItems().size(),payment);
+    private void setOrder() {
+        orderInformation = new OrderInformation(CartHelper.getCart().getTotalPrice().intValue(), Calendar.getInstance().getTime(),
+                NameeditText.getText().toString(), StreeteditText.getText().toString(),
+                CitieditText.getText().toString(), RegioneditText.getText().toString(),
+                ZipCodeeditText.getText().toString(), PhoneeditText.getText().toString(),
+                CartHelper.getCartItems().size(), payment);
 
-         http.setOrderUser(orderInformation,CartHelper.getCartItems());
+        http.setOrderUser(orderInformation, CartHelper.getCartItems());
     }
 
     private void operationOrder() {
-        if(checkBoxCartPayment.isChecked()) {
-            payment="paypal";//можна змінити на інший ти карти
+        Log.d("paymentFlow()", "ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
+        if (checkBoxCartPayment.isChecked()) {
+            payment = "paypal";//можна змінити на інший ти карти
             if (CartHelper.getCartItems().size() > 0) {
                 paymentFlow();
             }
-        }
-        else
-        {
-            payment="cash_on_delivery";
+        } else {
+            payment = "cash_on_delivery";
             ClearCart();
         }
     }
 
-    public void ClearCart()
-    {
+
+    public void ClearCart() {
         setOrder();
         if (CartHelper.getCartItems().size() > 0) {
             CartHelper.getCart().clear();
@@ -175,30 +172,30 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
-    private void getEphericalKey(String _customerID) {
+    private void getEphericalKey() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/ephemeral_keys", response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 EphericalKey = object.getString("id");
-                Toast.makeText(getBaseContext(), EphericalKey, Toast.LENGTH_SHORT).show();
-                getClientSecret(customerID, EphericalKey);
+               // Toast.makeText(this, EphericalKey, Toast.LENGTH_SHORT).show();
+                getClientSecret();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<>();
                 {
-                    header.put("Authorization", "Bearer " + SECRET_KEY);
+                    header.put("Authorization", SECRET_KEY);
                     header.put("Stripe-Version", "2022-08-01");
                 }
                 return header;
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("customer", customerID);
                 return params;
@@ -209,29 +206,32 @@ public class OrderActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void getClientSecret(String _customerID, String _ephericalKey) {
+    private void getClientSecret() {
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/payment_intents", response -> {
             try {
                 JSONObject object = new JSONObject(response);
+                Log.d("object", object.toString());
                 ClientSecret = object.getString("client_secret");
+               // Log.d("paymentFlow() 1", "CartHelper.getCart().getTotalPrice(): " + CartHelper.getCart().getTotalPrice().toString() + "  ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
                 Toast.makeText(getBaseContext(), ClientSecret, Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> parseVolleyError(error)) {
+        }, this::onErrorResponse) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<>();
                 {
-                    header.put("Authorization", "Bearer " + SECRET_KEY);
+                    header.put("Authorization", SECRET_KEY);
 
                 }
                 return header;
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("customer", customerID);
                 params.put("amount", CartHelper.getCart().getTotalPrice().toString() + "00");
@@ -245,12 +245,17 @@ public class OrderActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+
     private void paymentFlow() {
-        paymentSheet.presentWithPaymentIntent(ClientSecret, new PaymentSheet.Configuration("Rozotka",
-                new PaymentSheet.CustomerConfiguration(
-                        customerID,
-                        EphericalKey
-                )));
+        if (!ClientSecret.isEmpty() && !customerID.isEmpty() && !EphericalKey.isEmpty()) {
+            paymentSheet.presentWithPaymentIntent(ClientSecret, new PaymentSheet.Configuration("Rozotka2",
+                    new PaymentSheet.CustomerConfiguration(
+                            customerID,
+                            EphericalKey
+                    )));
+        }
+
+
     }
 
     public void parseVolleyError(VolleyError error) {
@@ -260,17 +265,45 @@ public class OrderActivity extends AppCompatActivity {
             try {
                 responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject data = new JSONObject(responseBody);
-                JSONArray errors = data.getJSONArray("errors");
+                JSONArray errors = data.getJSONArray("error");
                 JSONObject jsonMessage = errors.getJSONObject(0);
                 String message = jsonMessage.getString("message");
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-                Log.d("Token error", message);
+                Log.d("error", message);
+                Toast.makeText(this, "Тимчасова помилка сервысу з оформленням заявки!!!", Toast.LENGTH_LONG).show();
+                onBackPressed();
+                finish();
+                // Log.d("Token error", message);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
 
+    }
+
+    public void onErrorResponse(VolleyError error) {
+
+        // As of f605da3 the following should work
+        NetworkResponse response = error.networkResponse;
+        if (error instanceof ServerError && response != null) {
+            try {
+                String res = new String(response.data,
+                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                Log.d("object", response.toString());
+                // Now you can use any deserializer to make sense of data
+                Toast.makeText(this, "Тимчасова помилка сервысу з оформленням заявки!!!", Toast.LENGTH_LONG).show();
+                //Log.d("paymentFlow() 2", "CartHelper.getCart().getTotalPrice(): " + CartHelper.getCart().getTotalPrice().toString() + "  ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
+                // JSONObject obj = new JSONObject(res);
+                // onBackPressed();
+                finish();
+
+            } catch (UnsupportedEncodingException e1) {
+                ///| JSONException e1
+                // Couldn't properly decode data to string
+                e1.printStackTrace();
+            } // returned data is not JSONObject?
+
+        }
     }
 
 }

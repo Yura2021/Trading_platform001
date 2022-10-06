@@ -144,7 +144,7 @@ public class Http {
             }
 
 
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {

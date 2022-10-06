@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.trading_platform001.R;
-import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.ProductEntity;
 
 import java.util.Comparator;
@@ -40,6 +39,7 @@ public class SortDialogFragment extends DialogFragment {
             sortProduct(checkedId);
 
         });
+        CategoryFilterFragment.productAdapter.getListProduct();
         btnClose.setOnClickListener(v -> dismiss());
         return view;
     }
@@ -48,7 +48,7 @@ public class SortDialogFragment extends DialogFragment {
         switch (id) {
             case R.id.rbCheapToExpensive:
                 //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-                LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getPrice));
+               // LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getPrice));
                 CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getPrice));
                 updateAdapter();
                 break;
@@ -75,7 +75,7 @@ public class SortDialogFragment extends DialogFragment {
     }
 
     void updateAdapter() {
-        CategoryFilterFragment.productAdapter.getListProduct();
+       // CategoryFilterFragment.productAdapter.getListProduct();
         CategoryFilterFragment.productAdapter.notifyDataSetChanged();
     }
 }

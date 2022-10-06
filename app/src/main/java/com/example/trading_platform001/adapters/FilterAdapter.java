@@ -3,7 +3,6 @@ package com.example.trading_platform001.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,22 +16,15 @@ import android.widget.TextView;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
-import com.example.trading_platform001.catalog_page.models.Category;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
-import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalProducts;
-import com.example.trading_platform001.models.LocalTableProductCategories;
-import com.example.trading_platform001.models.ProductCategoriesEntity;
 import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.user_pages.models.OrderList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,12 +35,12 @@ import butterknife.ButterKnife;
 public class FilterAdapter extends BaseAdapter implements Filterable {
     Context context;
 
-    public ArrayList<ProductEntity> getListProduct() {
+    public ArrayList<HomeValueExProductEntity> getListProduct() {
         return listProduct;
     }
 
-    public ArrayList<ProductEntity> listProduct;
-    public final ArrayList<ProductEntity> dataListProduct;
+    public ArrayList<HomeValueExProductEntity> listProduct;
+    public final ArrayList<HomeValueExProductEntity> dataListProduct;
     View grid;
 
     long itemId;
@@ -68,16 +60,18 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
     CartEntity cart;
     private MyOnClickAddCartItem myOnClickAddCartItem;
     LayoutInflater inflater;
+    private boolean isSelectSearch;
 
     public void setMyOnClickAddCartItem(MyOnClickAddCartItem myOnClickAddCartItem) {
         this.myOnClickAddCartItem = myOnClickAddCartItem;
     }
 
-    public void setListProduct(ArrayList<ProductEntity> listProduct) {
+    public void setListProduct(ArrayList<HomeValueExProductEntity> listProduct) {
         this.listProduct = listProduct;
+        isSelectSearch = true;
     }
 
-    public FilterAdapter(Context context, ArrayList<ProductEntity> dataListProduct) {
+    public FilterAdapter(Context context, ArrayList<HomeValueExProductEntity> dataListProduct) {
         listProduct = dataListProduct;
         if (listProduct == null)
             listProduct = new ArrayList<>();
@@ -87,8 +81,16 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         this.dataListProduct = listProduct;
         cart = CartHelper.getCart();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        isSelectSearch = true;
     }
 
+    public boolean isSelectSearch() {
+        return isSelectSearch;
+    }
+
+    public void setSelectSearch(boolean selectSearch) {
+        isSelectSearch = selectSearch;
+    }
 
     @Override
     public int getCount() {
@@ -147,14 +149,27 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
                     filterResults.count = dataListProduct.size();
                     filterResults.values = dataListProduct;
                 } else {
-                    String search = constraint.toString().toLowerCase();
-                    ArrayList<ProductEntity> resultData = new ArrayList<>();
-                    for (ProductEntity item : dataListProduct) {
-                        if (item.getName().toLowerCase(Locale.ROOT).contains(search)) {
-                            resultData.add(item);
+                    ArrayList<HomeValueExProductEntity> resultData = new ArrayList<>();
+                    if (isSelectSearch) {
+
+                        String search = constraint.toString().toLowerCase(Locale.ROOT);
+                        for (HomeValueExProductEntity item : dataListProduct) {
+                            if (item.getName().toLowerCase(Locale.ROOT).contains(search)) {
+                                resultData.add(item);
+                            }
+                            filterResults.count = resultData.size();
+                            filterResults.values = resultData;
                         }
-                        filterResults.count = resultData.size();
-                        filterResults.values = resultData;
+
+                    } else {
+                        String search = constraint.toString();
+                        for (HomeValueExProductEntity item : dataListProduct) {
+                            if (item.getNameShop().equals(search)) {
+                                resultData.add(item);
+                            }
+                            filterResults.count = resultData.size();
+                            filterResults.values = resultData;
+                        }
                     }
                 }
                 return filterResults;
@@ -162,7 +177,7 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                listProduct = (ArrayList<ProductEntity>) results.values;
+                listProduct = (ArrayList<HomeValueExProductEntity>) results.values;
                 notifyDataSetChanged();
             }
         };
@@ -173,7 +188,7 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         ImageView ivAddCart;
     }
 
-    public void updateReceiptsList(ArrayList<ProductEntity> listProduct) {
+    public void updateReceiptsList(ArrayList<HomeValueExProductEntity> listProduct) {
         this.listProduct.clear();
         this.listProduct.addAll(listProduct);
         this.dataListProduct.clear();

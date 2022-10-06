@@ -20,13 +20,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.Product;
 import com.example.trading_platform001.products_pages.product_details_fragment.AllInfoProductFragment;
 import com.example.trading_platform001.products_pages.product_details_fragment.CharacteristicFragment;
 import com.google.android.material.tabs.TabLayout;
-
-import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,10 +35,6 @@ public class DetailsProductActivity extends AppCompatActivity {
 
     @BindView(R.id.btnAddCart)
     Button addCart;
-    private long id;
-    private String url_imgProduct,description;
-    private String nameProduct, priceProduct,nameShop;
-    private float rating;
     @BindView(R.id.imgFav)
     ImageView imgFav;
     @BindView(R.id.lottieAnimationView)
@@ -53,17 +48,17 @@ public class DetailsProductActivity extends AppCompatActivity {
     boolean favorite;
     int productPosition;
     Bundle resultData;
+    HomeValueExProductEntity resultProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_product);
         ButterKnife.bind(this);
-        resultData=null;
         getResultActivity();
         AllInfoProductFragment arg = new AllInfoProductFragment();
-        if (resultData != null){
-            replaceFragment(arg,resultData);
+        if (resultData != null) {
+            replaceFragment(arg, resultData);
         }
 
         lottieAnimationView.setAnimation("add_to_wish_list.json");
@@ -81,20 +76,20 @@ public class DetailsProductActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        replaceFragment(new AllInfoProductFragment(),resultData);
+                        replaceFragment(new AllInfoProductFragment(), resultData);
                         break;
                     case 1:
-                        replaceFragment(new CharacteristicFragment(),resultData);
+                        replaceFragment(new CharacteristicFragment(), resultData);
 
                         break;
                     case 2:
-                        Log.d("tab.getPosition(2)  ",String.valueOf(tab.getPosition()));
+                        Log.d("tab.getPosition(2)  ", String.valueOf(tab.getPosition()));
                         break;
                     case 3:
-                        Log.d("tab.getPosition(3)  ",String.valueOf(tab.getPosition()));
+                        Log.d("tab.getPosition(3)  ", String.valueOf(tab.getPosition()));
                         break;
                     case 4:
-                        Log.d("tab.getPosition(4)  ",String.valueOf(tab.getPosition()));
+                        Log.d("tab.getPosition(4)  ", String.valueOf(tab.getPosition()));
                         break;
 
                 }
@@ -110,26 +105,19 @@ public class DetailsProductActivity extends AppCompatActivity {
 
             }
         });
-        /*
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
-         */
         tbDetails.inflateMenu(R.menu.button_nav_menu_details_product);
 
         tbDetails.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         tbDetails.setNavigationOnClickListener(v -> onBackPressed());
-        //tbDetails.setNavigationOnClickListener(v -> startActivity(new Intent(DetailsProductActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
-        tbDetails.setOnMenuItemClickListener(item ->{
+        tbDetails.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
 
                 case R.id.allInfo:
-                    replaceFragment(new AllInfoProductFragment(),resultData);
+                    replaceFragment(new AllInfoProductFragment(), resultData);
                     break;
-                    case android.R.id.home:
-                        Log.d("tab.getPosition(4)  "+item.getItemId()+"  ",String.valueOf(android.R.id.home));
+                case android.R.id.home:
+                    Log.d("tab.getPosition(4)  " + item.getItemId() + "  ", String.valueOf(android.R.id.home));
                     break;
                 case R.id.characteristic:
 
@@ -145,10 +133,11 @@ public class DetailsProductActivity extends AppCompatActivity {
                     break;
             }
             return true;
-        } );
+        });
 
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -157,7 +146,8 @@ public class DetailsProductActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void replaceFragment(Fragment fragment,Bundle bundle) {
+
+    public void replaceFragment(Fragment fragment, Bundle bundle) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragment.setArguments(bundle);
@@ -169,39 +159,26 @@ public class DetailsProductActivity extends AppCompatActivity {
 
         resultData = getIntent().getExtras();
         if (resultData != null) {
-
-            productPosition = resultData.getInt("position", -1);
-
-            if (productPosition != -1) {
-                id = resultData.getLong("id", -1);
-                favorite = LocalProducts.getProducts().get(productPosition).isFavorite();
-                nameProduct = resultData.getString("tvNameProduct", "No name");
-                priceProduct = resultData.getString("tvPriceProduct");
-                nameShop = resultData.getString("nameShop");
-                rating = resultData.getFloat("rbRating", 0f);
-                url_imgProduct = resultData.getString("imgProduct", "no image");
-                description = resultData.getString("description", "no description");
-                if (favorite) {
-                    imgFav.setImageResource(R.drawable.ic_is_favorite);
-                } else {
-                    imgFav.setImageResource(R.drawable.ic_is_not_favorite);
-                }
+            resultProduct = resultData.getParcelable("ParceHomeValueExProductEntity");
+            if (resultProduct.isFavorite()) {
+                imgFav.setImageResource(R.drawable.ic_is_favorite);
+            } else {
+                imgFav.setImageResource(R.drawable.ic_is_not_favorite);
             }
         }
+
     }
 
 
     private void addCartItem() {
-        if (id != -1) {
 
+        if (resultProduct != null) {
             CartEntity cart = CartHelper.getCart();
-            BigDecimal dec = new BigDecimal(priceProduct);
-            Product product = new Product(id, nameProduct, dec, rating, url_imgProduct,description);
+            Product product = new Product(resultProduct);
             cart.add(product, 1);
             Toast.makeText(this, "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this, "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
-
         }
+
     }
 
     private void aadFavorite() {

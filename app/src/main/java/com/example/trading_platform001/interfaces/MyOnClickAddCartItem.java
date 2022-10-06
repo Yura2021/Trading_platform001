@@ -2,8 +2,8 @@ package com.example.trading_platform001.interfaces;
 
 import android.view.View;
 
-import com.example.trading_platform001.models.ProductEntity;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 
 public interface MyOnClickAddCartItem {
-    void onClickAddCartItem(View view, ProductEntity product);
+    void onClickAddCartItem(View view, HomeValueExProductEntity product);
 }

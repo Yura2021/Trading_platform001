@@ -16,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.products_pages.DetailsProductActivity;
 import com.squareup.picasso.Picasso;
 
@@ -34,12 +35,9 @@ public class AllInfoProductFragment extends Fragment {
     TextView tvNameSeller;
     @BindView(R.id.rbRating)
     RatingBar rbRating;
-    long id;
-    String url_imgProduct,description;
-    String nameProduct,nameShop, priceProduct;
-    float rating;
     View view;
-    Bundle result;
+    Bundle resultBundle;
+    HomeValueExProductEntity resultProduct;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,32 +53,22 @@ public class AllInfoProductFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(result!=null) {
+        if (resultBundle != null) {
             Intent intent = new Intent(AllInfoProductFragment.this.getContext(), DetailsProductActivity.class);
-            intent.putExtras(result);
+            intent.putExtras(resultBundle);
         }
 
     }
 
     private void getResultFragment() {
-
-        result = getArguments();
-        if (result != null) {
-            id = result.getLong("id", -1);
-            if (id != -1) {
-                nameProduct = result.getString("tvNameProduct", "No name");
-                priceProduct = result.getString("tvPriceProduct");
-                rating = result.getFloat("rbRating", 0f);
-                url_imgProduct = result.getString("imgProduct", "no image");
-                description = result.getString("description", "no description");
-                nameShop = result.getString("nameShop", "no nameShop");
-                tvNameSeller.setText(nameShop);
-                imgProduct.setImageURI(Uri.parse(url_imgProduct));
-                Picasso.get().load(Uri.parse(url_imgProduct)).into(imgProduct);
-                tvNameProduct.setText(nameProduct);
-                tvPriceProduct.setText(String.valueOf(priceProduct));
-                rbRating.setRating(rating);
-            }
+        resultBundle = getArguments();
+        if (resultBundle != null) {
+            resultProduct = resultBundle.getParcelable("ParceHomeValueExProductEntity");
+            tvNameSeller.setText(resultProduct.getNameShop());
+            Picasso.get().load(Uri.parse(resultProduct.getCover_img())).into(imgProduct);
+            tvNameProduct.setText(resultProduct.getName());
+            tvPriceProduct.setText(String.valueOf(resultProduct.getPrice()));
+            rbRating.setRating(resultProduct.getRating());
         }
 
     }

@@ -4,27 +4,25 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.adapters.CartRecyclerAdapter;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
-import com.example.trading_platform001.adapters.CartRecyclerAdapter;
 import com.example.trading_platform001.interfaces.MyOnItemClickListener;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,11 +34,6 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     RecyclerView recyclerView;
     @BindView(R.id.btnOrder)
     Button btnOrder;
-    long id;
-    int id_imgProduct;
-    BigDecimal priceProduct;
-    String nameProduct;
-    float rating;
     public Activity context;
     private CartRecyclerAdapter productRecyclerAdapter;
     @BindView(R.id.tvSum)
@@ -48,22 +41,6 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     View view;
     BadgeDrawable badgeDrawable;
     BottomNavigationView btnNavView;
-
-    private void getResultFragment() {
-        Bundle result = getArguments();
-        if (result != null) {
-
-            id = result.getLong("id", -1);
-            if (id != -1) {
-                nameProduct = result.getString("tvNameProduct", "No name");
-                priceProduct = new BigDecimal(result.getString("tvPriceProduct"));
-                rating = result.getFloat("rbRating", 0f);
-                id_imgProduct = result.getInt("id_imgProduct", -1);
-
-            }
-        }
-    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -80,7 +57,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         btnOrder.setOnClickListener(v -> redirectOrders());
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
-        getResultFragment();
+        //getResultFragment();
         onUpdateList();
         return view;
     }
@@ -136,7 +113,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
         if (size > 0) {
             badgeDrawable.setVisible(true);
             badgeDrawable.setNumber(size);
-        }else {
+        } else {
             badgeDrawable.setVisible(false);
             badgeDrawable.clearNumber();
 

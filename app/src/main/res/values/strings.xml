@@ -71,7 +71,7 @@
     <string name="text_item_menu_details_product_feedback">ВІДГУКИ</string>
     <string name="text_item_menu_details_product_question">ПИТАННЯ</string>
     <string name="text_item_menu_details_product_accessories">АКСЕСУАРИ</string>
-    <string name="money">\₴</string>
+    <string name="money_ua">\₴</string>
     <string name="Default_code_product">125568</string>
     <string name="text_sort">Сортування</string>
     <string name="text_accept">Прийняти</string>

@@ -2,7 +2,6 @@ package com.example.trading_platform001.main_pages;
 
 
 import android.annotation.SuppressLint;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,11 +23,9 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.CartFragment;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.catalog_page.CatalogFragment;
-import com.example.trading_platform001.filter_pages.CategoryFilterFragment;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.LocalProducts;
-import com.example.trading_platform001.models.LocalShops;
 import com.example.trading_platform001.models.LocalTableProductCategories;
 import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.user_pages.UserFragment;
@@ -90,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("LocalTableProductCategories size", String.valueOf(LocalTableProductCategories.getProductCategoriesID().size()));
                     break;
                 case R.id.catalog:
-                  //  replaceFragment(new CategoryFilterFragment());
                     replaceFragment(new CatalogFragment());
                     break;
                 case R.id.cart:

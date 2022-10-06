@@ -66,7 +66,7 @@ public class PaymentSprite extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();
@@ -114,7 +114,7 @@ public class PaymentSprite extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();
@@ -147,7 +147,7 @@ public class PaymentSprite extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();

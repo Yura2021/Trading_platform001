@@ -1,17 +1,8 @@
 package com.example.trading_platform001.products_pages.product_details_fragment;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
 import com.example.trading_platform001.R;
-import com.example.trading_platform001.models.LocalProducts;
-import com.squareup.picasso.Picasso;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,26 +25,22 @@ public class CharacteristicFragment extends Fragment {
     View view;
     @BindView(R.id.llCharacteristicMain)
     LinearLayout llCharacteristicMain;
-    Bundle result;
-    String nameProduct,description;
+    Bundle resultBundle;
+    HomeValueExProductEntity resultProduct;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null)
             view = inflater.inflate(R.layout.fragment_characteristic, container, false);
         ButterKnife.bind(this, view);
         getResultFragment();
-        addLayautStringCharacteristic(nameProduct, description);
-
-
+        addLayautStringCharacteristic(resultProduct.getName(), resultProduct.getDescription());
         return view;
     }
     private void getResultFragment() {
 
-        result = getArguments();
-        if (result != null) {
-                nameProduct = result.getString("tvNameProduct", "No name");
-                description = result.getString("description", "no description");
-
+        resultBundle = getArguments();
+        if (resultBundle != null) {
+            resultProduct = resultBundle.getParcelable("ParceHomeValueExProductEntity");
         }
 
     }

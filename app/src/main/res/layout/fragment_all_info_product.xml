@@ -174,7 +174,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
-                        android:text="@string/text_UAH" />
+                        android:text="@string/money_ua" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

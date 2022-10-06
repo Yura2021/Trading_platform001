@@ -25,18 +25,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.OptionsFilterItemAdapter;
+import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.filter_pages.models.GroupElementNested;
 import com.example.trading_platform001.filter_pages.models.OptionFilterDataModel;
 import com.example.trading_platform001.filter_pages.models.SaveFilterOption;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.NestedOnCheckedCheckBoxFilter;
+import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.LocalShops;
+import com.example.trading_platform001.models.LocalTableProductCategories;
+import com.example.trading_platform001.models.ProductCategoriesEntity;
 import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.models.ShopEntity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
@@ -45,22 +52,26 @@ import butterknife.ButterKnife;
 @SuppressLint("NonConstantResourceId")
 public class FilterDialogFragment extends DialogFragment implements NestedOnCheckedCheckBoxFilter {
     View view;
-    @BindView(R.id.eTseekBar1)
-    EditText editText1;
+    @BindView(R.id.etFrom)
+    EditText etFrom;
     @BindView(R.id.seekBar1)
     SeekBar seekBar1;
-    @BindView(R.id.eTseekBar2)
-    EditText editText2;
+    @BindView(R.id.etTo)
+    EditText etTo;
     @BindView(R.id.seekBar2)
     SeekBar seekBar2;
 
     @BindView(R.id.btnClose)
     Button btnClose;
+    @BindView(R.id.btnAssept)
+    Button btnAssept;
     @BindView(R.id.main_recyclervie)
     RecyclerView recyclerView;
     List<OptionFilterDataModel> mList;
     OptionsFilterItemAdapter adapter;
+    ArrayList<HomeValueExProductEntity> listProduct;
     Typeface typeface = Typeface.create("open_sans_bold", Typeface.BOLD);
+    Bundle bundle;
 
     @Nullable
     @Override
@@ -71,9 +82,16 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         ButterKnife.bind(this, view);
 
         btnClose.setOnClickListener(v -> dismiss());
+        btnAssept.setOnClickListener(v -> getDiapazone());
         showSeekBar();
         addItemOption();
+        bundle = getArguments();
+        compliteFilter();
         return view;
+    }
+
+    private void getDiapazone() {
+        searchDiapazone(etFrom.getText().toString(), etTo.getText().toString());
     }
 
 
@@ -163,12 +181,40 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
 
     }
 
+    public static <T extends Comparable<T>> boolean isBetween(T value, T start, T end) {
+        return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
+    }
+
+    /*
+     static boolean isBetween(BigDecimal price, BigDecimal start, BigDecimal end){
+        return price.compareTo(start) >= 0 && price.compareTo(end) <= 0;
+    }
+     */
+
+    private void searchDiapazone(String from, String to) {
+        CategoryFilterFragment.productAdapter.setSelectSearch(true);
+        if (!from.isEmpty() && !to.isEmpty()) {
+            BigDecimal a = new BigDecimal(from);
+            BigDecimal b = new BigDecimal(to);
+            compliteFilter();
+            List<HomeValueExProductEntity> list = CategoryFilterFragment.productAdapter.getListProduct().stream().filter(o -> isBetween(o.getPrice(), a, b)).collect(Collectors.toList());
+            Log.d("sasa", " " + "  " + list.size());
+            CategoryFilterFragment.productAdapter.getListProduct().clear();
+            CategoryFilterFragment.productAdapter.getListProduct().addAll(list);
+            CategoryFilterFragment.productAdapter.notifyDataSetChanged();
+        }
+        // updateAdapter();
+
+
+    }
+
     private void showSeekBar() {
 
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                editText1.setText(String.valueOf(progress));
+                etFrom.setText(String.valueOf(progress));
+
             }
 
             @Override
@@ -185,7 +231,8 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                editText2.setText(String.valueOf(progress));
+                etTo.setText(String.valueOf(progress));
+
             }
 
             @Override
@@ -200,56 +247,60 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         });
     }
 
-    private void sortProduct(int id) {
-        switch (id) {
-            case R.id.rbCheapToExpensive:
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-                //LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getPrice));
-                CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getPrice));
-                updateAdapter();
-                break;
-            case R.id.rbExpensiveToCheap:
-                //LocalProducts.getProducts().sort(((o1, o2) -> o2.getPrice().compareTo(o1.getPrice())));
-                CategoryFilterFragment.productAdapter.getListProduct().sort(((o1, o2) -> o2.getPrice().compareTo(o1.getPrice())));
-                updateAdapter();
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.rbSortNewProduct:
-                //LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getCreated_at));
-                CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getCreated_at));
-                updateAdapter();
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.rbSortRating:
-                //LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getRating));
-                CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getRating));
-                updateAdapter();
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-                break;
-        }
+    void updateAdapter() {
+        //CategoryFilterFragment.productAdapter.getListProduct();
+        CategoryFilterFragment.productAdapter.notifyDataSetChanged();
     }
 
-    void updateAdapter() {
-        CategoryFilterFragment.productAdapter.getListProduct();
-        CategoryFilterFragment.productAdapter.notifyDataSetChanged();
+    public void compliteFilter() {
+
+        if (bundle != null) {
+            String nameCategory = bundle.getString("NameParenCategory","no category");
+            listProduct = new ArrayList<>();
+            Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCategory)).findFirst();
+            if (category.isPresent()) {
+                int category_id = category.get().getId();
+
+                List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
+                for (ProductCategoriesEntity item : list) {
+                    Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
+                    if (prod.isPresent()) {
+                        Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == prod.get().getShop_id()).findFirst();
+                        shopEntity.ifPresent(entity -> listProduct.add(new HomeValueExProductEntity(prod.get(), entity.getName())));
+
+                    }
+                }
+                Log.d("Id ", " " + category_id);
+            }
+            CategoryFilterFragment.productAdapter.getListProduct().clear();
+            CategoryFilterFragment.productAdapter.getListProduct().addAll(listProduct);
+        }
+
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        CategoryFilterFragment.productAdapter.setSelectSearch(true);
     }
 
     @Override
     public void onCheckedCheckBoxFilter(CheckBox checkBox, boolean b, TextView tvCountElement) {
         //  Log.d("Tagggss", " " + b + " Text " + checkBox.getText().toString()+"  count: "+tvCountElement.getText().toString());
-        CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getPrice));
-        updateAdapter();
+        //CategoryFilterFragment.productAdapter.setListProduct((ArrayList)CategoryFilterFragment.productAdapter.getListProduct().stream().filter(o->o.getRating()<3).collect(Collectors.toList()));
+        // updateAdapter();
+        CategoryFilterFragment.productAdapter.setSelectSearch(false);
         String namecheckBox = checkBox.getText().toString();
         if (b) {
             //saveCheck.put(new GroupElementNested(checkBox,tvCountElement), b);
             SaveFilterOption.getSaveCheck().put(namecheckBox, true);
-
-            long id = LocalShops.getShops().stream().filter(o -> o.getName() == namecheckBox).collect(Collectors.toList()).get(0).getId();
+            CategoryFilterFragment.productAdapter.getFilter().filter(namecheckBox);
+            //long id = LocalShops.getShops().stream().filter(o -> Objects.equals(o.getName(), namecheckBox)).collect(Collectors.toList()).get(0).getId();
             // CategoryFilterFragment.productAdapter.setListProduct(CategoryFilterFragment.productAdapter.getListProduct().stream().filter(o -> o.getShop_id() == id).collect(Collectors.toList()));
         } else {
             SaveFilterOption.getSaveCheck().remove(namecheckBox);
-
+            CategoryFilterFragment.productAdapter.getFilter().filter("");
             updateAdapter();
         }
         Log.d("Tagggss", " " + b + " Text " + checkBox.getText().toString() + "  count: " + SaveFilterOption.getSaveCheck().size());

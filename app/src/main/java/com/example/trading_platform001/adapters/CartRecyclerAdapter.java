@@ -63,7 +63,6 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         viewHolder.price.setText(String.valueOf(a.multiply(b)));
         viewHolder.quantity.setText(String.valueOf(productEntityModel.get(position).getQuantity()));
-        //viewHolder.image.setImageURI(Uri.parse(productEntityModel.get(position).getProduct().getCover_img()));
         Picasso.get().load(Uri.parse(productEntityModel.get(position).getProduct().getCover_img())).into(viewHolder.image);
     }
 

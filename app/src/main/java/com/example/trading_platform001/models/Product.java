@@ -1,5 +1,6 @@
 package com.example.trading_platform001.models;
 
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.Saleable;
 
 import java.io.Serializable;
@@ -21,6 +22,20 @@ public class Product implements Saleable, Serializable {
     private Timestamp created_at;
     private Timestamp updated_at;
     private boolean favorite;
+
+    public Product(HomeValueExProductEntity product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.cover_img = product.getCover_img();
+        this.description = product.getDescription();
+        this.price = product.getPrice();
+        this.rating = product.getRating();
+        this.shop_id = product.getShop_id();
+        this.quantity = 1;
+        this.created_at = product.getCreated_at();
+        this.updated_at = product.getUpdated_at();
+        this.favorite = product.isFavorite();
+    }
 
     public Product() {
         quantity = 1;
@@ -71,7 +86,6 @@ public class Product implements Saleable, Serializable {
         int hash = 1;
         hash = (int) (hash * prime + id);
         hash = hash * prime + (name == null ? 0 : name.hashCode());
-        hash = hash * prime + (price == null ? 0 : price.hashCode());
         hash = hash * prime + (description == null ? 0 : description.hashCode());
 
         return hash;
