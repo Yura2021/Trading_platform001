@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -61,23 +58,14 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     public static FilterAdapter productAdapter;
     BottomNavigationView btnNavView;
     View view;
-    ImageView imgProduct;
-    TextView tvNameProduct, tvPriceProduct;
-    RatingBar rbRating;
     BadgeDrawable badgeDrawable;
-    ImageView ibAddCart;
     @BindView(R.id.btnSort)
     Button btnSort;
     @BindView(R.id.btnFilter)
     Button btnFilter;
     @BindView(R.id.tbFilter)
     Toolbar tbFilter;
-    private long itemId;
-    private String url_imgProduct, nameCatecory;
-    private String nameProduct, priceProduct;
-    private float rating;
-    boolean favorite;
-    int productPosition;
+    private String  nameCatecory;
     ArrayList<HomeValueExProductEntity> listProduct;
     Bundle bundle;
 
@@ -193,6 +181,13 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     public void onClickAddCartItem(View v, HomeValueExProductEntity productEntity) {
 
         CartEntity cart = CartHelper.getCart();
+        if(!productEntity.isAddCard()) {
+            Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> Objects.equals(s.getId(), productEntity.getId())).findFirst();
+            prod.ifPresent(product -> {
+                product.setAddCard(true);
+                productEntity.setAddCard(true);
+            });
+        }
         Product product = new Product(productEntity);
         cart.add(product, 1);
         int size = CartHelper.getCartItems().size();
@@ -206,8 +201,8 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
             badgeDrawable.clearNumber();
 
         }
-
-        Toast.makeText(getContext(), "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
+        productAdapter.notifyDataSetChanged();
+        Toast.makeText(getContext(), "Товар доданий у кошик 1", Toast.LENGTH_SHORT).show();
     }
 
     public void replaceFragment(Fragment fragment, Bundle bundle) {

@@ -2,6 +2,7 @@ package com.example.trading_platform001.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
@@ -130,7 +133,14 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         priceProduct = String.valueOf(listProduct.get(position).getPrice());
         rating = listProduct.get(position).getRating();
         url_imgProduct = listProduct.get(position).getCover_img();
+        ColorStateList csl = null;
+        if (listProduct.get(position).isAddCard()) {
+            csl = AppCompatResources.getColorStateList(context, R.color.colorPrimary);
+        } else {
+            csl = AppCompatResources.getColorStateList(context, R.color.color_button_card_of);
+        }
 
+        holder.ivAddCart.setImageTintList(csl);
 
         tvNameProduct.setText(nameProduct);
         tvPriceProduct.setText(priceProduct);

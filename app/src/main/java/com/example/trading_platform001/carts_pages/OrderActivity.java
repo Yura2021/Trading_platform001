@@ -23,8 +23,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.models.StorageInformation;
 import com.example.trading_platform001.user_pages.models.OrderInformation;
 import com.stripe.android.PaymentConfiguration;
@@ -40,6 +43,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -158,7 +163,14 @@ public class OrderActivity extends AppCompatActivity {
     public void ClearCart() {
         setOrder();
         if (CartHelper.getCartItems().size() > 0) {
+            for (CartItemsEntityModel item:CartHelper.getCartItems()) {
+                Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> Objects.equals(s.getId(), item.getProduct().getId())).findFirst();
+                prod.ifPresent(product -> {
+                    product.setAddCard(false);
+                });
+            }
             CartHelper.getCart().clear();
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

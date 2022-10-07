@@ -2,6 +2,7 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/MyAppTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -98,9 +99,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:backgroundTint="@color/white"
                 android:contentDescription="@string/Default_text"
-                android:src="@drawable/ic_main_basket_btn_24" />
+                app:srcCompat="@drawable/ic_main_basket_btn_24"
+                app:tint="@color/color_button_card_of" />
 
         </RelativeLayout>
     </LinearLayout>

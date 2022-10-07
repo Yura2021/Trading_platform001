@@ -23,4 +23,5 @@
     <color name="colorAccent">#222E3E</color>
     <color name="colorPrimaryLight">#3A4E68</color>
     <color name="colorSecondary">#FF9900</color>
+    <color name="color_button_card_of">#98A0AA</color>
 </resources>

@@ -57,7 +57,6 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         btnOrder.setOnClickListener(v -> redirectOrders());
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
-        //getResultFragment();
         onUpdateList();
         return view;
     }
@@ -70,8 +69,8 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     }
 
     @Override
-    public void onItemClick(CartItemsEntityModel cartItemsEntityModel) {
-
+    public void onItemAllRemove(CartItemsEntityModel cartItemsEntityModel) {
+        productRecyclerAdapter.allRemoveItem(cartItemsEntityModel);
     }
 
     @SuppressLint("SetTextI18n")

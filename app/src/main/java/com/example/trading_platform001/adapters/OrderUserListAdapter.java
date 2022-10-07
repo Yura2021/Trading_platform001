@@ -3,7 +3,6 @@ package com.example.trading_platform001.adapters;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.trading_platform001.R;
-import com.example.trading_platform001.user_pages.models.ItemOrder;
 import com.example.trading_platform001.user_pages.models.Order;
-import com.example.trading_platform001.user_pages.models.OrderInformation;
 import com.example.trading_platform001.user_pages.models.OrderList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class OrderUserListAdapter extends ArrayAdapter<Order> implements Filterable {
 

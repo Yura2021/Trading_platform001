@@ -25,10 +25,11 @@ public class ProductEntity implements Parcelable {
     private Timestamp updated_at;
     private int favorite;
     private boolean isFavorite;
+    private boolean isAddCard;
     public ProductEntity() {
     }
 
-    public ProductEntity(long id, String name, String cover_img, String description, BigDecimal price, float rating, long shop_id, Timestamp created_at, Timestamp updated_at, int favorite, boolean isFavorite) {
+    public ProductEntity(long id, String name, String cover_img, String description, BigDecimal price, float rating, long shop_id, Timestamp created_at, Timestamp updated_at, int favorite, boolean isFavorite,boolean isAddCard) {
         this.id = id;
         this.name = name;
         this.cover_img = cover_img;
@@ -40,6 +41,7 @@ public class ProductEntity implements Parcelable {
         this.updated_at = updated_at;
         this.favorite = favorite;
         this.isFavorite = isFavorite;
+        this.isAddCard = isAddCard;
     }
 
     public ProductEntity(long id, String name, String description, float rating, BigDecimal price, int shop_id) {
@@ -72,6 +74,7 @@ public class ProductEntity implements Parcelable {
         updated_at = Timestamp.valueOf(in.readString());
         favorite = in.readInt();
         isFavorite = in.readByte() != 0;
+        isAddCard = in.readByte() != 0;
     }
 
     public static final Creator<ProductEntity> CREATOR = new Creator<ProductEntity>() {
@@ -184,7 +187,13 @@ public class ProductEntity implements Parcelable {
     public void setRating(float rating) {
         this.rating = rating;
     }
+    public boolean isAddCard() {
+        return isAddCard;
+    }
 
+    public void setAddCard(boolean addCard) {
+        isAddCard = addCard;
+    }
 
     @Override
     public int describeContents() {
@@ -205,5 +214,6 @@ public class ProductEntity implements Parcelable {
         dest.writeString(String.valueOf(updated_at));
         dest.writeInt(favorite);
         dest.writeByte((byte) (isFavorite ? 1 : 0));
+        dest.writeByte((byte) (isAddCard ? 1 : 0));
     }
 }

@@ -45,7 +45,13 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         notifyDataSetChanged();
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void allRemoveItem(CartItemsEntityModel cartItemsEntityModel) {
+            CartHelper.getCart().remove(cartItemsEntityModel.getProduct());
+            onItemClickListener.onUpdateList();
 
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -87,12 +93,14 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageButton minus;
         @BindView(R.id.plus)
         ImageButton plus;
+        @BindView(R.id.ibRemove)
+        ImageButton ibRemove;
 
         public ReceiveViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
 
-            //itemView.setOnClickListener(v -> onItemClickListener.onItemClick(productEntityModel.get(getBindingAdapterPosition())));
+            ibRemove.setOnClickListener(v -> onItemClickListener.onItemAllRemove(productEntityModel.get(getBindingAdapterPosition())));
             minus.setOnClickListener(v -> onItemClickListener.onItemMinusClicked(getBindingAdapterPosition(), productEntityModel));
             plus.setOnClickListener(v -> onItemClickListener.onItemPlusClicked(getBindingAdapterPosition(), productEntityModel));
 

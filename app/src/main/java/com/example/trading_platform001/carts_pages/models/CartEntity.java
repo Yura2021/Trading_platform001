@@ -1,11 +1,17 @@
 package com.example.trading_platform001.carts_pages.models;
 
 import com.example.trading_platform001.interfaces.Saleable;
+import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.ProductEntity;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 public class CartEntity implements Serializable {
     private static final long serialVersionUID;
@@ -46,7 +52,11 @@ public class CartEntity implements Serializable {
     public void remove(final Saleable sellable) {
 
         if (cartItemMap.containsKey(sellable)) {
-            int quantity = cartItemMap.get(sellable);
+            int quantity =  cartItemMap.get(sellable);
+            Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> Objects.equals(s.getId(), sellable.getId())).findFirst();
+            prod.ifPresent(product -> {
+                product.setAddCard(false);
+            });
             cartItemMap.remove(sellable);
             totalPrice = totalPrice.subtract(sellable.getPrice().multiply(BigDecimal.valueOf(quantity)));
             totalQuantity -= quantity;

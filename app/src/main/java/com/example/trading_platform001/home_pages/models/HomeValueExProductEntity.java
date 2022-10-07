@@ -9,28 +9,26 @@ import androidx.annotation.NonNull;
 import com.example.trading_platform001.models.ProductEntity;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+
 
 public class HomeValueExProductEntity extends ProductEntity implements Parcelable {
-    String nameShop;
-    String nameCategory;
-    int idPosition;
+    private String nameShop;
+    private String nameCategory;
+    private int idPosition;
+
 
     public HomeValueExProductEntity() {
     }
 
     public HomeValueExProductEntity(ProductEntity product, String nameShop) {
-        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite());
+        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(),product.isAddCard());
         this.nameShop = nameShop;
     }
 
     public HomeValueExProductEntity(ProductEntity product) {
-        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite());
+        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(), product.isAddCard());
     }
 
-    public HomeValueExProductEntity(long id, String name, String cover_img, String description, BigDecimal price, float rating, long shop_id, Timestamp created_at, Timestamp updated_at, int favorite, boolean isFavorite) {
-        super(id, name, cover_img, description, price, rating, shop_id, created_at, updated_at, favorite, isFavorite);
-    }
 
     public HomeValueExProductEntity(long id, String name, String description, float rating, BigDecimal price, int shop_id) {
         super(id, name, description, rating, price, shop_id);
@@ -46,6 +44,7 @@ public class HomeValueExProductEntity extends ProductEntity implements Parcelabl
         nameShop = in.readString();
         nameCategory = in.readString();
         idPosition = in.readInt();
+
     }
 
     @Override
@@ -54,6 +53,7 @@ public class HomeValueExProductEntity extends ProductEntity implements Parcelabl
         dest.writeString(nameShop);
         dest.writeString(nameCategory);
         dest.writeInt(idPosition);
+
     }
 
     @Override
@@ -96,4 +96,6 @@ public class HomeValueExProductEntity extends ProductEntity implements Parcelabl
     public void setIdPosition(int idPosition) {
         this.idPosition = idPosition;
     }
+
+
 }

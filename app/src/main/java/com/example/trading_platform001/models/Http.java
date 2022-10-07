@@ -40,6 +40,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class Http {
     public void sendRegister(String strName, String strEmail, String strPassword, String strConfirmationPassword) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/register", response -> {
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             protected Map<String, String> getParams() {
@@ -89,6 +90,7 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
+
     public void getAllShop() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/shops", response -> {
@@ -108,7 +110,7 @@ public class Http {
             }
 
 
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
@@ -125,6 +127,7 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
+
     public void getAllProductCategoriesID() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/catandprodid", response -> {
@@ -205,7 +208,7 @@ public class Http {
             strToken = "No token";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/logout", response -> {
             storage.ClearStorage();
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
@@ -237,7 +240,7 @@ public class Http {
             }
 
 
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
@@ -278,7 +281,7 @@ public class Http {
     private void parseVolleyError(VolleyError error) {
 
         String responseBody;
-        if (error.networkResponse.data != null) {
+        if (error.networkResponse != null && error.networkResponse.data != null) {
             try {
                 responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject data = new JSONObject(responseBody);
@@ -311,7 +314,7 @@ public class Http {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> onErrorResponse(error)) {
+        }, this::onErrorResponse) {
 
             @NonNull
             @Override
@@ -353,7 +356,7 @@ public class Http {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/forgot-password", response -> {
 
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             protected Map<String, String> getParams() {
@@ -381,7 +384,7 @@ public class Http {
         int statusCode = error.networkResponse.statusCode;
         NetworkResponse response = error.networkResponse;
 
-        Log.d("testerror", "" + statusCode + " " + response.data);
+        Log.d("testerror", "" + statusCode + " " + Arrays.toString(response.data));
         // Handle your error types accordingly.For Timeout & No connection error, you can show 'retry' button.
         // For AuthFailure, you can re login with user credentials.
         // For ClientError, 400 & 401, Errors happening on client side when sending api request.
@@ -404,6 +407,7 @@ public class Http {
 
 
     }
+
     public void GetOrdersUser(OrderUserListAdapter adapter) {
         strToken = storage.GetStorage("Remember_token");
         if (strToken.isEmpty())
@@ -412,20 +416,21 @@ public class Http {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/orders ", response -> {
             try {
                 JSONObject obj = new JSONObject(response);
-                Type listType = new TypeToken<ArrayList<Order>>() {}.getType();
-                OrderList orderList =new OrderList((boolean)obj.get("status"),obj.getString("message"),new Gson().fromJson(obj.getString("order"), listType));
+                Type listType = new TypeToken<ArrayList<Order>>() {
+                }.getType();
+                OrderList orderList = new OrderList((boolean) obj.get("status"), obj.getString("message"), new Gson().fromJson(obj.getString("order"), listType));
                 adapter.updateReceiptsList(orderList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> onErrorResponse(error)) {
+        }, this::onErrorResponse) {
 
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<>();
                 {
                     header.put("Content-Length", "application/json");
-                    header.put("Authorization", "Bearer "+strToken);
+                    header.put("Authorization", "Bearer " + strToken);
                 }
                 return header;
             }
@@ -434,20 +439,22 @@ public class Http {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
+
     public void setOrderUser(OrderInformation order, List<CartItemsEntityModel> cartItemsEntityModels) {
         strToken = storage.GetStorage("Remember_token");
         if (strToken.isEmpty())
             strToken = "No token";
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/setorder", response -> {}, error -> onErrorResponse(error)) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/setorder", response -> {
+        }, this::onErrorResponse) {
 
             @NonNull
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("CardOrder", new Gson().toJson(order));
-                params.put("CatItem",new Gson().toJson(cartItemsEntityModels));
+                params.put("CatItem", new Gson().toJson(cartItemsEntityModels));
                 return params;
             }
 
@@ -456,7 +463,7 @@ public class Http {
                 Map<String, String> header = new HashMap<>();
                 {
                     header.put("Content-Length", "application/json");
-                    header.put("Authorization", "Bearer "+strToken);
+                    header.put("Authorization", "Bearer " + strToken);
                 }
                 return header;
             }
@@ -466,16 +473,18 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
+
     public void GetCategory() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/category", response -> {
             try {
                 JSONObject obj = new JSONObject(response);
-                Type listType = new TypeToken<ArrayList<Category>>() {}.getType();
-                LocalCategory.setProducts(new  Gson().fromJson(obj.getString("category"),listType));
+                Type listType = new TypeToken<ArrayList<Category>>() {
+                }.getType();
+                LocalCategory.setProducts(new Gson().fromJson(obj.getString("category"), listType));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> onErrorResponse(error)) {
+        }, this::onErrorResponse) {
 
             @Override
             public Map<String, String> getHeaders() {

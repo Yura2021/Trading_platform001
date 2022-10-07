@@ -80,7 +80,6 @@ public class UserOrderItemActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         order = (OrderInformation) bundle.get("order");
         itemOrderList = (ArrayList<ItemOrder>)bundle.get("orderitem");
-
         imageView.setOnClickListener(v->onClick(view));
         ShowInformation();
         ShowData(textView);
