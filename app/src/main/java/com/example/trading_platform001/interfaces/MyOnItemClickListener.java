@@ -7,7 +7,7 @@ import java.util.List;
 public interface MyOnItemClickListener {
     void onItemAllRemove(CartItemsEntityModel cartItemsEntityModel);
     void onItemPlusClicked(int position,  List<CartItemsEntityModel> carts);
-
+    boolean onItemCartMenuClicked(int idMenuItem,CartItemsEntityModel cartItemsEntityModel);
     void onItemMinusClicked(int position,  List<CartItemsEntityModel> carts);
 
     void onUpdateList();

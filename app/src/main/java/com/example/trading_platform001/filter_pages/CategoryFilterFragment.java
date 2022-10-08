@@ -202,7 +202,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
         }
         productAdapter.notifyDataSetChanged();
-        Toast.makeText(getContext(), "Товар доданий у кошик 1", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
     }
 
     public void replaceFragment(Fragment fragment, Bundle bundle) {

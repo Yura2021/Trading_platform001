@@ -99,4 +99,5 @@
     <string name="text_CheckBox_Filter_Other_sellers">Інші продавці</string>
     <string name="ed_filter_from">від</string>
     <string name="ed_filter_to">до</string>
+    <string name="delete_cart_item">Видалити з кошика</string>
 </resources>

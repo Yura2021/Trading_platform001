@@ -2,12 +2,16 @@ package com.example.trading_platform001.adapters;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
+import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.MyOnItemClickListener;
+import com.example.trading_platform001.models.LocalShops;
+import com.example.trading_platform001.models.ShopEntity;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,13 +53,15 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         notifyDataSetChanged();
     }
+
     @SuppressLint("NotifyDataSetChanged")
     public void allRemoveItem(CartItemsEntityModel cartItemsEntityModel) {
-            CartHelper.getCart().remove(cartItemsEntityModel.getProduct());
-            onItemClickListener.onUpdateList();
+        CartHelper.getCart().remove(cartItemsEntityModel.getProduct());
+        onItemClickListener.onUpdateList();
 
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -63,7 +73,13 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
         viewHolder.name.setText(productEntityModel.get(position).getProduct().getName());
-        viewHolder.description.setText(productEntityModel.get(position).getProduct().getDescription());
+
+        Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == productEntityModel.get(position).getProduct().getShop_id()).findFirst();
+        if (shopEntity.isPresent()) {
+            viewHolder.tvNameSellerCartTitle.setText(shopEntity.get().getName());
+        } else {
+            viewHolder.tvNameSellerCartTitle.setText("інформації поки що немає..");
+        }
         BigDecimal a = productEntityModel.get(position).getProduct().getPrice();
         BigDecimal b = new BigDecimal(productEntityModel.get(position).getQuantity());
 
@@ -81,8 +97,8 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public class ReceiveViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image)
         ImageView image;
-        @BindView(R.id.description)
-        TextView description;
+        @BindView(R.id.tvNameSellerCartTitle)
+        TextView tvNameSellerCartTitle;
         @BindView(R.id.name)
         TextView name;
         @BindView(R.id.tvQuantity)
@@ -93,16 +109,18 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageButton minus;
         @BindView(R.id.plus)
         ImageButton plus;
-        @BindView(R.id.ibRemove)
-        ImageButton ibRemove;
+        @BindView(R.id.tbCartSetting)
+        Toolbar tbCartSetting;
 
         public ReceiveViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
 
-            ibRemove.setOnClickListener(v -> onItemClickListener.onItemAllRemove(productEntityModel.get(getBindingAdapterPosition())));
             minus.setOnClickListener(v -> onItemClickListener.onItemMinusClicked(getBindingAdapterPosition(), productEntityModel));
             plus.setOnClickListener(v -> onItemClickListener.onItemPlusClicked(getBindingAdapterPosition(), productEntityModel));
+            tbCartSetting.inflateMenu(R.menu.item_cart_menu);
+            tbCartSetting.setOnMenuItemClickListener(item -> onItemClickListener.onItemCartMenuClicked(item.getItemId(), productEntityModel.get(getBindingAdapterPosition())));
+
 
         }
     }

@@ -23,9 +23,13 @@ import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.Product;
+import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.products_pages.product_details_fragment.AllInfoProductFragment;
 import com.example.trading_platform001.products_pages.product_details_fragment.CharacteristicFragment;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
+import java.util.Optional;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -174,9 +178,20 @@ public class DetailsProductActivity extends AppCompatActivity {
 
         if (resultProduct != null) {
             CartEntity cart = CartHelper.getCart();
+
+            if (!resultProduct.isAddCard()) {
+                Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> Objects.equals(s.getId(), resultProduct.getId())).findFirst();
+                prod.ifPresent(product -> {
+                    product.setAddCard(true);
+                    resultProduct.setAddCard(true);
+                });
+            }
+
             Product product = new Product(resultProduct);
             cart.add(product, 1);
             Toast.makeText(this, "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Увага помилка!!!", Toast.LENGTH_SHORT).show();
         }
 
     }
