@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:orientation="horizontal"
-    android:background="@drawable/border_radius"
-    android:layout_margin="18dp">
+    android:background="@drawable/radius"
+    android:layout_margin="10dp">
 
 
     <ImageView
         android:id="@+id/ImageOrderItemTemplate"
-        android:layout_width="443dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         app:srcCompat="@drawable/ic_launcher_background"

@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -36,11 +37,10 @@ public class User_OrderList_Informations extends Fragment {
     @BindView(R.id.list_orders)
     ListView listView;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.imageBack)
-    ImageView imageView;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.SearchOrders)
     SearchView SearchOrders;
+    @BindView(R.id.toolbarUserOrderList)
+    Toolbar toolbar;
     OrderList orderList ;
     OrderUserListAdapter adapter;
     View view;
@@ -68,7 +68,6 @@ public class User_OrderList_Informations extends Fragment {
         ButterKnife.bind(this, view);
         storageInformation = new StorageInformation(getContext());
         http = new Http(getContext());
-        imageView.setOnClickListener(v->onClick());
         orderList = new OrderList();
         adapter= new OrderUserListAdapter(getActivity(),R.layout.list_order_item_template, orderList.getOrders());
         http.GetOrdersUser(adapter);
@@ -87,7 +86,9 @@ public class User_OrderList_Informations extends Fragment {
                     }
                 }
         });
-
+        toolbar.setTitle("Мої Замовлення");
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        toolbar.setNavigationOnClickListener(v -> onClick());
         SearchOrders.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

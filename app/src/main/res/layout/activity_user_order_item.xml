@@ -4,45 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user_pages.UserOrderItemActivity">
-    <ImageView
-        android:id="@+id/imageViewBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:contentDescription=""
-        android:padding="15dp"
-        android:src="@drawable/arrow_left"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+    tools:context=".user_pages.UserOrderItemActivity"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="5dp"
+    >
 
-    <TextView
-        android:id="@+id/TextViewName"
-        android:layout_width="290dp"
-        android:layout_height="44dp"
-        android:paddingTop="12dp"
-        android:text=""
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarItemOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:background="#EDE6E6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_marginTop="50dp"
+        android:background="#EDE6E6"
+        android:id="@+id/scrollView3"
         android:layout_width="415dp"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:contentDescription="@string/Account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewName">
+        app:layout_constraintTop_toBottomOf="@+id/toolbarItemOrder"
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,21 +45,17 @@
                 android:id="@+id/DataOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border"
                 android:padding="10dp"
                 android:text=""
-                android:textSize="16sp"
-               />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/NomerTTH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border"
                 android:padding="10dp"
                 android:text=""
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/OrderItem"
@@ -83,37 +70,41 @@
                 android:id="@+id/PriceOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text=""
-                android:textSize="16sp"
-                android:padding="10dp"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/AdressOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text=""
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/RecipientOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text=""
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/PhoneOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text=""
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/PaymentOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text=""
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>

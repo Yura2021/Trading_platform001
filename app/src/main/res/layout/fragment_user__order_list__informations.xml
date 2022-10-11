@@ -3,39 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user_pages.User_OrderList_Informations">
+    tools:context=".user_pages.User_OrderList_Informations"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="2dp"
+    android:background="#EDE6E6">
 
-    <TextView
-        android:id="@+id/textView13"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarUserOrderList"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/border"
-        android:layout_marginTop="51dp"/>
-
-    <TextView
-        android:id="@+id/NamePageOrders"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="55dp"
-        android:text="@string/my_orders"
-        android:paddingTop="10dp"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
-    <ImageView
-        android:id="@+id/imageBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/arrow_left"
-        android:layout_marginStart="0dp"
-        android:padding="15dp"
-        android:contentDescription=""
-        tools:ignore="ContentDescription" />
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
     <ListView
         android:id="@+id/list_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="105dp" />
+        android:layout_marginTop="105dp"
+        android:padding="10dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:scrollbars="none"/>
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/SearchOrders"
@@ -47,7 +36,10 @@
         android:focusable="true"
         android:iconifiedByDefault="false"
         android:inputType="text"
-        android:background="@drawable/border_main_menu"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/search_view_bg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         >
 
     </androidx.appcompat.widget.SearchView>

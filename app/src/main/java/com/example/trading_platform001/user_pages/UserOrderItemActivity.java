@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.trading_platform001.R;
@@ -32,13 +33,8 @@ public class UserOrderItemActivity extends AppCompatActivity {
     OrderInformation order;
     Bundle bundle;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.imageViewBack)
-    ImageView imageView;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.DataOrder)
     TextView textView;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.TextViewName)
     TextView TextViewName;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.NomerTTH)
@@ -61,6 +57,8 @@ public class UserOrderItemActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.OrderItem)
     LinearLayout OrderItem;
+    @BindView(R.id.toolbarItemOrder)
+    Toolbar toolbar;
     View view;
     List<ItemOrder> itemOrderList;
     Calendar calendar;
@@ -80,13 +78,12 @@ public class UserOrderItemActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         order = (OrderInformation) bundle.get("order");
         itemOrderList = (ArrayList<ItemOrder>)bundle.get("orderitem");
-        imageView.setOnClickListener(v->onClick(view));
         ShowInformation();
         ShowData(textView);
         ShowItemOrder();
 
-
-       Log.d("S",""+itemOrderList.size());
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        toolbar.setNavigationOnClickListener(v -> onClick(view));
     }
     public void onClick(View v) {
         FragmentManager fm = getSupportFragmentManager();
@@ -99,7 +96,7 @@ public class UserOrderItemActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void ShowInformation()
     {
-        TextViewName.setText("№"+ order.getOrder_number().split(" ")[1]);
+        toolbar.setTitle("№"+ order.getOrder_number().split(" ")[1]);
         NomerTTH.setText("Номер TTH \n"+ order.getOrder_number().split(" ")[1]);
         PriceOrder.setText("Разом до сплати: "+order.getGrand_total()+" ₴");
         if(order.getPayment_method().equals("paypal"))
