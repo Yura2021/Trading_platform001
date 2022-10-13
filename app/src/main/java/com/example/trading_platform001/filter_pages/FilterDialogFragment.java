@@ -72,6 +72,8 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
     ArrayList<HomeValueExProductEntity> listProduct;
     Typeface typeface = Typeface.create("open_sans_bold", Typeface.BOLD);
     Bundle bundle;
+    String nameCategory;
+    List<HomeValueExProductEntity> list;
 
     @Nullable
     @Override
@@ -86,6 +88,9 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         showSeekBar();
         addItemOption();
         bundle = getArguments();
+        if (bundle != null) {
+            nameCategory = bundle.getString("NameParenCategory", "no category");
+        }
         compliteFilter();
         return view;
     }
@@ -115,14 +120,15 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
             sellers.add(new GroupElementNested(checkBox, textView));
         }
         mList.add(new OptionFilterDataModel(sellers, "Інші магазини"));
-        //list1
+       /*
+       //list1
         List<GroupElementNested> nestedList1 = new ArrayList<>();
 
 
 
 
 
-  /*
+
 
         List<LinearLayout> list1 = new ArrayList<>();
         list1.add(addLayautStringCharacteristic("Option atribute1",false));
@@ -192,20 +198,17 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
      */
 
     private void searchDiapazone(String from, String to) {
-        CategoryFilterFragment.productAdapter.setSelectSearch(true);
         if (!from.isEmpty() && !to.isEmpty()) {
             BigDecimal a = new BigDecimal(from);
             BigDecimal b = new BigDecimal(to);
             compliteFilter();
-            List<HomeValueExProductEntity> list = CategoryFilterFragment.productAdapter.getListProduct().stream().filter(o -> isBetween(o.getPrice(), a, b)).collect(Collectors.toList());
-            Log.d("sasa", " " + "  " + list.size());
-            CategoryFilterFragment.productAdapter.getListProduct().clear();
-            CategoryFilterFragment.productAdapter.getListProduct().addAll(list);
-            CategoryFilterFragment.productAdapter.notifyDataSetChanged();
+            list = CategoryFilterFragment.productAdapter.getListProduct().stream().filter(o -> isBetween(o.getPrice(), a, b)).collect(Collectors.toList());
+            if (CategoryFilterFragment.productAdapter.getListProduct().size() != list.size()) {
+                CategoryFilterFragment.productAdapter.getListProduct().clear();
+                CategoryFilterFragment.productAdapter.getListProduct().addAll(list);
+                CategoryFilterFragment.productAdapter.notifyDataSetChanged();
+            }
         }
-        // updateAdapter();
-
-
     }
 
     private void showSeekBar() {
@@ -232,6 +235,7 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 etTo.setText(String.valueOf(progress));
+                Log.d("progress", "" + progress);
 
             }
 
@@ -247,63 +251,56 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         });
     }
 
-    void updateAdapter() {
-        //CategoryFilterFragment.productAdapter.getListProduct();
-        CategoryFilterFragment.productAdapter.notifyDataSetChanged();
-    }
-
     public void compliteFilter() {
 
-        if (bundle != null) {
-            String nameCategory = bundle.getString("NameParenCategory","no category");
-            listProduct = new ArrayList<>();
-            Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCategory)).findFirst();
-            if (category.isPresent()) {
-                int category_id = category.get().getId();
+        listProduct = new ArrayList<>();
+        Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCategory)).findFirst();
+        if (category.isPresent()) {
+            int category_id = category.get().getId();
 
-                List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
-                for (ProductCategoriesEntity item : list) {
-                    Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
-                    if (prod.isPresent()) {
-                        Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == prod.get().getShop_id()).findFirst();
-                        shopEntity.ifPresent(entity -> listProduct.add(new HomeValueExProductEntity(prod.get(), entity.getName())));
+            List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
+            for (ProductCategoriesEntity item : list) {
+                Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
+                if (prod.isPresent()) {
+                    Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == prod.get().getShop_id()).findFirst();
+                    shopEntity.ifPresent(entity -> listProduct.add(new HomeValueExProductEntity(prod.get(), entity.getName())));
 
-                    }
                 }
-                Log.d("Id ", " " + category_id);
             }
-            CategoryFilterFragment.productAdapter.getListProduct().clear();
-            CategoryFilterFragment.productAdapter.getListProduct().addAll(listProduct);
         }
 
+        CategoryFilterFragment.productAdapter.setListProduct(listProduct);
+
+        if (!SaveFilterOption.getSaveCheck().isEmpty()) {
+            CategoryFilterFragment.productAdapter.setMapItemSearch(SaveFilterOption.getSaveCheck());
+           CategoryFilterFragment.productAdapter.getFilter().filter(" ");
+
+
+        } else {
+            CategoryFilterFragment.productAdapter.notifyDataSetChanged();
+        }
 
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        CategoryFilterFragment.productAdapter.setSelectSearch(true);
+        if (SaveFilterOption.getSaveCheck().isEmpty() && list==null)
+            compliteFilter();
+
     }
 
     @Override
     public void onCheckedCheckBoxFilter(CheckBox checkBox, boolean b, TextView tvCountElement) {
-        //  Log.d("Tagggss", " " + b + " Text " + checkBox.getText().toString()+"  count: "+tvCountElement.getText().toString());
-        //CategoryFilterFragment.productAdapter.setListProduct((ArrayList)CategoryFilterFragment.productAdapter.getListProduct().stream().filter(o->o.getRating()<3).collect(Collectors.toList()));
-        // updateAdapter();
-        CategoryFilterFragment.productAdapter.setSelectSearch(false);
+
         String namecheckBox = checkBox.getText().toString();
         if (b) {
-            //saveCheck.put(new GroupElementNested(checkBox,tvCountElement), b);
-            SaveFilterOption.getSaveCheck().put(namecheckBox, true);
-            CategoryFilterFragment.productAdapter.getFilter().filter(namecheckBox);
-            //long id = LocalShops.getShops().stream().filter(o -> Objects.equals(o.getName(), namecheckBox)).collect(Collectors.toList()).get(0).getId();
-            // CategoryFilterFragment.productAdapter.setListProduct(CategoryFilterFragment.productAdapter.getListProduct().stream().filter(o -> o.getShop_id() == id).collect(Collectors.toList()));
+            SaveFilterOption.getSaveCheck().put(namecheckBox, b);
         } else {
             SaveFilterOption.getSaveCheck().remove(namecheckBox);
-            CategoryFilterFragment.productAdapter.getFilter().filter("");
-            updateAdapter();
         }
-        Log.d("Tagggss", " " + b + " Text " + checkBox.getText().toString() + "  count: " + SaveFilterOption.getSaveCheck().size());
+        CategoryFilterFragment.productAdapter.setMapItemSearch(SaveFilterOption.getSaveCheck());
+        CategoryFilterFragment.productAdapter.getFilter().filter(" ");
 
 
     }

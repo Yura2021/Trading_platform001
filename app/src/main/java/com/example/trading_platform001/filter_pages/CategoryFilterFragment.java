@@ -3,6 +3,7 @@ package com.example.trading_platform001.filter_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.catalog_page.ChildrenCategoryFragment;
 import com.example.trading_platform001.catalog_page.models.Category;
+import com.example.trading_platform001.filter_pages.models.SaveFilterOption;
 import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
 import com.example.trading_platform001.models.LocalCategory;
@@ -65,7 +67,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
     Button btnFilter;
     @BindView(R.id.tbFilter)
     Toolbar tbFilter;
-    private String  nameCatecory;
+    private String nameCatecory;
     ArrayList<HomeValueExProductEntity> listProduct;
     Bundle bundle;
 
@@ -76,20 +78,20 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
             view = inflater.inflate(R.layout.fragment_category_filter, container, false);
         ButterKnife.bind(this, view);
         bundle = getArguments();
-        btnSort.setOnClickListener(v -> settingDialogSort(container));
-        btnFilter.setOnClickListener(v -> settingDialogFilter(container));
+        btnSort.setOnClickListener(v -> settingDialogSort());
+        btnFilter.setOnClickListener(v -> settingDialogFilter());
         searchView.clearFocus();
+
         if (bundle != null) {
             nameCatecory = bundle.getString("NameParenCategory");
             bundle.putInt("tagParenCategory", bundle.getInt("tagParenCategory"));
         }
-        if (productAdapter == null)
-            productAdapter = new FilterAdapter(view.getContext(), listProduct);
+
+
         tbFilter.setTitle(nameCatecory);
-        compliteFilter(productAdapter);
         tbFilter.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         tbFilter.setNavigationOnClickListener(v -> replaceFragment(new ChildrenCategoryFragment(), bundle));
-        productAdapter.setMyOnClickAddCartItem(this);
+
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         gridview.setOnItemClickListener(gridviewOnItemClickListener);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -116,12 +118,27 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
             badgeDrawable.clearNumber();
 
         }
+        compliteFilter();
+        if (productAdapter == null)
+            productAdapter = new FilterAdapter(view.getContext(), listProduct);
+        productAdapter.setMapItemSearch(SaveFilterOption.getSaveCheck());
+        productAdapter.setMyOnClickAddCartItem(this);
+        updateFilterSaveItem();
         gridview.setAdapter(productAdapter);
+
         return view;
     }
 
+/*
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateFilterSaveItem();
+    }
 
-    private void settingDialogSort(ViewGroup container) {
+
+ */
+    private void settingDialogSort() {
 
         // new SortDialogFragment().show(getChildFragmentManager(), SortDialogFragment.TAG);
         SortDialogFragment dialogFragment = new SortDialogFragment();
@@ -129,7 +146,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
     }
 
-    private void compliteFilter(FilterAdapter adapter) {
+    private void compliteFilter() {
 
         listProduct = new ArrayList<>();
         Optional<Category> category = LocalCategory.getCategory().stream().filter(s -> Objects.equals(s.getName(), nameCatecory)).findFirst();
@@ -145,14 +162,27 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
                 }
             }
-            adapter.updateReceiptsList(listProduct);
+
+            if (productAdapter != null)
+                productAdapter.setListProduct(listProduct);
+        }
+
+
+    }
+
+    private void updateFilterSaveItem() {
+
+        if (!SaveFilterOption.getSaveCheck().isEmpty()) {
+            productAdapter.setMapItemSearch(SaveFilterOption.getSaveCheck());
+            productAdapter.getFilter().filter(" ");
         }
 
     }
 
-    private void settingDialogFilter(ViewGroup container) {
-
+    private void settingDialogFilter() {
+        updateFilterSaveItem();
         FilterDialogFragment dialogFragment = new FilterDialogFragment();
+        dialogFragment.setArguments(bundle);
         dialogFragment.show(getParentFragmentManager(), "MyFragment");
 
     }
@@ -168,7 +198,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
             Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == productAdapter.getItem(position).getShop_id()).findFirst();
             shopEntity.ifPresent(entity -> homeValueExProductEntity.setNameShop(entity.getName()));
-
+            Log.d("CategoryFilterFragment","position "+position);
             Intent intent = new Intent(CategoryFilterFragment.this.getContext(), DetailsProductActivity.class);
             intent.putExtra("ParceHomeValueExProductEntity", homeValueExProductEntity);
             startActivity(intent);
@@ -179,9 +209,9 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
     @Override
     public void onClickAddCartItem(View v, HomeValueExProductEntity productEntity) {
-
+        Log.d("CategoryFilterFragment","onClickAddCartItem "+productEntity.getName());
         CartEntity cart = CartHelper.getCart();
-        if(!productEntity.isAddCard()) {
+        if (!productEntity.isAddCard()) {
             Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> Objects.equals(s.getId(), productEntity.getId())).findFirst();
             prod.ifPresent(product -> {
                 product.setAddCard(true);

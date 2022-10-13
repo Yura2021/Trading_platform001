@@ -3,6 +3,7 @@ package com.example.trading_platform001.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
-import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.ProductEntity;
 import com.squareup.picasso.Picasso;
@@ -50,14 +50,8 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
     TextView tvPriceProduct;
     @BindView(R.id.rbRating)
     RatingBar rbRating;
-    @BindView(R.id.ivAddCart)
-    ImageView ivAddCart;
     CartEntity cart;
-    private MyOnClickAddCartItem myOnClickAddCartItem;
 
-    public void setMyOnClickAddCartItem(MyOnClickAddCartItem myOnClickAddCartItem) {
-        this.myOnClickAddCartItem = myOnClickAddCartItem;
-    }
 
     public ProductAdapter(Context context, ArrayList<ProductEntity> dataListProduct) {
         this.context = context;
@@ -89,7 +83,6 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         if (convertView == null) {
             grid = new View(context);
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

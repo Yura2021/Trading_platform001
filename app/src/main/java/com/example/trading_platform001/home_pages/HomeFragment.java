@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -51,8 +53,7 @@ public class HomeFragment extends Fragment {
     ImageSlider imageSlider;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if (view == null)
             view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -62,7 +63,6 @@ public class HomeFragment extends Fragment {
         searchView.clearFocus();
         if (productAdapter == null)
             productAdapter = new ProductAdapter(view.getContext(), LocalProducts.getProducts());
-
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         gridview.setOnItemClickListener(gridviewOnItemClickListener);
 
@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -114,7 +115,13 @@ public class HomeFragment extends Fragment {
 
         }
     }
-
+    public void replaceFragment(Fragment fragment, Bundle bundle) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.fcContainerMain, fragment);
+        fragmentTransaction.commit();
+    }
 
     private final GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
 

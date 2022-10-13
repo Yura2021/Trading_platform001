@@ -7,7 +7,6 @@
     android:background="#EDE6E6"
     tools:context=".home_pages.HomeFragment">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,15 +14,15 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvSlider"
+            style="@style/MyAppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp"
             app:cardBackgroundColor="@android:color/white"
-            app:cardElevation="4dp"
-            app:cardUseCompatPadding="true"
-            android:layout_margin="5dp"
             app:cardCornerRadius="10dp"
-            style="@style/MyAppTheme">
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
 
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/image_slider"
@@ -35,21 +34,43 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/svSearch1"
+        <androidx.cardview.widget.CardView
+            style="@style/MyAppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/white"
-            android:background="@drawable/search_view_bg"
-            android:clickable="true"
-            android:focusable="true"
-            android:iconifiedByDefault="false"
-            android:inputType="text"
-            android:queryHint="Пошук" />
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/svSearch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/search_view_bg"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:iconifiedByDefault="false"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:queryHint="Пошук">
+
+                </androidx.appcompat.widget.SearchView>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
 
         <GridView

@@ -21,13 +21,12 @@ import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
-import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.ProductEntity;
-import com.example.trading_platform001.user_pages.models.OrderList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,20 +37,13 @@ import butterknife.ButterKnife;
 public class FilterAdapter extends BaseAdapter implements Filterable {
     Context context;
 
-    public ArrayList<HomeValueExProductEntity> getListProduct() {
-        return listProduct;
-    }
+    private ArrayList<HomeValueExProductEntity> listProduct;
+    private ArrayList<HomeValueExProductEntity> dataListProduct;
 
-    public ArrayList<HomeValueExProductEntity> listProduct;
-    public final ArrayList<HomeValueExProductEntity> dataListProduct;
-    View grid;
-
-    long itemId;
     String url_imgProduct;
     String nameProduct, priceProduct;
     float rating;
-    boolean favorite;
-    int productPosition;
+
     @BindView(R.id.imgProduct)
     ImageView imgProduct;
     @BindView(R.id.tvNameProduct)
@@ -63,42 +55,43 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
     CartEntity cart;
     private MyOnClickAddCartItem myOnClickAddCartItem;
     LayoutInflater inflater;
-    private boolean isSelectSearch;
+    private Map<String, Boolean> mapItemSearch;
 
     public void setMyOnClickAddCartItem(MyOnClickAddCartItem myOnClickAddCartItem) {
         this.myOnClickAddCartItem = myOnClickAddCartItem;
     }
 
-    public void setListProduct(ArrayList<HomeValueExProductEntity> listProduct) {
-        this.listProduct = listProduct;
-        isSelectSearch = true;
+    public ArrayList<HomeValueExProductEntity> getListProduct() {
+        return listProduct;
     }
 
-    public FilterAdapter(Context context, ArrayList<HomeValueExProductEntity> dataListProduct) {
-        listProduct = dataListProduct;
-        if (listProduct == null)
-            listProduct = new ArrayList<>();
+    public void setListProduct(ArrayList<HomeValueExProductEntity> listProduct) {
+        this.listProduct = listProduct;
+        this.dataListProduct = listProduct;
+    }
 
+    public FilterAdapter(Context context, ArrayList<HomeValueExProductEntity> listProduct) {
+        this.listProduct = listProduct;
         this.context = context;
 
         this.dataListProduct = listProduct;
         cart = CartHelper.getCart();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        isSelectSearch = true;
     }
 
-    public boolean isSelectSearch() {
-        return isSelectSearch;
+
+    public Map<String, Boolean> getMapItemSearch() {
+        return mapItemSearch;
     }
 
-    public void setSelectSearch(boolean selectSearch) {
-        isSelectSearch = selectSearch;
+    public void setMapItemSearch(Map<String, Boolean> mapItemSearch) {
+
+        this.mapItemSearch = mapItemSearch;
     }
 
     @Override
     public int getCount() {
-
-        return listProduct.size();
+        return listProduct == null ? 0 : listProduct.size();
     }
 
     @Override
@@ -126,9 +119,6 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         }
         ButterKnife.bind(this, convertView);
 
-        itemId = getItem(position).getId();
-        productPosition = position;
-        favorite = LocalProducts.getProducts().get(productPosition).isFavorite();
         nameProduct = listProduct.get(position).getName();
         priceProduct = String.valueOf(listProduct.get(position).getPrice());
         rating = listProduct.get(position).getRating();
@@ -156,31 +146,56 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint == null || constraint.length() == 0) {
-                    filterResults.count = dataListProduct.size();
-                    filterResults.values = dataListProduct;
+                    if (mapItemSearch.isEmpty()) {
+                        filterResults.count = dataListProduct.size();
+                        filterResults.values = dataListProduct;
+                    } else {
+                        filterResults.count = 0;
+                        filterResults.values = null;
+                    }
+
                 } else {
                     ArrayList<HomeValueExProductEntity> resultData = new ArrayList<>();
-                    if (isSelectSearch) {
+                    ArrayList<HomeValueExProductEntity> resultData2 = new ArrayList<>();
+                    String search = constraint.toString().toLowerCase(Locale.ROOT);
+                    if (mapItemSearch.isEmpty()) {
 
-                        String search = constraint.toString().toLowerCase(Locale.ROOT);
                         for (HomeValueExProductEntity item : dataListProduct) {
                             if (item.getName().toLowerCase(Locale.ROOT).contains(search)) {
                                 resultData.add(item);
                             }
-                            filterResults.count = resultData.size();
-                            filterResults.values = resultData;
+                        }
+                        filterResults.count = resultData.size();
+                        filterResults.values = resultData;
+                    } else {
+                        for (HomeValueExProductEntity item : dataListProduct) {
+
+                            for (Map.Entry<String, Boolean> entry : mapItemSearch.entrySet()) {
+                                if (!resultData.contains(item) && item.getNameShop().equals(entry.getKey())) {
+                                    resultData.add(item);
+                                }
+                            }
+
                         }
 
-                    } else {
-                        String search = constraint.toString();
-                        for (HomeValueExProductEntity item : dataListProduct) {
-                            if (item.getNameShop().equals(search)) {
-                                resultData.add(item);
+                        if (!search.equals(" ")) {
+
+                            for (HomeValueExProductEntity item : resultData) {
+                                if (item.getName().toLowerCase(Locale.ROOT).contains(search)) {
+                                    resultData2.add(item);
+                                }
+
                             }
-                            filterResults.count = resultData.size();
-                            filterResults.values = resultData;
+                            filterResults.count = resultData2.size();
+                            filterResults.values = resultData2;
+                            return filterResults;
+
                         }
+                        filterResults.count = resultData.size();
+                        filterResults.values = resultData;
                     }
+
+
                 }
                 return filterResults;
             }
@@ -192,17 +207,11 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
             }
         };
 
+
     }
 
     private class ViewHolder {
         ImageView ivAddCart;
     }
 
-    public void updateReceiptsList(ArrayList<HomeValueExProductEntity> listProduct) {
-        this.listProduct.clear();
-        this.listProduct.addAll(listProduct);
-        this.dataListProduct.clear();
-        this.dataListProduct.addAll(listProduct);
-        this.notifyDataSetChanged();
-    }
 }

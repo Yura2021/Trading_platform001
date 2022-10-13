@@ -24,7 +24,11 @@ public class HomeValueExProductEntity extends ProductEntity implements Parcelabl
         super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(),product.isAddCard());
         this.nameShop = nameShop;
     }
-
+    public HomeValueExProductEntity(ProductEntity product, String nameShop,String nameCategory) {
+        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(),product.isAddCard());
+        this.nameShop = nameShop;
+        this.nameCategory = nameCategory;
+    }
     public HomeValueExProductEntity(ProductEntity product) {
         super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(), product.isAddCard());
     }
