@@ -3,7 +3,6 @@ package com.example.trading_platform001.carts_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -51,8 +50,9 @@ import butterknife.ButterKnife;
 
 @SuppressLint("NonConstantResourceId")
 public class OrderActivity extends AppCompatActivity {
-    private static final String SECRET_KEY = "Bearer sk_test_51Lc59aFu7opmpVrhzFf6bzG1Jhzc3mu9hLwIsdaKZaR37btWvE0Q9q6anpRMRgfdET9Lth0jaJXsalStuQfFTbqi00s6fbDvcU";
     private static final String PUBLISH_KEY = "pk_test_51Lc59aFu7opmpVrhs994HUGKEybp5utIf1RViqf59Td3x7fA8i3zdIo5XzCOZD6W6xXFMh2IcuJYnTjA4qd1y3AJ00BETWtNNM";
+    private static final String SECRET_KEY = "Bearer sk_test_51Lc59aFu7opmpVrh7nPCO0DylS6a2uYM9CC6iZxJJzzZQaNC4en9ZTkxM5GeGnPMwSuMxt4HCtHrZW67XZVg4CXd00CstmRok2";
+
     PaymentSheet paymentSheet;
     String customerID;
     String EphericalKey;
@@ -147,7 +147,6 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void operationOrder() {
-        Log.d("paymentFlow()", "ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
         if (checkBoxCartPayment.isChecked()) {
             payment = "paypal";//можна змінити на інший ти карти
             if (CartHelper.getCartItems().size() > 0) {
@@ -181,6 +180,8 @@ public class OrderActivity extends AppCompatActivity {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             Toast.makeText(this, "Платіж опрацьовано успішно", Toast.LENGTH_SHORT).show();
             ClearCart();
+        }else {
+            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -223,9 +224,7 @@ public class OrderActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/payment_intents", response -> {
             try {
                 JSONObject object = new JSONObject(response);
-                Log.d("object", object.toString());
                 ClientSecret = object.getString("client_secret");
-                Log.d("paymentFlow() 1", "CartHelper.getCart().getTotalPrice(): " + CartHelper.getCart().getTotalPrice().toString() + "  ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
                 Toast.makeText(getBaseContext(), ClientSecret, Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e) {
@@ -280,7 +279,6 @@ public class OrderActivity extends AppCompatActivity {
                 JSONArray errors = data.getJSONArray("error");
                 JSONObject jsonMessage = errors.getJSONObject(0);
                 String message = jsonMessage.getString("message");
-                Log.d("error", message);
                 Toast.makeText(this, "Тимчасова помилка сервысу з оформленням заявки!!!", Toast.LENGTH_LONG).show();
                 onBackPressed();
                 finish();
@@ -301,7 +299,6 @@ public class OrderActivity extends AppCompatActivity {
             try {
                 String res = new String(response.data,
                         HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                Log.d("object", response.toString());
                 // Now you can use any deserializer to make sense of data
                 Toast.makeText(this, "Тимчасова помилка сервысу з оформленням заявки!!!", Toast.LENGTH_LONG).show();
                 //Log.d("paymentFlow() 2", "CartHelper.getCart().getTotalPrice(): " + CartHelper.getCart().getTotalPrice().toString() + "  ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
