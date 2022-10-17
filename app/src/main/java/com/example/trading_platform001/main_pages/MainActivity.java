@@ -2,12 +2,15 @@ package com.example.trading_platform001.main_pages;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -57,12 +60,13 @@ public class MainActivity extends AppCompatActivity {
     public BadgeDrawable badgeDrawable;
     Http http;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        http= new Http(this);
+        http = new Http(this);
         url = getString(R.string.api_server);
         if (LocalProducts.isNull()) {
             getAllProduct();
@@ -113,6 +117,36 @@ public class MainActivity extends AppCompatActivity {
         if (LocalProducts.isNull()) {
             http.GetCategory();
         }
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            private Boolean exit = false;
+            @Override
+            public void handleOnBackPressed() {
+                if (exit) {
+                    finish(); // finish activity
+                } else {
+                    Toast.makeText(getBaseContext(), "Натисніть ще раз кнопку повернутися щоб вийти з додатку!!!",
+                            Toast.LENGTH_SHORT).show();
+                    exit = true;
+                    new Handler().postDelayed(() -> {
+
+                            /*
+                        Intent a = new Intent(Intent.ACTION_MAIN);
+                        a.addCategory(Intent.CATEGORY_HOME);
+                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(a);
+
+                             */
+
+                        exit = false;
+
+                    }, 2000);
+
+                }
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
 
 
@@ -136,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-        }, error -> parseVolleyError(error)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
