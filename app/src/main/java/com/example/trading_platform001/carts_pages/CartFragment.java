@@ -12,9 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +25,7 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.CartRecyclerAdapter;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
+import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.interfaces.MyOnItemClickListener;
 import com.example.trading_platform001.products_pages.product_details_fragment.AllInfoProductFragment;
 import com.google.android.material.badge.BadgeDrawable;
@@ -46,6 +50,19 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     View view;
     BadgeDrawable badgeDrawable;
     BottomNavigationView btnNavView;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                replaceFragment(new HomeFragment());
+                btnNavView.setSelectedItemId(R.id.home);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -138,5 +155,13 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
 
         }
 
+    }
+    public void replaceFragment(Fragment fragment) {
+        assert getFragmentManager() != null;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fcContainerMain, fragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 }

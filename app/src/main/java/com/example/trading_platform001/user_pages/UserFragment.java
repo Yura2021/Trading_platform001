@@ -10,15 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.MenuUserListAdapter;
 import com.example.trading_platform001.authorizations_pages.AuthorizationMenuActivity;
+import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.StorageInformation;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,21 @@ public class UserFragment extends Fragment {
     List<String> MenuItem;
     List<Drawable> IconMenu;
     MenuUserListAdapter adapter;
+    BottomNavigationView btnNavView;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                replaceFragment(new HomeFragment());
+                btnNavView.setSelectedItemId(R.id.home);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

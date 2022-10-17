@@ -3,6 +3,7 @@ package com.example.trading_platform001.catalog_page;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,7 +18,9 @@ import android.widget.TextView;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.catalog_page.models.Category;
+import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.LocalCategory;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -41,7 +44,7 @@ public class CatalogFragment extends Fragment {
     ArrayList<Category> categories;
     ViewGroup viewGroup;
     Bundle bundle = new Bundle();
-
+    BottomNavigationView btnNavView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -80,6 +83,15 @@ public class CatalogFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                replaceFragment(new HomeFragment());
+                btnNavView.setSelectedItemId(R.id.home);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -130,6 +142,15 @@ public class CatalogFragment extends Fragment {
 
     public void replaceFragment(Fragment fragment,Bundle bundle) {
        fragment.setArguments(bundle);
+        assert getFragmentManager() != null;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fcContainerMain, fragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
+    }
+
+    public void replaceFragment(Fragment fragment) {
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fcContainerMain, fragment);
