@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authorizations_pages.AuthorizationMenuActivity">
+    tools:context=".authorizations_pages.AuthorizationMenuActivity"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="2dp"
+    android:background="#EDE6E6">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/buttonMenuAuthorization"
@@ -20,7 +25,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.091"
+        app:layout_constraintVertical_bias="0.0"
         app:menu="@menu/button_nav_menu_authorization" />
 
     <LinearLayout

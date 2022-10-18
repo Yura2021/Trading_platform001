@@ -5,60 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDE6E6"
+    android:contentDescription="@string/Default_text"
     tools:context=".catalog_page.CatalogFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            >
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/svSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/search_view_bg"
-                android:clickable="true"
-                android:focusable="true"
-                android:iconifiedByDefault="false"
-                android:inputType="text"
-                android:queryHint="Пошук" />
             <LinearLayout
+                android:id="@+id/layoutLeftCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/layoutRightCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-                android:layout_weight="1">
-                <LinearLayout
-                    android:id="@+id/layoutLeftCategory"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"/>
+            android:layout_marginTop="1dp"
+            android:background="@drawable/border_radius"
+            android:padding="5dp"
+            android:src="@drawable/app_logo" />
 
-                 <LinearLayout
-                    android:id="@+id/layoutRightCategory"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"/>
-        </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_radius"
-                android:src="@drawable/app_logo"
-                android:padding="5dp"
-                android:layout_marginTop="1dp" />
-
-        </LinearLayout>
+    </LinearLayout>
 </ScrollView>
