@@ -305,7 +305,7 @@ public class Http {
             try {
                 JSONObject obj = new JSONObject(response);
                 String customerToken = obj.getString("token");
-                Toast.makeText(context, customerToken, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, customerToken, Toast.LENGTH_SHORT).show();
                 user = new Gson().fromJson(obj.getString("user"), User.class);
                 user.setRemember_token(customerToken);
                 storage.SetStorageUser(user);

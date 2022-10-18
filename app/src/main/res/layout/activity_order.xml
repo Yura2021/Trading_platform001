@@ -15,6 +15,7 @@
         android:layout_marginStart="0dp"
         android:padding="15dp"
         android:contentDescription=""
+        style="@style/MyAppTheme"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -27,6 +28,7 @@
         android:paddingTop="10dp"
         android:text="@string/my_cart_orders"
         android:textSize="20sp"
+        style="@style/MyAppTheme"
         android:textStyle="bold" />
 
 
@@ -51,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    style="@style/MyAppTheme"
                     android:text="@string/NameOrderCart"
                     android:textSize="18dp" />
 
@@ -64,6 +67,7 @@
                     android:hint="@string/StringNull"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
+                    style="@style/MyAppTheme"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -72,6 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    style="@style/MyAppTheme"
                     android:text="@string/RegionOrderCart"
                     android:textSize="18dp" />
 
@@ -81,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    style="@style/MyAppTheme"
                     android:ems="10"
                     android:hint="@string/StringNull"
                     android:inputType="textPersonName"
@@ -93,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    style="@style/MyAppTheme"
                     android:text="@string/CitiOrderCart"
                     android:textSize="18dp" />
 
@@ -102,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    style="@style/MyAppTheme"
                     android:ems="10"
                     android:hint="@string/StringNull"
                     android:inputType="textPersonName"
@@ -114,6 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    style="@style/MyAppTheme"
                     android:text="@string/StreetOrderCart"
                     android:textSize="18dp" />
 
@@ -127,6 +136,7 @@
                     android:hint="@string/StringNull"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
+                    style="@style/MyAppTheme"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -135,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    style="@style/MyAppTheme"
                     android:text="@string/PhoneOrderCart"
                     android:textSize="18dp" />
 
@@ -146,6 +157,7 @@
                     android:layout_marginRight="15dp"
                     android:ems="10"
                     android:hint="@string/StringNull"
+                    style="@style/MyAppTheme"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
                     tools:ignore="SpeakableTextPresentCheck" />
@@ -157,6 +169,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:text="@string/ZipCodeOrderCart"
+                    style="@style/MyAppTheme"
                     android:textSize="18dp" />
 
                 <EditText
@@ -169,6 +182,7 @@
                     android:hint="@string/StringNull"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
+                    style="@style/MyAppTheme"
                     tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
@@ -182,6 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
+                    style="@style/MyAppTheme"
                     android:text="@string/generalSumOrderCard"
                     android:textSize="18dp" />
 
@@ -195,6 +210,7 @@
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
+                        style="@style/MyAppTheme"
                         android:text="@string/text_sum"
                         android:layout_weight="1"/>
 
@@ -203,6 +219,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        style="@style/MyAppTheme"
                         android:layout_marginRight="15dp"
                         android:textAlignment="viewEnd"
                         />
@@ -222,6 +239,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:text="@string/deliveriCard"
+                        style="@style/MyAppTheme"
                         android:layout_weight="1"
                         android:layout_marginTop="5dp"/>
 
@@ -230,6 +248,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        style="@style/MyAppTheme"
                         android:layout_marginRight="15dp"
                         android:text="@string/deliveriCardText"
                         android:textAlignment="viewEnd"
@@ -249,6 +268,7 @@
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
+                        style="@style/MyAppTheme"
                         android:text="@string/generalSumText"
                         android:layout_weight="1" />
 
@@ -257,6 +277,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        style="@style/MyAppTheme"
                         android:layout_marginRight="15dp"
                         android:textAlignment="viewEnd"
                         />
@@ -277,6 +298,7 @@
                 android:layout_height="wrap_content"
                 android:text="Спосіб оплати"
                 android:textSize="18dp"
+                style="@style/MyAppTheme"
                 android:layout_margin="15dp"/>
 
             <CheckBox
@@ -284,12 +306,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/CartPayment"
+                style="@style/MyAppTheme"
                 android:layout_marginLeft="10dp"/>
 
             <CheckBox
                 android:id="@+id/checkBoxCashPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/MyAppTheme"
                 android:text="@string/CashPayment"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
@@ -299,7 +323,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:backgroundTint="@color/orange"
+                style="@style/MyAppTheme"
                 android:text="@string/buy" />
         </LinearLayout>
     </ScrollView>

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -23,10 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.CartRecyclerAdapter;
+import com.example.trading_platform001.authorizations_pages.AuthorizationMenuActivity;
+import com.example.trading_platform001.authorizations_pages.RegistrationFragment;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.interfaces.MyOnItemClickListener;
+import com.example.trading_platform001.models.StorageInformation;
 import com.example.trading_platform001.products_pages.product_details_fragment.AllInfoProductFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,7 +50,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     private CartRecyclerAdapter productRecyclerAdapter;
     @BindView(R.id.tvSum)
     TextView tvSum;
-
+    StorageInformation storage;
     View view;
     BadgeDrawable badgeDrawable;
     BottomNavigationView btnNavView;
@@ -68,6 +72,8 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
+        assert context != null;
+        storage = new StorageInformation(context);
     }
 
     @Override
@@ -86,8 +92,15 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
 
     private void redirectOrders() {
         if (CartHelper.getCartItems().size() > 0) {
-            Intent intent = new Intent(getContext(), OrderActivity.class);
-            startActivity(intent);
+            if (storage.IsEmpty()) {
+                Intent intent = new Intent(getContext(), OrderActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(getContext(), AuthorizationMenuActivity.class);
+                startActivity(intent);
+            }
+        } else {
+            Toast.makeText(context, "Корзина порожня!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -104,7 +117,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
             cartModel.setProduct(carts.get(position).getProduct());
             cartModel.setQuantity(carts.get(position).getQuantity() + 1);
             productRecyclerAdapter.updateItem(position, cartModel);
-            tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+            tvSum.setText("Загальна сума: " + CartHelper.getCart().getTotalPrice());
         }
     }
 
@@ -130,7 +143,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
             cartModel.setProduct(carts.get(position).getProduct());
             cartModel.setQuantity(carts.get(position).getQuantity() - 1);
             productRecyclerAdapter.updateItem(position, cartModel);
-            tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+            tvSum.setText("Загальна сума: " + CartHelper.getCart().getTotalPrice());
         }
 
     }
@@ -142,7 +155,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
         productRecyclerAdapter.setOnItemClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(productRecyclerAdapter);
-        tvSum.setText("Sum: " + CartHelper.getCart().getTotalPrice());
+        tvSum.setText("Загальна сума: " + CartHelper.getCart().getTotalPrice());
         int size = CartHelper.getCartItems().size();
         if (badgeDrawable == null)
             badgeDrawable = btnNavView.getOrCreateBadge(R.id.cart);
@@ -156,6 +169,7 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
         }
 
     }
+
     public void replaceFragment(Fragment fragment) {
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

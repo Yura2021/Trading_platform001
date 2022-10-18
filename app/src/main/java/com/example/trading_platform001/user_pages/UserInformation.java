@@ -2,45 +2,34 @@ package com.example.trading_platform001.user_pages;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.trading_platform001.carts_pages.models.CartHelper;
-import com.example.trading_platform001.catalog_page.CatalogFragment;
-import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.carts_pages.models.CartHelper;
+import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.StorageInformation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+@SuppressLint("NonConstantResourceId")
 public class UserInformation extends AppCompatActivity {
 
-
     StorageInformation storage;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.textView2)
     TextView textView2;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.textView3)
     TextView textView3;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.textView8)
     TextView textView8;
     @BindView(R.id.textView7)
