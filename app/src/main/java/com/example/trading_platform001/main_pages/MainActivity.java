@@ -2,7 +2,6 @@ package com.example.trading_platform001.main_pages;
 
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,7 +28,9 @@ import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.catalog_page.CatalogFragment;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalProducts;
+import com.example.trading_platform001.models.LocalShops;
 import com.example.trading_platform001.models.LocalTableProductCategories;
 import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.user_pages.UserFragment;
@@ -59,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private String url;
     public BadgeDrawable badgeDrawable;
     Http http;
-
+    @BindView(R.id.srlMain)
+    SwipeRefreshLayout srlMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         http = new Http(this);
         url = getString(R.string.api_server);
+
         if (LocalProducts.isNull()) {
             getAllProduct();
             http.getAllShop();
@@ -81,9 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new HomeFragment());
             }
 
-
         }
-
         btnNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
@@ -118,8 +120,9 @@ public class MainActivity extends AppCompatActivity {
             http.GetCategory();
         }
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             private Boolean exit = false;
+
             @Override
             public void handleOnBackPressed() {
                 if (exit) {
@@ -147,8 +150,30 @@ public class MainActivity extends AppCompatActivity {
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
 
+        srlMain.setOnRefreshListener(
+                () -> {
+                    srlMain.setRefreshing(false);
+                    itemsRefreshProduct();
+                }
+        );
+
+
     }
 
+    private void itemsRefreshProduct() {
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
+        btnNavView.setSelectedItemId(R.id.home);
+        getAllProduct();
+        LocalCategory.setCategory(null);
+        LocalProducts.setProducts(null);
+        LocalShops.setShops(null);
+        LocalTableProductCategories.setProductCategoriesID(null);
+        http.GetCategory();
+        http.getAllShop();
+        http.getAllProductCategoriesID();
+
+    }
 
     public void getAllProduct() {
 
@@ -216,6 +241,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fcContainerMain, fragment);
         fragmentTransaction.commit();
     }
-
 
 }

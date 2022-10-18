@@ -165,7 +165,7 @@ public class Http {
 
     }
 
-    public void getAllProduct(Context context) {
+    public void getAllProduct() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://ecommerce.it-tree.com.ua/api" + "/products", response -> {
 
             JSONObject obj = null;
@@ -480,7 +480,7 @@ public class Http {
                 JSONObject obj = new JSONObject(response);
                 Type listType = new TypeToken<ArrayList<Category>>() {
                 }.getType();
-                LocalCategory.setProducts(new Gson().fromJson(obj.getString("category"), listType));
+                LocalCategory.setCategory(new Gson().fromJson(obj.getString("category"), listType));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

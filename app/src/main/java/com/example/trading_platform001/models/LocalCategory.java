@@ -18,7 +18,7 @@ public class LocalCategory {
         return categories == null;
     }
 
-    public static void setProducts(ArrayList<Category> categories) {
+    public static void setCategory(ArrayList<Category> categories) {
         LocalCategory.categories = categories;
     }
 
