@@ -3,6 +3,7 @@ package com.example.trading_platform001.carts_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -37,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
@@ -63,8 +66,6 @@ public class OrderActivity extends AppCompatActivity {
     TextView tvSum;
     @BindView(R.id.tvSumGeneral)
     TextView tvSumGeneral;
-    @BindView(R.id.imageBackOrder)
-    ImageView imageView;
     @BindView(R.id.editNameOrderCart)
     EditText NameeditText;
     @BindView(R.id.editRegionOrderCart)
@@ -79,6 +80,10 @@ public class OrderActivity extends AppCompatActivity {
     EditText ZipCodeeditText;
     @BindView(R.id.checkBoxCartPayment)
     CheckBox checkBoxCartPayment;
+    @BindView(R.id.checkBoxCashPayment)
+    CheckBox checkBoxCashPayment;
+    @BindView(R.id.toolbarOrder)
+    Toolbar toolbar;
     StorageInformation storageInformation;
     OrderInformation orderInformation;
     Http http;
@@ -94,20 +99,57 @@ public class OrderActivity extends AppCompatActivity {
         funPlayShop();
         http = new Http(this);
         storageInformation = new StorageInformation(this);
-        btnBuy.setOnClickListener(v -> operationOrder());
+        btnBuy.setOnClickListener(v -> ChekedInfromOrder());
         tvSum.setText(CartHelper.getCart().getTotalPrice() + " " + getString(R.string.money_ua));
         tvSumGeneral.setText(CartHelper.getCart().getTotalPrice() + " " + getString(R.string.money_ua));
-        imageView.setOnClickListener(v -> onclick());
-
-        if (storageInformation.GetStorage("Name") != null) {
+          if (storageInformation.GetStorage("Name") != null) {
             NameeditText.setText(storageInformation.GetStorage("Name"));
         }
+
+        toolbar.setTitle("Обліковий запис");
+
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        toolbar.setNavigationOnClickListener(v->finish());
     }
 
-    private void onclick() {
-        finish();
+    public void ChekedInfromOrder()
+    {
+        if(!NameeditText.getText().toString().isEmpty())
+        {
+           if(!RegioneditText.getText().toString().isEmpty())
+           {
+               if(!CitieditText.getText().toString().isEmpty())
+               {
+                   if(!StreeteditText.getText().toString().isEmpty())
+                   {
+                       if(!PhoneeditText.getText().toString().isEmpty())
+                       {
+                           if(!ZipCodeeditText.getText().toString().isEmpty())
+                           {
+                               if(checkBoxCartPayment.isChecked()||checkBoxCashPayment.isChecked())
+                               {
+                                   operationOrder();
+                               }
+                               else
+                               {Toast.makeText(this, "Вкажіть спосіб оплати", Toast.LENGTH_SHORT).show();}
+                           }
+                           else
+                           {Toast.makeText(this, "Вкажіть поштовий код", Toast.LENGTH_SHORT).show();}
+                       }
+                       else
+                       {Toast.makeText(this, "Вкажіть номер телефона", Toast.LENGTH_SHORT).show();}
+                   }
+                   else
+                   {Toast.makeText(this, "Вкажіть вулицю для доставки", Toast.LENGTH_SHORT).show();}
+               }
+               else
+               {Toast.makeText(this, "Вкажіть місто для доставки", Toast.LENGTH_SHORT).show();}
+           }
+           else
+           {Toast.makeText(this, "Вкажіть область для доставки", Toast.LENGTH_SHORT).show();}
+        }
+        else {Toast.makeText(this, "Вкажіть імя замовника", Toast.LENGTH_SHORT).show();}
     }
-
     void funPlayShop() {
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
 
@@ -137,13 +179,12 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void setOrder() {
-        orderInformation = new OrderInformation(CartHelper.getCart().getTotalPrice().intValue(), Calendar.getInstance().getTime(),
-                NameeditText.getText().toString(), StreeteditText.getText().toString(),
-                CitieditText.getText().toString(), RegioneditText.getText().toString(),
-                ZipCodeeditText.getText().toString(), PhoneeditText.getText().toString(),
-                CartHelper.getCartItems().size(), payment);
-
-        http.setOrderUser(orderInformation, CartHelper.getCartItems());
+            orderInformation = new OrderInformation(CartHelper.getCart().getTotalPrice().intValue(), Calendar.getInstance().getTime(),
+                    NameeditText.getText().toString(), StreeteditText.getText().toString(),
+                    CitieditText.getText().toString(), RegioneditText.getText().toString(),
+                    ZipCodeeditText.getText().toString(), PhoneeditText.getText().toString(),
+                    CartHelper.getCartItems().size(), payment);
+            http.setOrderUser(orderInformation, CartHelper.getCartItems());
     }
 
     private void operationOrder() {

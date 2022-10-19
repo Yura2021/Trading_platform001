@@ -4,38 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".carts_pages.OrderActivity">
+    tools:context=".carts_pages.OrderActivity"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="2dp"
+    android:background="#EDE6E6">
 
-    <ImageView
-        android:id="@+id/imageBackOrder"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/arrow_left"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="0dp"
-        android:padding="15dp"
-        android:contentDescription=""
-        style="@style/MyAppTheme"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/NamePageOrders"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarOrder"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="-50dp"
-        android:layout_marginBottom="10dp"
-        android:paddingTop="10dp"
-        android:text="@string/my_cart_orders"
-        android:textSize="20sp"
-        style="@style/MyAppTheme"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/add_cart">
+        android:contentDescription="@string/add_cart"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
