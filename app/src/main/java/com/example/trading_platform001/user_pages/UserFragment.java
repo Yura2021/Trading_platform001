@@ -92,13 +92,29 @@ public class UserFragment extends Fragment {
                     }
                     break;
                 }
-                case "Мої замовлення":
+                case "Мої замовлення": {
                     if (Storage.IsEmpty()) {
-                     replaceFragment(new User_OrderList_Informations());
+                        replaceFragment(new User_OrderList_Informations());
                     } else {
                         startActivity(new Intent(getContext(), AuthorizationMenuActivity.class));
                     }
                     break;
+                }
+                case"Інформація":
+                {
+                    startActivity(new Intent(getContext(), information_store.class));
+                    break;
+                }
+                case"Час роботи":
+                {
+                    startActivity(new Intent(getContext(), time_work_shop.class));
+                    break;
+                }
+                case"Служба підтримки":
+                {
+                    startActivity(new Intent(getContext(), SupportHellper.class));
+                    break;
+                }
             }
         });
 

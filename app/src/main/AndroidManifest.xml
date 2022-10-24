@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:allowBackup="true"
-        android:enableOnBackInvokedCallback="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,6 +17,15 @@
         android:theme="@style/MyAppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
+        <activity
+            android:name=".user_pages.SupportHellper"
+            android:exported="false" />
+        <activity
+            android:name=".user_pages.time_work_shop"
+            android:exported="false" />
+        <activity
+            android:name=".user_pages.information_store"
+            android:exported="false" />
         <activity
             android:name=".main_pages.LogoActivity"
             android:exported="true"
@@ -32,7 +41,7 @@
             android:name=".products_pages.DetailsProductActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".main_pages.MainActivity"
             android:exported="false"
@@ -57,7 +66,7 @@
             android:name=".user_pages.UserOrderItemActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>
