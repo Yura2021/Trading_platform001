@@ -132,15 +132,6 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     exit = true;
                     new Handler().postDelayed(() -> {
-
-                            /*
-                        Intent a = new Intent(Intent.ACTION_MAIN);
-                        a.addCategory(Intent.CATEGORY_HOME);
-                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(a);
-
-                             */
-
                         exit = false;
 
                     }, 2000);
@@ -225,8 +216,6 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonMessage = errors.getJSONObject(0);
                 String message = jsonMessage.getString("message");
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-                // alertFail(message);
-                Log.d("Token error", message);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

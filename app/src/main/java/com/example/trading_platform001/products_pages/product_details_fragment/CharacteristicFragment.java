@@ -51,10 +51,6 @@ public class CharacteristicFragment extends Fragment {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        /*
-            android:layout_margin="5dp"
-            app:cardCornerRadius="10dp"
-        * */
 
         llParam.setMargins(5,5,5,5);
         cardView.setLayoutParams(llParam);

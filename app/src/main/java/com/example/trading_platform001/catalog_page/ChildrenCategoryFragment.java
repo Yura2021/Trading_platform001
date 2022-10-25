@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.filter_pages.CategoryFilterFragment;
-import com.example.trading_platform001.filter_pages.FilterDialogFragment;
 import com.example.trading_platform001.models.LocalCategory;
 
 import java.util.ArrayList;

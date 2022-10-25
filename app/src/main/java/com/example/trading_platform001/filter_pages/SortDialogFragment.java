@@ -35,7 +35,6 @@ public class SortDialogFragment extends DialogFragment {
             view = inflater.inflate(R.layout.fragment_dialog_sort, container, false);
         ButterKnife.bind(this, view);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            //RadioButton rb = group.findViewById(checkedId);
             sortProduct(checkedId);
 
         });
@@ -47,35 +46,26 @@ public class SortDialogFragment extends DialogFragment {
     private void sortProduct(int id) {
         switch (id) {
             case R.id.rbCheapToExpensive:
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-               // LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getPrice));
                 CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getPrice));
                 updateAdapter();
                 break;
             case R.id.rbExpensiveToCheap:
-                //LocalProducts.getProducts().sort(((o1, o2) -> o2.getPrice().compareTo(o1.getPrice())));
                 CategoryFilterFragment.productAdapter.getListProduct().sort(((o1, o2) -> o2.getPrice().compareTo(o1.getPrice())));
                 updateAdapter();
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rbSortNewProduct:
-                //LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getCreated_at));
                 CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getCreated_at));
                 updateAdapter();
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.rbSortRating:
-                //LocalProducts.getProducts().sort(Comparator.comparing(ProductEntity::getRating));
                 CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getRating));
                 updateAdapter();
-                //Toast.makeText(view.getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
     void updateAdapter() {
-       // CategoryFilterFragment.productAdapter.getListProduct();
         CategoryFilterFragment.productAdapter.notifyDataSetChanged();
     }
 }

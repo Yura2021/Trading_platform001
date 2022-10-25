@@ -165,8 +165,6 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
                                 resultData.add(item);
                             }
                         }
-                        filterResults.count = resultData.size();
-                        filterResults.values = resultData;
                     } else {
                         for (HomeValueExProductEntity item : dataListProduct) {
 
@@ -191,9 +189,9 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
                             return filterResults;
 
                         }
-                        filterResults.count = resultData.size();
-                        filterResults.values = resultData;
                     }
+                    filterResults.count = resultData.size();
+                    filterResults.values = resultData;
 
 
                 }

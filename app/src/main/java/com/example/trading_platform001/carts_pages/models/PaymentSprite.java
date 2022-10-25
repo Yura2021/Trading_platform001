@@ -91,15 +91,6 @@ public class PaymentSprite extends AppCompatActivity {
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             //Toast.makeText(this, "Платіж опрацьовано успішно", Toast.LENGTH_SHORT).show();
-            /*
-            if (CartHelper.getCartItems().size() > 0) {
-                CartHelper.getCart().clear();
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-
-             */
         }
     }
 

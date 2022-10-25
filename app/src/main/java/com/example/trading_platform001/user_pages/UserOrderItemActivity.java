@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,34 +26,26 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+@SuppressLint("NonConstantResourceId")
 public class UserOrderItemActivity extends AppCompatActivity {
 
     OrderInformation order;
     Bundle bundle;
-    @SuppressLint("NonConstantResourceId")
+
     @BindView(R.id.DataOrder)
     TextView textView;
-    TextView TextViewName;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.NomerTTH)
     TextView NomerTTH;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.PriceOrder)
     TextView PriceOrder;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.PaymentOrder)
     TextView PaymentOrder;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.AdressOrder)
     TextView AdressOrder;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.RecipientOrder)
     TextView RecipientOrder;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.PhoneOrder)
     TextView PhoneOrder;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.OrderItem)
     LinearLayout OrderItem;
     @BindView(R.id.toolbarItemOrder)

@@ -26,17 +26,12 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the  factory method to
- * create an instance of this fragment.
- */
+@SuppressLint("NonConstantResourceId")
 public class User_OrderList_Informations extends Fragment {
 
-    @SuppressLint("NonConstantResourceId")
+
     @BindView(R.id.list_orders)
     ListView listView;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.SearchOrders)
     SearchView SearchOrders;
     @BindView(R.id.toolbarUserOrderList)

@@ -3,13 +3,10 @@ package com.example.trading_platform001.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class ProductEntity implements Parcelable {

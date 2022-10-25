@@ -122,17 +122,6 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
             }
         });
 
-        int size = CartHelper.getCartItems().size();
-        if (badgeDrawable == null)
-            badgeDrawable = btnNavView.getOrCreateBadge(R.id.cart);
-        if (size > 0) {
-            badgeDrawable.setVisible(true);
-            badgeDrawable.setNumber(size);
-        } else {
-            badgeDrawable.setVisible(false);
-            badgeDrawable.clearNumber();
-
-        }
         compliteFilter();
         if (productAdapter == null)
             productAdapter = new FilterAdapter(view.getContext(), listProduct);
@@ -152,6 +141,25 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateCart();
+    }
+
+    private void updateCart(){
+    int size = CartHelper.getCartItems().size();
+    if (badgeDrawable == null)
+        badgeDrawable = btnNavView.getOrCreateBadge(R.id.cart);
+    if (size > 0) {
+        badgeDrawable.setVisible(true);
+        badgeDrawable.setNumber(size);
+    } else {
+        badgeDrawable.setVisible(false);
+        badgeDrawable.clearNumber();
+
+    }
+}
     private void compliteFilter() {
 
         listProduct = new ArrayList<>();
@@ -204,7 +212,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
             Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == productAdapter.getItem(position).getShop_id()).findFirst();
             shopEntity.ifPresent(entity -> homeValueExProductEntity.setNameShop(entity.getName()));
-            Log.d("CategoryFilterFragment","position "+position);
+            //Log.d("CategoryFilterFragment","position "+position);
             Intent intent = new Intent(CategoryFilterFragment.this.getContext(), DetailsProductActivity.class);
             intent.putExtra("ParceHomeValueExProductEntity", homeValueExProductEntity);
             startActivity(intent);

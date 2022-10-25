@@ -3,11 +3,8 @@ package com.example.trading_platform001.models;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.ClientError;
 import com.android.volley.NetworkError;
@@ -26,17 +23,14 @@ import com.example.trading_platform001.adapters.OrderUserListAdapter;
 import com.example.trading_platform001.authorizations_pages.models.User;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.catalog_page.models.Category;
-import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.user_pages.models.Order;
 import com.example.trading_platform001.user_pages.models.OrderInformation;
 import com.example.trading_platform001.user_pages.models.OrderList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -260,7 +254,7 @@ public class Http {
     private static void parseVolleyError(VolleyError error, Context context) {
 
         String responseBody;
-        if (error.networkResponse.data != null) {
+        if (error.networkResponse != null && error.networkResponse.data != null) {
             try {
                 responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject data = new JSONObject(responseBody);

@@ -63,7 +63,8 @@
                 android:layout_marginTop="1dp"
                 android:background="@drawable/border_radius"
                 android:padding="5dp"
-                android:src="@drawable/app_logo" />
+                android:src="@drawable/app_logo"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
     </ScrollView>
     </LinearLayout>

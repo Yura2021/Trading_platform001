@@ -88,7 +88,6 @@
     <string name="PhoneOrderCart">Телефон</string>
     <string name="ZipCodeOrderCart">Поштовий код</string>
     <string name="generalSumOrderCard">Загальна сума замовлення</string>
-    <string name="StringNull"></string>
     <string name="deliveriCard">Доставка</string>
     <string name="deliveriCardText">за тарифами перевізника</string>
     <string name="generalSumText">Сума до сплати</string>
@@ -100,4 +99,14 @@
     <string name="ed_filter_from">від</string>
     <string name="ed_filter_to">до</string>
     <string name="delete_cart_item">Видалити з кошика</string>
+    <string name="name">Ім\'я</string>
+    <string name="email_review">Ел. пошта</string>
+    <string name="send">Відправити</string>
+    <string name="Disadvantages">Недоліки</string>
+    <string name="Benefits">Переваги</string>
+    <string name="Reviev">Відгук</string>
+    <string name="Status_rating">Оцініть товар</string>
+    <string name="add_Review">Залишити відгук</string>
+    <string name="data">20.10.2022</string>
+    <string name="StringNull">" "</string>
 </resources>

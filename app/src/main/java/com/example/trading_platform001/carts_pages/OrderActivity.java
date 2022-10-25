@@ -3,11 +3,9 @@ package com.example.trading_platform001.carts_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
@@ -333,25 +330,17 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void onErrorResponse(VolleyError error) {
-
-        // As of f605da3 the following should work
         NetworkResponse response = error.networkResponse;
         if (error instanceof ServerError && response != null) {
             try {
                 String res = new String(response.data,
                         HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                // Now you can use any deserializer to make sense of data
-                Toast.makeText(this, "Тимчасова помилка сервысу з оформленням заявки!!!", Toast.LENGTH_LONG).show();
-                //Log.d("paymentFlow() 2", "CartHelper.getCart().getTotalPrice(): " + CartHelper.getCart().getTotalPrice().toString() + "  ClientSecret:" + ClientSecret + " customerID: " + customerID + " EphericalKey: " + EphericalKey);
-                // JSONObject obj = new JSONObject(res);
-                // onBackPressed();
+                Toast.makeText(this, "Тимчасова помилка сервісу з оформленням заявки!!!", Toast.LENGTH_LONG).show();
                 finish();
 
             } catch (UnsupportedEncodingException e1) {
-                ///| JSONException e1
-                // Couldn't properly decode data to string
                 e1.printStackTrace();
-            } // returned data is not JSONObject?
+            }
 
         }
     }

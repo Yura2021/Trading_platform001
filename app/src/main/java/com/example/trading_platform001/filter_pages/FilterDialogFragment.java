@@ -120,82 +120,17 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
             sellers.add(new GroupElementNested(checkBox, textView));
         }
         mList.add(new OptionFilterDataModel(sellers, "Інші магазини"));
-       /*
-       //list1
-        List<GroupElementNested> nestedList1 = new ArrayList<>();
-
-
-
-
-
-
-
-        List<LinearLayout> list1 = new ArrayList<>();
-        list1.add(addLayautStringCharacteristic("Option atribute1",false));
-            mList.add(new OptionFilterDataModel(list1, "Option atribute1 "));
-        List<LinearLayout> list2 = new ArrayList<>();
-        list2.add(addLayautStringCharacteristic("Option atribute2",false));
-            mList.add(new OptionFilterDataModel(list2, "Option atribute2 "));
-*/
-
         adapter = new OptionsFilterItemAdapter(mList, SaveFilterOption.getSaveCheck());
         adapter.setOnCheckedCheckBoxFilter(this);
         recyclerView.setAdapter(adapter);
 
     }
 
-    private LinearLayout addLayautStringCharacteristic(String name, boolean check) {
-        int count = 5;
-        LinearLayout linearLayout = new LinearLayout(view.getContext());
-        LinearLayout.LayoutParams llParam = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        llParam.setMargins(0, 5, 0, 5);
-        linearLayout.setLayoutParams(llParam);
-        linearLayout.setBackgroundColor(getResources().getColor(R.color.white, view.getContext().getTheme()));
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setPadding(10, 5, 5, 5);
-        linearLayout.setWeightSum(count);
-        LinearLayout.LayoutParams tvParam = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1.0f
-        );
-        /*android:textColor="#8c8c8c"
-        android:textSize="16sp"
-        android:textStyle="bold"*/
-
-        for (int i = 0; i < count; i++) {
-            CheckBox checkBox = new CheckBox(view.getContext(), null, R.style.MyAppTheme);
-            checkBox.setTextColor(Color.parseColor("#8c8c8c"));
-            checkBox.setTextSize(16);
-            checkBox.setTypeface(typeface);
-            checkBox.setText(name + i);
-            checkBox.setChecked(check);
-            checkBox.setLayoutParams(tvParam);
-            checkBox.setGravity(Gravity.LEFT);
-            linearLayout.addView(checkBox);
-        }
-        //TextView tvName = new TextView(view.getContext(), null, R.style.MyAppTheme);
-
-        // tvName.setLayoutParams(tvParam);
-        // tvName.setText(name);
-        //linearLayout.addView(tvName);
-
-        return linearLayout;
-
-    }
 
     public static <T extends Comparable<T>> boolean isBetween(T value, T start, T end) {
         return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
     }
 
-    /*
-     static boolean isBetween(BigDecimal price, BigDecimal start, BigDecimal end){
-        return price.compareTo(start) >= 0 && price.compareTo(end) <= 0;
-    }
-     */
 
     private void searchDiapazone(String from, String to) {
         if (!from.isEmpty() && !to.isEmpty()) {
