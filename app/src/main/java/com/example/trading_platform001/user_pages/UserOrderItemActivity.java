@@ -138,7 +138,7 @@ public class UserOrderItemActivity extends AppCompatActivity {
                 break;
             }
             case 2: {
-                textView.setText("Дата замовлення:\n"+(calendar.get(Calendar.DAY_OF_MONTH)+1)+" береня "+calendar.get(Calendar.YEAR));
+                textView.setText("Дата замовлення:\n"+(calendar.get(Calendar.DAY_OF_MONTH)+1)+" березня "+calendar.get(Calendar.YEAR));
                 break;
             }
             case 3: {

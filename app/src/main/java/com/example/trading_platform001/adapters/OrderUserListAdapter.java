@@ -95,7 +95,7 @@ public class OrderUserListAdapter extends ArrayAdapter<Order> implements Filtera
                 break;
             }
             case 2: {
-                viewHolder.data.setText((calendar.get(Calendar.DAY_OF_MONTH)+1)+" береня "+calendar.get(Calendar.YEAR));
+                viewHolder.data.setText((calendar.get(Calendar.DAY_OF_MONTH)+1)+" березня "+calendar.get(Calendar.YEAR));
                 break;
             }
             case 3: {

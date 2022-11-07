@@ -42,7 +42,6 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
 
     String url_imgProduct;
     String nameProduct, priceProduct;
-    float rating;
 
     @BindView(R.id.imgProduct)
     ImageView imgProduct;
@@ -50,8 +49,6 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
     TextView tvNameProduct;
     @BindView(R.id.tvPriceProduct)
     TextView tvPriceProduct;
-    @BindView(R.id.rbRating)
-    RatingBar rbRating;
     CartEntity cart;
     private MyOnClickAddCartItem myOnClickAddCartItem;
     LayoutInflater inflater;
@@ -121,7 +118,6 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
 
         nameProduct = listProduct.get(position).getName();
         priceProduct = String.valueOf(listProduct.get(position).getPrice());
-        rating = listProduct.get(position).getRating();
         url_imgProduct = listProduct.get(position).getCover_img();
         ColorStateList csl = null;
         if (listProduct.get(position).isAddCard()) {
@@ -134,7 +130,6 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
 
         tvNameProduct.setText(nameProduct);
         tvPriceProduct.setText(priceProduct);
-        rbRating.setRating(rating);
         Picasso.get().load(Uri.parse(url_imgProduct)).into(imgProduct);
         return convertView;
     }

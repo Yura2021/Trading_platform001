@@ -8,4 +8,5 @@
     <dimen name="main_padding_button">5dp</dimen>
     <dimen name="main_button_textSize">8sp</dimen>
     <dimen name="activity_horizontal_margin">10</dimen>
+    <dimen name="column_Width_Grid_home">200dp</dimen>
 </resources>

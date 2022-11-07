@@ -3,26 +3,28 @@ package com.example.trading_platform001.home_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.adapters.NewProductAdapter;
 import com.example.trading_platform001.adapters.ProductAdapter;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
+import com.example.trading_platform001.models.LocalNewProducts;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.LocalShops;
 import com.example.trading_platform001.models.ProductEntity;
@@ -46,11 +48,16 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.grid_product)
     GridView gridview;
     ProductAdapter productAdapter;
+    NewProductAdapter newProductAdapter;
     BottomNavigationView btnNavView;
     View view;
     BadgeDrawable badgeDrawable;
     @BindView(R.id.image_slider)
     ImageSlider imageSlider;
+    @BindView(R.id.new_grid_product)
+    GridView new_grid_product;
+    @BindView(R.id.container_new_product)
+    LinearLayout container_new_product;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +72,7 @@ public class HomeFragment extends Fragment {
             productAdapter = new ProductAdapter(view.getContext(), LocalProducts.getProducts());
         btnNavView = requireActivity().findViewById(R.id.bottomNavigationView);
         gridview.setOnItemClickListener(gridviewOnItemClickListener);
-
+        new_grid_product.setOnItemClickListener(new_grid_productOnItemClickListener);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -74,7 +81,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 productAdapter.getFilter().filter(newText);
+                //updateGridViewHeight();
                 return true;
             }
         });
@@ -89,7 +98,18 @@ public class HomeFragment extends Fragment {
             badgeDrawable.clearNumber();
 
         }
+        if (!LocalNewProducts.isNull() && LocalNewProducts.getNewProducts().size() > 0) {
+            container_new_product.setVisibility(View.VISIBLE);
+            if (newProductAdapter == null)
+                newProductAdapter = new NewProductAdapter(view.getContext(), LocalNewProducts.getNewProducts());
+            new_grid_product.setAdapter(newProductAdapter);
+        } else {
+            container_new_product.setVisibility(View.INVISIBLE);
+        }
+
+
         gridview.setAdapter(productAdapter);
+       // updateGridViewHeight();
         ArrayList<SlideModel> imageList = new ArrayList<>();
         for (ProductEntity item : LocalProducts.getProducts()) {
             imageList.add(new SlideModel(item.getCover_img(), ScaleTypes.FIT));
@@ -99,6 +119,17 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    public void updateGridViewHeight(){
+        LinearLayout.LayoutParams llParam = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        llParam.height=Integer.parseInt(String.valueOf((productAdapter.getSearchSize()/2)*400));
+        Log.d("updateGridViewHeight()",String.valueOf(productAdapter.getCount()));
+        Log.d("updateGridViewHeight()",String.valueOf( productAdapter.getSearchSize()));
+        gridview.setLayoutParams(llParam);
+
+    }
 
     @Override
     public void onStart() {
@@ -114,13 +145,6 @@ public class HomeFragment extends Fragment {
             badgeDrawable.clearNumber();
 
         }
-    }
-    public void replaceFragment(Fragment fragment, Bundle bundle) {
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.fcContainerMain, fragment);
-        fragmentTransaction.commit();
     }
 
     private final GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
@@ -141,7 +165,22 @@ public class HomeFragment extends Fragment {
 
     };
 
+    private final GridView.OnItemClickListener new_grid_productOnItemClickListener = new GridView.OnItemClickListener() {
 
 
+        @Override
+        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+            HomeValueExProductEntity homeValueExProductEntity = new HomeValueExProductEntity(newProductAdapter.getItem(position));
+            Optional<ShopEntity> shopEntity = LocalShops.getShops().stream().filter(i -> i.getId() == newProductAdapter.getItem(position).getShop_id()).findFirst();
+            shopEntity.ifPresent(entity -> homeValueExProductEntity.setNameShop(entity.getName()));
+
+            Intent intent = new Intent(HomeFragment.this.getContext(), DetailsProductActivity.class);
+            intent.putExtra("ParceHomeValueExProductEntity", homeValueExProductEntity);
+            startActivity(intent);
+
+        }
+
+    };
 }
 

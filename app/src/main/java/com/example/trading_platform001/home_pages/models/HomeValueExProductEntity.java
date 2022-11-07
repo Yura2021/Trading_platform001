@@ -21,25 +21,25 @@ public class HomeValueExProductEntity extends ProductEntity implements Parcelabl
     }
 
     public HomeValueExProductEntity(ProductEntity product, String nameShop) {
-        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(),product.isAddCard());
+        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(),product.isAddCard(),product.getProduct_attributes());
         this.nameShop = nameShop;
     }
     public HomeValueExProductEntity(ProductEntity product, String nameShop,String nameCategory) {
-        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(),product.isAddCard());
+        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(),product.isAddCard(),product.getProduct_attributes());
         this.nameShop = nameShop;
         this.nameCategory = nameCategory;
     }
     public HomeValueExProductEntity(ProductEntity product) {
-        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getRating(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.getFavorite(), product.isFavorite(), product.isAddCard());
+        super(product.getId(), product.getName(), product.getCover_img(), product.getDescription(), product.getPrice(), product.getShop_id(), product.getCreated_at(), product.getUpdated_at(), product.isAddCard(),product.getProduct_attributes());
     }
 
 
     public HomeValueExProductEntity(long id, String name, String description, float rating, BigDecimal price, int shop_id) {
-        super(id, name, description, rating, price, shop_id);
+        super(id, name, description, price, shop_id);
     }
 
     public HomeValueExProductEntity(long id, String name, BigDecimal price, float rating) {
-        super(id, name, price, rating);
+        super(id, name, price);
     }
 
 

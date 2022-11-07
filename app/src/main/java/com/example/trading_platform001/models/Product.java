@@ -15,13 +15,12 @@ public class Product implements Saleable, Serializable {
     private String cover_img;
     private String description;
     private BigDecimal price = BigDecimal.ZERO;
-    private float rating;
     private int category_id;
     private long shop_id;
     private int quantity;
     private Timestamp created_at;
     private Timestamp updated_at;
-    private boolean favorite;
+    private String product_attributes;
 
     public Product(HomeValueExProductEntity product) {
         this.id = product.getId();
@@ -29,47 +28,43 @@ public class Product implements Saleable, Serializable {
         this.cover_img = product.getCover_img();
         this.description = product.getDescription();
         this.price = product.getPrice();
-        this.rating = product.getRating();
         this.shop_id = product.getShop_id();
         this.quantity = 1;
         this.created_at = product.getCreated_at();
         this.updated_at = product.getUpdated_at();
-        this.favorite = product.isFavorite();
+        this.product_attributes = product.getProduct_attributes();
     }
 
     public Product() {
         quantity = 1;
     }
 
-    public Product(long id, String name, String description, float rating, BigDecimal price, int category_id, int shop_id, String cover_img) {
+    public Product(long id, String name, String description,  BigDecimal price, int category_id, int shop_id, String cover_img) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category_id = category_id;
         this.shop_id = shop_id;
-        this.rating = rating;
         this.cover_img = cover_img;
         quantity = 1;
     }
 
-    public Product(long id, String name, BigDecimal price, float rating, String cover_img) {
+    public Product(long id, String name, BigDecimal price, String cover_img) {
 
         this.name = name;
         this.id = id;
         this.price = price;
         this.cover_img = cover_img;
-        this.rating = rating;
         quantity = 1;
     }
 
-    public Product(long id, String name, BigDecimal price, float rating, String cover_img, String description) {
+    public Product(long id, String name, BigDecimal price,  String cover_img, String description) {
         this.id = id;
         this.name = name;
         this.cover_img = cover_img;
         this.description = description;
         this.price = price;
-        this.rating = rating;
         quantity = 1;
     }
 
@@ -127,12 +122,12 @@ public class Product implements Saleable, Serializable {
         this.quantity = quantity;
     }
 
-    public boolean isFavorite() {
-        return favorite;
+    public String getProduct_attributes() {
+        return product_attributes;
     }
 
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
+    public void setProduct_attributes(String product_attributes) {
+        this.product_attributes = product_attributes;
     }
 
     public void setId(int id) {
@@ -184,11 +179,4 @@ public class Product implements Saleable, Serializable {
         this.shop_id = shop_id;
     }
 
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
 }

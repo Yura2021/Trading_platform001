@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.ClientError;
 import com.android.volley.NetworkError;
@@ -26,11 +28,15 @@ import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.user_pages.models.Order;
 import com.example.trading_platform001.user_pages.models.OrderInformation;
 import com.example.trading_platform001.user_pages.models.OrderList;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -124,7 +130,7 @@ public class Http {
 
     public void getAllProductCategoriesID() {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/catandprodid", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/cataidprodid", response -> {
 
             JSONObject obj = null;
             try {
@@ -159,24 +165,30 @@ public class Http {
 
     }
 
-    public void getAllProduct() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://ecommerce.it-tree.com.ua/api" + "/products", response -> {
+    public void getAllNewProduct() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/newproducts", response -> {
 
             JSONObject obj = null;
             try {
                 obj = new JSONObject(response);
-                String str_array = obj.getString("products");
+                String str_array = obj.getString("allnewproducts");
+
                 Type listType = new TypeToken<ArrayList<ProductEntity>>() {
                 }.getType();
-                LocalProducts.setProducts(new Gson().fromJson(str_array, listType));
-
+                Gson gson = new GsonBuilder()
+                        .setPrettyPrinting()
+                        .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create();
+                LocalNewProducts.setNewProducts(gson.fromJson(str_array, listType));
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
-        }, error -> parseVolleyError(error, context)) {
+        }, this::parseVolleyError) {
             @NonNull
             @Override
             public Map<String, String> getHeaders() {
@@ -193,7 +205,6 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
-
 
     public void logout() {
 

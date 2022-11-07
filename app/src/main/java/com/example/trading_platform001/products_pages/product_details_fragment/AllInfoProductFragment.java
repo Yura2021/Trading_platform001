@@ -4,16 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
@@ -31,10 +29,10 @@ public class AllInfoProductFragment extends Fragment {
     TextView tvNameProduct;
     @BindView(R.id.tvPriceProduct)
     TextView tvPriceProduct;
+    @BindView(R.id.tvDescription)
+    TextView tvDescription;
     @BindView(R.id.tvNameSeller)
     TextView tvNameSeller;
-    @BindView(R.id.rbRating)
-    RatingBar rbRating;
     View view;
     Bundle resultBundle;
     HomeValueExProductEntity resultProduct;
@@ -68,7 +66,7 @@ public class AllInfoProductFragment extends Fragment {
             Picasso.get().load(Uri.parse(resultProduct.getCover_img())).into(imgProduct);
             tvNameProduct.setText(resultProduct.getName());
             tvPriceProduct.setText(String.valueOf(resultProduct.getPrice()));
-            rbRating.setRating(resultProduct.getRating());
+            tvDescription.setText(resultProduct.getDescription());
         }
 
     }

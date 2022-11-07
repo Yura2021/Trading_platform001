@@ -58,10 +58,7 @@ public class SortDialogFragment extends DialogFragment {
                 updateAdapter();
 
                 break;
-            case R.id.rbSortRating:
-                CategoryFilterFragment.productAdapter.getListProduct().sort(Comparator.comparing(ProductEntity::getRating));
-                updateAdapter();
-                break;
+
         }
     }
 

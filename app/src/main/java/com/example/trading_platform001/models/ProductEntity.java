@@ -1,13 +1,10 @@
 package com.example.trading_platform001.models;
-
-
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
 
 public class ProductEntity implements Parcelable {
 
@@ -16,46 +13,40 @@ public class ProductEntity implements Parcelable {
     private String cover_img;
     private String description;
     private BigDecimal price = BigDecimal.ZERO;
-    private float rating;
     private long shop_id;
     private Timestamp created_at;
     private Timestamp updated_at;
-    private int favorite;
-    private boolean isFavorite;
     private boolean isAddCard;
+    private String product_attributes;
     public ProductEntity() {
     }
 
-    public ProductEntity(long id, String name, String cover_img, String description, BigDecimal price, float rating, long shop_id, Timestamp created_at, Timestamp updated_at, int favorite, boolean isFavorite,boolean isAddCard) {
+    public ProductEntity(long id, String name, String cover_img, String description, BigDecimal price, long shop_id, Timestamp created_at, Timestamp updated_at,boolean isAddCard,String product_attributes) {
         this.id = id;
         this.name = name;
         this.cover_img = cover_img;
         this.description = description;
         this.price = price;
-        this.rating = rating;
         this.shop_id = shop_id;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this.favorite = favorite;
-        this.isFavorite = isFavorite;
         this.isAddCard = isAddCard;
+        this.product_attributes = product_attributes;
     }
 
-    public ProductEntity(long id, String name, String description, float rating, BigDecimal price, int shop_id) {
+    public ProductEntity(long id, String name, String description, BigDecimal price, int shop_id) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.shop_id = shop_id;
-        this.rating = rating;
     }
 
-    public ProductEntity(long id, String name, BigDecimal price, float rating) {
+    public ProductEntity(long id, String name, BigDecimal price) {
 
         this.name = name;
         this.id = id;
         this.price = price;
-        this.rating = rating;
     }
 
 
@@ -65,13 +56,11 @@ public class ProductEntity implements Parcelable {
         cover_img = in.readString();
         description = in.readString();
         price = BigDecimal.valueOf(Integer.parseInt(in.readString()));
-        rating = in.readFloat();
         shop_id = in.readLong();
         created_at = Timestamp.valueOf(in.readString());
         updated_at = Timestamp.valueOf(in.readString());
-        favorite = in.readInt();
-        isFavorite = in.readByte() != 0;
         isAddCard = in.readByte() != 0;
+        product_attributes = in.readString();
     }
 
     public static final Creator<ProductEntity> CREATOR = new Creator<ProductEntity>() {
@@ -90,26 +79,32 @@ public class ProductEntity implements Parcelable {
         return created_at;
     }
 
+    public String getProduct_attributes() {
+        return product_attributes;
+    }
+
+    public void setProduct_attributes(String product_attributes) {
+        this.product_attributes = product_attributes;
+    }
 
     public void setShop_id(long shop_id) {
         this.shop_id = shop_id;
     }
 
-    public int getFavorite() {
-        return favorite;
-    }
 
     public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+            this.created_at = created_at;
     }
 
     public Timestamp getUpdated_at() {
         return updated_at;
     }
 
+
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
 
     public void setId(long id) {
         this.id = id;
@@ -121,20 +116,6 @@ public class ProductEntity implements Parcelable {
 
     public void setCover_img(String cover_img) {
         this.cover_img = cover_img;
-    }
-
-    private void setFavorite(int favorite) {
-        this.isFavorite = Boolean.parseBoolean(String.valueOf(favorite));
-        this.favorite = favorite;
-    }
-
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean isfavorite) {
-
-        this.isFavorite = isfavorite;
     }
 
     public void setId(int id) {
@@ -177,13 +158,6 @@ public class ProductEntity implements Parcelable {
         this.shop_id = shop_id;
     }
 
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
     public boolean isAddCard() {
         return isAddCard;
     }
@@ -199,18 +173,15 @@ public class ProductEntity implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-
         dest.writeLong(id);
         dest.writeString(name);
         dest.writeString(cover_img);
         dest.writeString(description);
         dest.writeString(String.valueOf(price));
-        dest.writeFloat(rating);
         dest.writeLong(shop_id);
         dest.writeString(String.valueOf(created_at));
         dest.writeString(String.valueOf(updated_at));
-        dest.writeInt(favorite);
-        dest.writeByte((byte) (isFavorite ? 1 : 0));
         dest.writeByte((byte) (isAddCard ? 1 : 0));
+        dest.writeString(product_attributes);
     }
 }

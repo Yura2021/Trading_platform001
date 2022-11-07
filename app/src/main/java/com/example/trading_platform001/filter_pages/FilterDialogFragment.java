@@ -91,7 +91,7 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         if (bundle != null) {
             nameCategory = bundle.getString("NameParenCategory", "no category");
         }
-        compliteFilter();
+       // compliteFilter();
         return view;
     }
 

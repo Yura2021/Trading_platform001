@@ -109,4 +109,8 @@
     <string name="add_Review">Залишити відгук</string>
     <string name="data">20.10.2022</string>
     <string name="StringNull">" "</string>
+    <string name="new_product">Гарячі новинки</string>
+    <string name="default_price_2000">2000</string>
+    <string name="defalt_count_1">(1)</string>
+
 </resources>

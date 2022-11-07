@@ -35,13 +35,6 @@
                 android:src="@drawable/ic_test_poduct_150" />
         </androidx.cardview.widget.CardView>
 
-        <View
-            style="@style/MyAppTheme"
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:background="#e6e6e6" />
-
-
         <TextView
             android:id="@+id/tvNameProduct"
             style="@style/MyAppTheme"
@@ -54,43 +47,29 @@
             android:typeface="sans" />
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content">
 
-            <RatingBar
-                android:id="@+id/rbRating"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="2dp"
-                android:progressTint="@color/orange"
-                android:rating="1" />
 
             <TextView
                 android:id="@+id/tvPriceProduct"
                 style="@style/MyAppTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rbRating"
-                android:layout_alignParentStart="true"
                 android:layout_marginTop="2dp"
-                android:text="2000" />
+                android:text="@string/default_price_2000" />
 
             <TextView
                 android:id="@+id/tvMoney"
                 style="@style/MyAppTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rbRating"
-                android:layout_alignEnd="@id/tvPriceProduct"
                 android:layout_marginTop="2dp"
-                android:layout_marginEnd="-12dp"
+                android:layout_marginStart="2dp"
                 android:text="@string/money_ua" />
 
 
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

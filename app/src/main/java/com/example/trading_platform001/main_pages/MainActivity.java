@@ -4,7 +4,6 @@ package com.example.trading_platform001.main_pages;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -29,6 +28,7 @@ import com.example.trading_platform001.catalog_page.CatalogFragment;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.LocalCategory;
+import com.example.trading_platform001.models.LocalNewProducts;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.LocalShops;
 import com.example.trading_platform001.models.LocalTableProductCategories;
@@ -36,7 +36,9 @@ import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.user_pages.UserFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             getAllProduct();
             http.getAllShop();
             http.getAllProductCategoriesID();
+            http.getAllNewProduct();
             progressBar.setIndeterminate(true);
             progressBar.setVisibility(View.VISIBLE);
         } else {
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home:
                     replaceFragment(new HomeFragment());
-                    Log.d("LocalTableProductCategories size", String.valueOf(LocalTableProductCategories.getProductCategoriesID().size()));
                     break;
                 case R.id.catalog:
                     replaceFragment(new CatalogFragment());
@@ -159,10 +161,12 @@ public class MainActivity extends AppCompatActivity {
         LocalCategory.setCategory(null);
         LocalProducts.setProducts(null);
         LocalShops.setShops(null);
+        LocalNewProducts.setNewProducts(null);
         LocalTableProductCategories.setProductCategoriesID(null);
         http.GetCategory();
         http.getAllShop();
         http.getAllProductCategoriesID();
+        http.getAllNewProduct();
 
     }
 
@@ -177,7 +181,12 @@ public class MainActivity extends AppCompatActivity {
 
                 Type listType = new TypeToken<ArrayList<ProductEntity>>() {
                 }.getType();
-                LocalProducts.setProducts(new Gson().fromJson(str_array, listType));
+                Gson gson = new GsonBuilder()
+                        .setPrettyPrinting()
+                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create();
+                LocalProducts.setProducts(gson.fromJson(str_array, listType));
                 progressBar.setVisibility(View.GONE);
                 replaceFragment(new HomeFragment());
 

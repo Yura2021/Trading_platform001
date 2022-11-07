@@ -77,7 +77,6 @@ public class LoginFragment extends Fragment {
             http.sendLogin(strEmail, strPassword);
 
         Intent intent = new Intent(requireActivity(), MainActivity.class);
-        //Toast.makeText(getContext(), "Успіх", Toast.LENGTH_SHORT).show();
         startActivity(intent);
         alertFail("");
         requireActivity().finish();

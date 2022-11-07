@@ -125,24 +125,38 @@
                         android:layout_weight="2.8"
                         android:text="@string/Default_code_product" />
 
-                    <RatingBar
-                        android:id="@+id/rbRating"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:layout_weight="0"
-                        android:clickable="true"
-                        android:contentDescription="@string/text_rating"
-                        android:isIndicator="true"
-                        android:numStars="5"
-                        android:padding="0dp"
-                        android:progressTint="@color/orange"
-                        android:rating="5"
-                        tools:ignore="TouchTargetSizeCheck" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                style="@style/MyAppTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#ffffff"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/tvDescription"
+                        style="@style/MyAppTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Default_text" />
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 style="@style/MyAppTheme"
                 android:layout_width="match_parent"

@@ -49,13 +49,6 @@
                 android:layout_height="wrap_content"
                 android:text="новинки" />
 
-            <RadioButton
-                android:id="@+id/rbSortRating"
-                style="@style/MyAppTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="за рейтингом" />
-
         </RadioGroup>
 
         <androidx.constraintlayout.widget.Barrier
