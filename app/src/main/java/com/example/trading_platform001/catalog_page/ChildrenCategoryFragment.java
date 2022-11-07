@@ -1,6 +1,7 @@
 package com.example.trading_platform001.catalog_page;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.filter_pages.CategoryFilterFragment;
 import com.example.trading_platform001.models.LocalCategory;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -96,7 +98,14 @@ public class ChildrenCategoryFragment extends Fragment {
             row.setOnClickListener(k->onClick(row));
 
             if(categories.get(i).getParent_id()==parent_id) {
-                image.setImageResource(R.drawable.ic_launcher_background);
+                if(categories.get(i).getCover_img()!=null)
+                {
+                    Picasso.get().load(Uri.parse(categories.get(i).getCover_img())).into(image);
+                }
+                else
+                {
+                    image.setImageResource(R.drawable.ic_launcher_background);
+                }
                 name.setText(categories.get(i).getName());
                 if (i == 2 || i % 2 == 0) {
                     layoutLeftCategory.addView(row);

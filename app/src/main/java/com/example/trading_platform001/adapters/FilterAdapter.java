@@ -63,8 +63,9 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
     }
 
     public void setListProduct(ArrayList<HomeValueExProductEntity> listProduct) {
-        this.listProduct = listProduct;
-        this.dataListProduct = listProduct;
+        this.listProduct=listProduct;
+        this.dataListProduct=listProduct;
+        this.notifyDataSetChanged();
     }
 
     public FilterAdapter(Context context, ArrayList<HomeValueExProductEntity> listProduct) {

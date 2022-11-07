@@ -1,7 +1,9 @@
 package com.example.trading_platform001.catalog_page;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.LocalCategory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -116,7 +119,16 @@ public class CatalogFragment extends Fragment {
 
             row.setOnClickListener(k->onClick(row));
             if(categories.get(i).getParent_id()==0) {
-                image.setImageResource(R.drawable.ic_launcher_background);
+
+                if(categories.get(i).getCover_img()!=null)
+                {
+                    Picasso.get().load(Uri.parse(categories.get(i).getCover_img())).into(image);
+                    Log.d("s",categories.get(i).getCover_img());
+                }
+                else
+                {
+                    image.setImageResource(R.drawable.ic_launcher_background);
+                }
                 name.setText(categories.get(i).getName());
                 if (i == 2 || i % 2 == 0) {
                     layoutLeftCategory.addView(row);

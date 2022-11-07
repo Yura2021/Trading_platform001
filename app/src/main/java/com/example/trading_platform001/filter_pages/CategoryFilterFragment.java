@@ -101,8 +101,6 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
             nameCatecory = bundle.getString("NameParenCategory");
             bundle.putInt("tagParenCategory", bundle.getInt("tagParenCategory"));
         }
-
-
         tbFilter.setTitle(nameCatecory);
         tbFilter.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         tbFilter.setNavigationOnClickListener(v -> replaceFragment(new ChildrenCategoryFragment(), bundle));
@@ -122,7 +120,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
             }
         });
 
-        compliteFilter();
+
         if (productAdapter == null)
             productAdapter = new FilterAdapter(view.getContext(), listProduct);
         productAdapter.setMapItemSearch(SaveFilterOption.getSaveCheck());
@@ -130,6 +128,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
         updateFilterSaveItem();
         gridview.setAdapter(productAdapter);
 
+        compliteFilter();
         return view;
     }
 
@@ -168,6 +167,8 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
             int category_id = category.get().getId();
 
             List<ProductCategoriesEntity> list = LocalTableProductCategories.getProductCategoriesID().stream().filter(k -> k.getCategory_id() == category_id).collect(Collectors.toList());
+
+
             for (ProductCategoriesEntity item : list) {
                 Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> s.getId() == item.getProduct_id()).findFirst();
                 if (prod.isPresent()) {
@@ -176,9 +177,7 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
                 }
             }
-
-            if (productAdapter != null)
-                productAdapter.setListProduct(listProduct);
+            productAdapter.setListProduct(listProduct);
         }
 
 

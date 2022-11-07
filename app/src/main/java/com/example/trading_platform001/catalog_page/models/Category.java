@@ -8,6 +8,7 @@ public class Category {
     private String slug;
     private String created_at;
     private String updated_at;
+    private  String cover_img;
     public String getUpdated_at() {
         return updated_at;
     }
@@ -34,5 +35,9 @@ public class Category {
 
     public String getSlug() {
         return slug;
+    }
+
+    public String getCover_img() {
+        return cover_img;
     }
 }

@@ -136,7 +136,6 @@ public class Http {
             try {
                 obj = new JSONObject(response);
                 String str_array = obj.getString("productIDCategoryID");
-
                 Type listType = new TypeToken<ArrayList<ProductCategoriesEntity>>() {
                 }.getType();
                 LocalTableProductCategories.setProductCategoriesID(new Gson().fromJson(str_array, listType));
