@@ -106,7 +106,6 @@ public class DetailsProductActivity extends AppCompatActivity {
     }
 
     private void getResultActivity() {
-
         resultData = getIntent().getExtras();
         if (resultData != null) {
             resultProduct = resultData.getParcelable("ParceHomeValueExProductEntity");
