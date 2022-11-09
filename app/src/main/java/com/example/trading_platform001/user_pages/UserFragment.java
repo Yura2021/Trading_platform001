@@ -126,12 +126,6 @@ public class UserFragment extends Fragment {
         MenuItem.add(getContext().getResources().getString(R.string.authorization_button_name_exit));
         MenuItem.add(getContext().getResources().getString(R.string.Account));
         MenuItem.add(getContext().getResources().getString(R.string.My_orders));
-        MenuItem.add(getContext().getResources().getString(R.string.My_mesegges));
-        MenuItem.add(getContext().getResources().getString(R.string.My_correspondence));
-        MenuItem.add(getContext().getResources().getString(R.string.My_purse));
-        MenuItem.add(getContext().getResources().getString(R.string.comparison));
-        MenuItem.add(getContext().getResources().getString(R.string.Sales));
-        MenuItem.add(getContext().getResources().getString(R.string.action));
         MenuItem.add(getContext().getResources().getString(R.string.support));
         MenuItem.add(getContext().getResources().getString(R.string.Work_time));
         MenuItem.add(getContext().getResources().getString(R.string.Information));
@@ -145,12 +139,6 @@ public class UserFragment extends Fragment {
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_null, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_accaunt, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_orders_ico, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_messeng_ico, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_correspondence, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_purse, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_comparison, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_sales, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_action, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_support, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_shop, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_information, theme));
