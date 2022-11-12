@@ -2,18 +2,15 @@ package com.example.trading_platform001.filter_pages;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -31,14 +28,21 @@ import com.example.trading_platform001.filter_pages.models.OptionFilterDataModel
 import com.example.trading_platform001.filter_pages.models.SaveFilterOption;
 import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.NestedOnCheckedCheckBoxFilter;
+import com.example.trading_platform001.models.AttributeValuesEntity;
+import com.example.trading_platform001.models.AttributesEntity;
+import com.example.trading_platform001.models.LocalAttributes;
 import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalProducts;
 import com.example.trading_platform001.models.LocalShops;
 import com.example.trading_platform001.models.LocalTableProductCategories;
+import com.example.trading_platform001.models.ProductAtribute;
 import com.example.trading_platform001.models.ProductCategoriesEntity;
 import com.example.trading_platform001.models.ProductEntity;
 import com.example.trading_platform001.models.ShopEntity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,13 +89,15 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
 
         btnClose.setOnClickListener(v -> dismiss());
         btnAssept.setOnClickListener(v -> getDiapazone());
-        showSeekBar();
-        addItemOption();
+
+
         bundle = getArguments();
         if (bundle != null) {
             nameCategory = bundle.getString("NameParenCategory", "no category");
         }
-       // compliteFilter();
+        showSeekBar();
+        compliteFilter();
+        addItemOption();
         return view;
     }
 
@@ -99,6 +105,7 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         searchDiapazone(etFrom.getText().toString(), etTo.getText().toString());
     }
 
+    long count = 0;
 
     @SuppressLint("SetTextI18n")
     private void addItemOption() {
@@ -110,19 +117,61 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         LocalShops.getShops();
         Context context = view.getContext();
         List<GroupElementNested> sellers = new ArrayList<>();
-        int count = 0;
+
         for (ShopEntity item : LocalShops.getShops()) {
             CheckBox checkBox = new CheckBox(context);
             checkBox.setText(item.getName());
-            count = (int) LocalProducts.getProducts().stream().filter(o -> o.getShop_id() == item.getId()).count();
+            count = listProduct.stream().filter(o -> o.getShop_id() == item.getId()).count();
             TextView textView = new TextView(context);
             textView.setText("(" + count + ")");
             sellers.add(new GroupElementNested(checkBox, textView));
         }
         mList.add(new OptionFilterDataModel(sellers, "Інші магазини"));
+        List<GroupElementNested> attValues;
+        for (AttributesEntity attItem : LocalAttributes.getAttributes()) {
+            attValues = new ArrayList<>();
+            for (AttributeValuesEntity attValue : LocalAttributes.getAttributeValues()) {
+                if (attItem.getId() == attValue.getAttribute_id()) {
+                    CheckBox checkBox = new CheckBox(context);
+                    TextView textView = new TextView(context);
+                    long b = listProduct.stream().filter(o -> isValueAtribute(o.getProduct_attributes(), attItem.getName(), attValue.getValue())).count();
+                    checkBox.setText(attValue.getValue());
+                    textView.setText("(" + count + ")");
+                    attValues.add(new GroupElementNested(checkBox, textView));
+                    count = 0;
+                }
+            }
+            mList.add(new OptionFilterDataModel(attValues, attItem.getName()));
+        }
         adapter = new OptionsFilterItemAdapter(mList, SaveFilterOption.getSaveCheck());
         adapter.setOnCheckedCheckBoxFilter(this);
         recyclerView.setAdapter(adapter);
+
+    }
+
+    Type productAtributelistType = new TypeToken<ArrayList<ProductAtribute>>() {
+    }.getType();
+    List<ProductAtribute> productAtributeList;
+
+    private boolean isValueAtribute(String jsonAtribute, String atributeName, String attributeValue) {
+
+Log.d("isValueAtribute()1 !!",String.valueOf(count));
+        if (jsonAtribute != null && !jsonAtribute.isEmpty()) {
+            productAtributeList = new Gson().fromJson(jsonAtribute, productAtributelistType);
+
+            for (ProductAtribute item : productAtributeList) {
+                if (Objects.equals(item.getKey(), atributeName) && Objects.equals(item.getValue(), attributeValue)) {
+                    Log.d(item.getKey(),item.getValue());
+                    count++;
+                    Log.d("isValueAtribute()2 !!",String.valueOf(count));
+                }
+
+
+            }
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
@@ -168,9 +217,7 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
                 etTo.setText(String.valueOf(progress));
-                Log.d("progress", "" + progress);
 
             }
 
@@ -208,7 +255,7 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
 
         if (!SaveFilterOption.getSaveCheck().isEmpty()) {
             CategoryFilterFragment.productAdapter.setMapItemSearch(SaveFilterOption.getSaveCheck());
-           CategoryFilterFragment.productAdapter.getFilter().filter(" ");
+            CategoryFilterFragment.productAdapter.getFilter().filter("");
 
 
         } else {
@@ -220,7 +267,7 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (SaveFilterOption.getSaveCheck().isEmpty() && list==null)
+        if (SaveFilterOption.getSaveCheck().isEmpty() && list == null)
             compliteFilter();
 
     }
@@ -229,13 +276,14 @@ public class FilterDialogFragment extends DialogFragment implements NestedOnChec
     public void onCheckedCheckBoxFilter(CheckBox checkBox, boolean b, TextView tvCountElement) {
 
         String namecheckBox = checkBox.getText().toString();
+        Log.d("onCheckedCheckBoxFilter()!!",namecheckBox);
         if (b) {
-            SaveFilterOption.getSaveCheck().put(namecheckBox, b);
+            SaveFilterOption.getSaveCheck().put(namecheckBox, true);
         } else {
             SaveFilterOption.getSaveCheck().remove(namecheckBox);
         }
         CategoryFilterFragment.productAdapter.setMapItemSearch(SaveFilterOption.getSaveCheck());
-        CategoryFilterFragment.productAdapter.getFilter().filter(" ");
+        CategoryFilterFragment.productAdapter.getFilter().filter("");
 
 
     }

@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.content.res.AppCompatResources;
@@ -21,12 +20,18 @@ import com.example.trading_platform001.carts_pages.models.CartEntity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.home_pages.models.HomeValueExProductEntity;
 import com.example.trading_platform001.interfaces.MyOnClickAddCartItem;
+import com.example.trading_platform001.models.ProductAtribute;
 import com.example.trading_platform001.models.ProductEntity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +44,6 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
 
     private ArrayList<HomeValueExProductEntity> listProduct;
     private ArrayList<HomeValueExProductEntity> dataListProduct;
-
     String url_imgProduct;
     String nameProduct, priceProduct;
 
@@ -63,8 +67,8 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
     }
 
     public void setListProduct(ArrayList<HomeValueExProductEntity> listProduct) {
-        this.listProduct=listProduct;
-        this.dataListProduct=listProduct;
+        this.listProduct = listProduct;
+        this.dataListProduct = listProduct;
         this.notifyDataSetChanged();
     }
 
@@ -142,17 +146,44 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint == null || constraint.length() == 0) {
+
+                    ArrayList<HomeValueExProductEntity> resultData = new ArrayList<>();
+                    String search = constraint.toString().toLowerCase(Locale.ROOT);
                     if (mapItemSearch.isEmpty()) {
                         filterResults.count = dataListProduct.size();
                         filterResults.values = dataListProduct;
                     } else {
-                        filterResults.count = 0;
-                        filterResults.values = null;
+                        for (HomeValueExProductEntity item : dataListProduct) {
+
+                            for (Map.Entry<String, Boolean> entry : mapItemSearch.entrySet()) {
+                                if (!resultData.contains(item) && item.getNameShop().equals(entry.getKey())
+                                        || !resultData.contains(item) && isValueAtribute(item.getProduct_attributes(), entry.getKey())
+                                ) {
+                                    resultData.add(item);
+                                }
+                            }
+
+                        }
+                        if (!search.isEmpty()) {
+                            ArrayList<HomeValueExProductEntity> resultDatasearch = new ArrayList<>();
+                            for (HomeValueExProductEntity item : resultData) {
+                                if (item.getName().toLowerCase(Locale.ROOT).contains(search)) {
+                                    resultDatasearch.add(item);
+                                }
+                            }
+                            filterResults.count = resultDatasearch.size();
+                            filterResults.values = resultDatasearch;
+                        } else {
+                            filterResults.count = resultData.size();
+                            filterResults.values = resultData;
+                        }
+
+
                     }
+
 
                 } else {
                     ArrayList<HomeValueExProductEntity> resultData = new ArrayList<>();
-                    ArrayList<HomeValueExProductEntity> resultData2 = new ArrayList<>();
                     String search = constraint.toString().toLowerCase(Locale.ROOT);
                     if (mapItemSearch.isEmpty()) {
 
@@ -161,37 +192,43 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
                                 resultData.add(item);
                             }
                         }
+                        filterResults.count = resultData.size();
+                        filterResults.values = resultData;
                     } else {
                         for (HomeValueExProductEntity item : dataListProduct) {
 
                             for (Map.Entry<String, Boolean> entry : mapItemSearch.entrySet()) {
-                                if (!resultData.contains(item) && item.getNameShop().equals(entry.getKey())) {
+                                if (!resultData.contains(item) && item.getNameShop().equals(entry.getKey())
+                                        || !resultData.contains(item) && isValueAtribute(item.getProduct_attributes(), entry.getKey())
+                                ) {
                                     resultData.add(item);
                                 }
                             }
 
                         }
-
-                        if (!search.equals(" ")) {
-
+                        if (!search.isEmpty()) {
+                            ArrayList<HomeValueExProductEntity> resultDatasearch = new ArrayList<>();
                             for (HomeValueExProductEntity item : resultData) {
                                 if (item.getName().toLowerCase(Locale.ROOT).contains(search)) {
-                                    resultData2.add(item);
+                                    resultDatasearch.add(item);
                                 }
-
                             }
-                            filterResults.count = resultData2.size();
-                            filterResults.values = resultData2;
-                            return filterResults;
-
+                            filterResults.count = resultDatasearch.size();
+                            filterResults.values = resultDatasearch;
+                        } else {
+                            filterResults.count = resultData.size();
+                            filterResults.values = resultData;
                         }
+
+
                     }
-                    filterResults.count = resultData.size();
-                    filterResults.values = resultData;
 
 
                 }
+
                 return filterResults;
+
+
             }
 
             @Override
@@ -202,6 +239,24 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         };
 
 
+    }
+
+    Type productAtributelistType = new TypeToken<ArrayList<ProductAtribute>>() {
+    }.getType();
+
+    private boolean isValueAtribute(String jsonAttributes, String key) {
+
+        if (jsonAttributes != null && !jsonAttributes.isEmpty()) {
+            List<ProductAtribute> productAtributeList = new Gson().fromJson(jsonAttributes, productAtributelistType);
+            for (ProductAtribute item : productAtributeList) {
+                if (Objects.equals(item.getValue(), key))
+                    return true;
+            }
+        } else {
+            return false;
+        }
+
+        return false;
     }
 
     private class ViewHolder {

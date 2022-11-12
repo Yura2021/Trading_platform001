@@ -204,6 +204,48 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
+    public void getAllAttributes() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/attribute", response -> {
+
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                String str_array = obj.getString("attributes");
+                String str_array_value = obj.getString("attributesvalue");
+
+                Type listType = new TypeToken<ArrayList<AttributesEntity>>() {}.getType();
+                Type listTypeValue = new TypeToken<ArrayList<AttributeValuesEntity>>() {}.getType();
+                Gson gson = new GsonBuilder()
+                        .setPrettyPrinting()
+                        .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create();
+                LocalAttributes.setAttributes(gson.fromJson(str_array, listType));
+                LocalAttributes.setAttributeValues(gson.fromJson(str_array_value, listTypeValue));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }, this::parseVolleyError) {
+            @NonNull
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                }
+                return header;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
 
     public void logout() {
 

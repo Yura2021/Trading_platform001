@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.NewProductAdapter;
@@ -109,24 +110,48 @@ public class HomeFragment extends Fragment {
 
 
         gridview.setAdapter(productAdapter);
-       // updateGridViewHeight();
+        // updateGridViewHeight();
         ArrayList<SlideModel> imageList = new ArrayList<>();
         for (ProductEntity item : LocalProducts.getProducts()) {
             imageList.add(new SlideModel(item.getCover_img(), ScaleTypes.FIT));
         }
 
         imageSlider.setImageList(imageList, ScaleTypes.FIT);
+        imageSlider.setItemClickListener(i -> {
+            Log.d("setItemClickListener()", "position: " + i);
+            switch (i) {
+                case 0:
+                    Log.d("position: " + i, "Slide 0");
+                    break;
+                case 1:
+                    Log.d("position: " + i, "Slide 1");
+                    break;
+                case 2:
+                    Log.d("position: " + i, "Slide 2");
+                    break;
+                case 3:
+                    Log.d("position: " + i, "Slide 3");
+                    break;
+                case 4:
+                    Log.d("position: " + i, "Slide 4");
+                    break;
+                case 5:
+                    Log.d("position: " + i, "Slide 5");
+                    break;
+
+            }
+        });
         return view;
     }
 
-    public void updateGridViewHeight(){
+    public void updateGridViewHeight() {
         LinearLayout.LayoutParams llParam = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        llParam.height=Integer.parseInt(String.valueOf((productAdapter.getSearchSize()/2)*400));
-        Log.d("updateGridViewHeight()",String.valueOf(productAdapter.getCount()));
-        Log.d("updateGridViewHeight()",String.valueOf( productAdapter.getSearchSize()));
+        llParam.height = Integer.parseInt(String.valueOf((productAdapter.getSearchSize() / 2) * 400));
+        Log.d("updateGridViewHeight()", String.valueOf(productAdapter.getCount()));
+        Log.d("updateGridViewHeight()", String.valueOf(productAdapter.getSearchSize()));
         gridview.setLayoutParams(llParam);
 
     }

@@ -27,6 +27,7 @@ import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.catalog_page.CatalogFragment;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.Http;
+import com.example.trading_platform001.models.LocalAttributes;
 import com.example.trading_platform001.models.LocalCategory;
 import com.example.trading_platform001.models.LocalNewProducts;
 import com.example.trading_platform001.models.LocalProducts;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             http.getAllShop();
             http.getAllProductCategoriesID();
             http.getAllNewProduct();
+            http.getAllAttributes();
             progressBar.setIndeterminate(true);
             progressBar.setVisibility(View.VISIBLE);
         } else {
@@ -162,11 +164,13 @@ public class MainActivity extends AppCompatActivity {
         LocalProducts.setProducts(null);
         LocalShops.setShops(null);
         LocalNewProducts.setNewProducts(null);
+        LocalAttributes.setAttributes(null);
         LocalTableProductCategories.setProductCategoriesID(null);
         http.GetCategory();
         http.getAllShop();
         http.getAllProductCategoriesID();
         http.getAllNewProduct();
+        http.getAllAttributes();
 
     }
 
@@ -174,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/products", response -> {
 
-            JSONObject obj = null;
+            JSONObject obj;
             try {
                 obj = new JSONObject(response);
                 String str_array = obj.getString("products");
