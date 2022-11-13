@@ -100,7 +100,6 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     }
 
 
-
     @SuppressLint("SetTextI18n")
     @Override
     public void onItemPlusClicked(int position, List<CartItemsEntityModel> carts) {

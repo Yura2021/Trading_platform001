@@ -54,6 +54,8 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
     @BindView(R.id.tvPriceProduct)
     TextView tvPriceProduct;
     CartEntity cart;
+    @BindView(R.id.ivAddCart)
+    ImageView ivAddCart;
     private MyOnClickAddCartItem myOnClickAddCartItem;
     LayoutInflater inflater;
     private Map<String, Boolean> mapItemSearch;
@@ -109,18 +111,12 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.category_filter_item_product, parent, false);
-            holder = new ViewHolder();
-            holder.ivAddCart = convertView.findViewById(R.id.ivAddCart);
-            holder.ivAddCart.setOnClickListener(v -> myOnClickAddCartItem.onClickAddCartItem(v, listProduct.get(position)));
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
         }
         ButterKnife.bind(this, convertView);
 
+        ivAddCart.setOnClickListener(v -> myOnClickAddCartItem.onClickAddCartItem(v, listProduct.get(position)));
         nameProduct = listProduct.get(position).getName();
         priceProduct = String.valueOf(listProduct.get(position).getPrice());
         url_imgProduct = listProduct.get(position).getCover_img();
@@ -131,7 +127,7 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
             csl = AppCompatResources.getColorStateList(context, R.color.color_button_card_of);
         }
 
-        holder.ivAddCart.setImageTintList(csl);
+        ivAddCart.setImageTintList(csl);
 
         tvNameProduct.setText(nameProduct);
         tvPriceProduct.setText(priceProduct);
@@ -259,8 +255,5 @@ public class FilterAdapter extends BaseAdapter implements Filterable {
         return false;
     }
 
-    private class ViewHolder {
-        ImageView ivAddCart;
-    }
 
 }

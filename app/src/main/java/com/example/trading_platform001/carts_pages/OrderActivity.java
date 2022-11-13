@@ -3,6 +3,7 @@ package com.example.trading_platform001.carts_pages;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -33,7 +34,6 @@ import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,61 +92,55 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        PaymentConfiguration.init(getApplicationContext(), PUBLISH_KEY);
+        PaymentConfiguration.init(this, PUBLISH_KEY);
         funPlayShop();
         http = new Http(this);
         storageInformation = new StorageInformation(this);
         btnBuy.setOnClickListener(v -> ChekedInfromOrder());
         tvSum.setText(CartHelper.getCart().getTotalPrice() + " " + getString(R.string.money_ua));
         tvSumGeneral.setText(CartHelper.getCart().getTotalPrice() + " " + getString(R.string.money_ua));
-          if (storageInformation.GetStorage("Name") != null) {
+        if (storageInformation.GetStorage("Name") != null) {
             NameeditText.setText(storageInformation.GetStorage("Name"));
         }
 
         toolbar.setTitle("Обліковий запис");
 
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
-        toolbar.setNavigationOnClickListener(v->finish());
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
-    public void ChekedInfromOrder()
-    {
-        if(!NameeditText.getText().toString().isEmpty())
-        {
-           if(!RegioneditText.getText().toString().isEmpty())
-           {
-               if(!CitieditText.getText().toString().isEmpty())
-               {
-                   if(!StreeteditText.getText().toString().isEmpty())
-                   {
-                       if(!PhoneeditText.getText().toString().isEmpty())
-                       {
-                           if(!ZipCodeeditText.getText().toString().isEmpty())
-                           {
-                               if(checkBoxCartPayment.isChecked()||checkBoxCashPayment.isChecked())
-                               {
-                                   operationOrder();
-                               }
-                               else
-                               {Toast.makeText(this, "Вкажіть спосіб оплати", Toast.LENGTH_SHORT).show();}
-                           }
-                           else
-                           {Toast.makeText(this, "Вкажіть поштовий код", Toast.LENGTH_SHORT).show();}
-                       }
-                       else
-                       {Toast.makeText(this, "Вкажіть номер телефона", Toast.LENGTH_SHORT).show();}
-                   }
-                   else
-                   {Toast.makeText(this, "Вкажіть вулицю для доставки", Toast.LENGTH_SHORT).show();}
-               }
-               else
-               {Toast.makeText(this, "Вкажіть місто для доставки", Toast.LENGTH_SHORT).show();}
-           }
-           else
-           {Toast.makeText(this, "Вкажіть область для доставки", Toast.LENGTH_SHORT).show();}
+    public void ChekedInfromOrder() {
+        if (!NameeditText.getText().toString().isEmpty()) {
+            if (!RegioneditText.getText().toString().isEmpty()) {
+                if (!CitieditText.getText().toString().isEmpty()) {
+                    if (!StreeteditText.getText().toString().isEmpty()) {
+                        if (!PhoneeditText.getText().toString().isEmpty()) {
+                            if (!ZipCodeeditText.getText().toString().isEmpty()) {
+                                if (checkBoxCartPayment.isChecked() || checkBoxCashPayment.isChecked()) {
+                                    operationOrder();
+                                } else {
+                                    Toast.makeText(this, "Вкажіть спосіб оплати", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(this, "Вкажіть поштовий код", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(this, "Вкажіть номер телефона", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Вкажіть вулицю для доставки", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Вкажіть місто для доставки", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Вкажіть область для доставки", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Вкажіть імя замовника", Toast.LENGTH_SHORT).show();
         }
-        else {Toast.makeText(this, "Вкажіть імя замовника", Toast.LENGTH_SHORT).show();}
     }
+
     void funPlayShop() {
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
 
@@ -176,12 +170,12 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void setOrder() {
-            orderInformation = new OrderInformation(CartHelper.getCart().getTotalPrice().intValue(), Calendar.getInstance().getTime(),
-                    NameeditText.getText().toString(), StreeteditText.getText().toString(),
-                    CitieditText.getText().toString(), RegioneditText.getText().toString(),
-                    ZipCodeeditText.getText().toString(), PhoneeditText.getText().toString(),
-                    CartHelper.getCartItems().size(), payment);
-            http.setOrderUser(orderInformation, CartHelper.getCartItems());
+        orderInformation = new OrderInformation(CartHelper.getCart().getTotalPrice().intValue(), Calendar.getInstance().getTime(),
+                NameeditText.getText().toString(), StreeteditText.getText().toString(),
+                CitieditText.getText().toString(), RegioneditText.getText().toString(),
+                ZipCodeeditText.getText().toString(), PhoneeditText.getText().toString(),
+                CartHelper.getCartItems().size(), payment);
+        http.setOrderUser(orderInformation, CartHelper.getCartItems());
     }
 
     private void operationOrder() {
@@ -200,7 +194,7 @@ public class OrderActivity extends AppCompatActivity {
     public void ClearCart() {
         setOrder();
         if (CartHelper.getCartItems().size() > 0) {
-            for (CartItemsEntityModel item:CartHelper.getCartItems()) {
+            for (CartItemsEntityModel item : CartHelper.getCartItems()) {
                 Optional<ProductEntity> prod = LocalProducts.getProducts().stream().filter(s -> Objects.equals(s.getId(), item.getProduct().getId())).findFirst();
                 prod.ifPresent(product -> {
                     product.setAddCard(false);
@@ -218,8 +212,8 @@ public class OrderActivity extends AppCompatActivity {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             Toast.makeText(this, "Платіж опрацьовано успішно", Toast.LENGTH_SHORT).show();
             ClearCart();
-        }else {
-            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Платіж скасовано", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -228,7 +222,6 @@ public class OrderActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 EphericalKey = object.getString("id");
-                // Toast.makeText(this, EphericalKey, Toast.LENGTH_SHORT).show();
                 getClientSecret();
 
             } catch (JSONException e) {
@@ -263,12 +256,11 @@ public class OrderActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 ClientSecret = object.getString("client_secret");
-                Toast.makeText(getBaseContext(), ClientSecret, Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, this::onErrorResponse) {
+        }, this::parseVolleyError) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<>();
@@ -297,7 +289,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private void paymentFlow() {
         if (!ClientSecret.isEmpty() && !customerID.isEmpty() && !EphericalKey.isEmpty()) {
-            paymentSheet.presentWithPaymentIntent(ClientSecret, new PaymentSheet.Configuration("Rozotka2",
+            paymentSheet.presentWithPaymentIntent(ClientSecret, new PaymentSheet.Configuration("Roztoka",
                     new PaymentSheet.CustomerConfiguration(
                             customerID,
                             EphericalKey
@@ -314,13 +306,14 @@ public class OrderActivity extends AppCompatActivity {
             try {
                 responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject data = new JSONObject(responseBody);
-                JSONArray errors = data.getJSONArray("error");
-                JSONObject jsonMessage = errors.getJSONObject(0);
-                String message = jsonMessage.getString("message");
+                JSONObject errors = data.getJSONObject("error");
+                String message = errors.getString("message");
+                String type = errors.getString("type");
                 Toast.makeText(this, "Тимчасова помилка сервысу з оформленням заявки!!!", Toast.LENGTH_LONG).show();
                 onBackPressed();
                 finish();
-                // Log.d("Token error", message);
+                Log.d("Token error message", message);
+                Log.d("Token error type", type);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
