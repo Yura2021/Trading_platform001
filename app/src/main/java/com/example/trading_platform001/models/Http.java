@@ -2,6 +2,7 @@ package com.example.trading_platform001.models;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,9 +23,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.OrderUserListAdapter;
+import com.example.trading_platform001.authorizations_pages.LoginFragment;
 import com.example.trading_platform001.authorizations_pages.models.User;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.catalog_page.models.Category;
+import com.example.trading_platform001.main_pages.MainActivity;
 import com.example.trading_platform001.user_pages.models.Order;
 import com.example.trading_platform001.user_pages.models.OrderInformation;
 import com.example.trading_platform001.user_pages.models.OrderList;
@@ -53,12 +56,21 @@ public class Http {
     private boolean isStatusCode;
     private final StorageInformation storage;
     private String strToken;
+    private LoginFragment loginFragment;
 
     public Http(Context context) {
         this.context = context;
         this.url = context.getString(R.string.api_server);
         this.storage = new StorageInformation(context);
         isStatusCode = true;
+    }
+
+    public Http(Context context, LoginFragment loginFragment) {
+        this.context = context;
+        this.url = context.getString(R.string.api_server);
+        this.storage = new StorageInformation(context);
+        isStatusCode = true;
+        this.loginFragment = loginFragment;
     }
 
     public void sendRegister(String strName, String strEmail, String strPassword, String strConfirmationPassword) {
@@ -204,6 +216,7 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
+
     public void getAllAttributes() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/attribute", response -> {
@@ -214,8 +227,10 @@ public class Http {
                 String str_array = obj.getString("attributes");
                 String str_array_value = obj.getString("attributesvalue");
 
-                Type listType = new TypeToken<ArrayList<AttributesEntity>>() {}.getType();
-                Type listTypeValue = new TypeToken<ArrayList<AttributeValuesEntity>>() {}.getType();
+                Type listType = new TypeToken<ArrayList<AttributesEntity>>() {
+                }.getType();
+                Type listTypeValue = new TypeToken<ArrayList<AttributeValuesEntity>>() {
+                }.getType();
                 Gson gson = new GsonBuilder()
                         .setPrettyPrinting()
                         .setDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -351,14 +366,17 @@ public class Http {
             try {
                 JSONObject obj = new JSONObject(response);
                 String customerToken = obj.getString("token");
-                //Toast.makeText(context, customerToken, Toast.LENGTH_SHORT).show();
                 user = new Gson().fromJson(obj.getString("user"), User.class);
                 user.setRemember_token(customerToken);
                 storage.SetStorageUser(user);
-
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+                alertFail("");
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                if (loginFragment != null)
+                    loginFragment.alertFail("Невірний логін чи пароль 2");
             }
         }, this::onErrorResponse) {
 
@@ -393,7 +411,9 @@ public class Http {
                     .setTitle("Не вдалося")
                     .setIcon(R.drawable.ic_warning)
                     .setMessage(s)
-                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
                     .show();
     }
 
@@ -429,8 +449,9 @@ public class Http {
     public void onErrorResponse(VolleyError error) {
         int statusCode = error.networkResponse.statusCode;
         NetworkResponse response = error.networkResponse;
-
         Log.d("testerror", "" + statusCode + " " + Arrays.toString(response.data));
+        if (loginFragment != null)
+            loginFragment.alertFail("Невірний логін чи пароль");
         // Handle your error types accordingly.For Timeout & No connection error, you can show 'retry' button.
         // For AuthFailure, you can re login with user credentials.
         // For ClientError, 400 & 401, Errors happening on client side when sending api request.

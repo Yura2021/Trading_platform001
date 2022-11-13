@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_login, container, false);
 
         ButterKnife.bind(this, view);
-            http = new Http(view.getContext());
+            http = new Http(view.getContext(),this);
         recPass.setOnClickListener(v -> recPassDialogShow(container));
         if (dialog == null)
             dialog = new Dialog(requireActivity());
@@ -70,21 +70,15 @@ public class LoginFragment extends Fragment {
     }
 
 
-    private void sendLogin() {
+    public void sendLogin() {
         btnLogin.setEnabled(false);
         edEmail.setEnabled(false);
         edPassword.setEnabled(false);
-            http.sendLogin(strEmail, strPassword);
-
-        Intent intent = new Intent(requireActivity(), MainActivity.class);
-        startActivity(intent);
-        alertFail("");
-        requireActivity().finish();
-
+        http.sendLogin(strEmail, strPassword);
 
     }
 
-    private void alertFail(String s) {
+    public void alertFail(String s) {
         btnLogin.setEnabled(true);
         edEmail.setEnabled(true);
         edPassword.setEnabled(true);
