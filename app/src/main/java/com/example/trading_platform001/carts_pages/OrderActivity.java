@@ -144,6 +144,7 @@ public class OrderActivity extends AppCompatActivity {
     void funPlayShop() {
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
 
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/customers", response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -161,6 +162,17 @@ public class OrderActivity extends AppCompatActivity {
                     header.put("Authorization", SECRET_KEY);
                 }
                 return header;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                if (storageInformation.GetStorage("Name") != null) {
+                    params.put("name", storageInformation.GetStorage("Name"));
+                    params.put("email", storageInformation.GetStorage("Email"));
+                }
+
+                return params;
             }
         };
 
@@ -276,7 +288,7 @@ public class OrderActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("customer", customerID);
                 params.put("amount", CartHelper.getCart().getTotalPrice().toString() + "00");
-                params.put("currency", "eur");
+                params.put("currency", "uah");
                 params.put("automatic_payment_methods[enabled]", "true");
                 return params;
             }
