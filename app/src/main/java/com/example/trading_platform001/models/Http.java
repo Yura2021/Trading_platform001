@@ -34,6 +34,7 @@ import com.example.trading_platform001.user_pages.models.OrderList;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -65,12 +66,16 @@ public class Http {
         isStatusCode = true;
     }
 
-    public Http(Context context, LoginFragment loginFragment) {
+    public Http(Context context, Object obj) {
         this.context = context;
         this.url = context.getString(R.string.api_server);
         this.storage = new StorageInformation(context);
         isStatusCode = true;
-        this.loginFragment = loginFragment;
+        if (obj.getClass() == LoginFragment.class) {
+            this.loginFragment = (LoginFragment) obj;
+        } else
+            this.loginFragment = null;
+
     }
 
     public void sendRegister(String strName, String strEmail, String strPassword, String strConfirmationPassword) {
@@ -285,10 +290,10 @@ public class Http {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
-
+/*
     public void getUser() {
         strToken = storage.GetStorage("Remember_token");
-        if (strToken == null && strToken.isEmpty())
+        if (strToken == null || strToken.isEmpty())
             strToken = "No token";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/user", response -> {
 
@@ -318,24 +323,13 @@ public class Http {
         requestQueue.add(stringRequest);
     }
 
-    private static void parseVolleyError(VolleyError error, Context context) {
 
-        String responseBody;
-        if (error.networkResponse != null && error.networkResponse.data != null) {
-            try {
-                responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                JSONObject data = new JSONObject(responseBody);
-                JSONArray errors = data.getJSONArray("errors");
-                JSONObject jsonMessage = errors.getJSONObject(0);
-                String message = jsonMessage.getString("message");
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                // alertFail(message);
-                Log.d("Token error", message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+ */
 
+    private void parseVolleyErrorLogin(VolleyError error) {
+
+        if (loginFragment != null)
+            loginFragment.alertFail("Невірний логін чи пароль");
 
     }
 
@@ -346,11 +340,8 @@ public class Http {
             try {
                 responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject data = new JSONObject(responseBody);
-                JSONArray errors = data.getJSONArray("errors");
-                JSONObject jsonMessage = errors.getJSONObject(0);
-                String message = jsonMessage.getString("message");
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                alertFail(message);
+                //JSONObject errors = data.getJSONObject("errors");
+                String message = data.getString("message");
                 Log.d("Token error", message);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -364,6 +355,7 @@ public class Http {
         isStatusCode = true;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/login", response -> {
             try {
+
                 JSONObject obj = new JSONObject(response);
                 String customerToken = obj.getString("token");
                 user = new Gson().fromJson(obj.getString("user"), User.class);
@@ -373,12 +365,13 @@ public class Http {
                 context.startActivity(intent);
                 alertFail("");
 
+
             } catch (JSONException e) {
                 e.printStackTrace();
                 if (loginFragment != null)
-                    loginFragment.alertFail("Невірний логін чи пароль 2");
+                    loginFragment.alertFail("Невірний логін чи пароль");
             }
-        }, this::onErrorResponse) {
+        }, this::parseVolleyErrorLogin) {
 
             @NonNull
             @Override
@@ -445,7 +438,7 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
-
+/*
     public void onErrorResponse(VolleyError error) {
         int statusCode = error.networkResponse.statusCode;
         NetworkResponse response = error.networkResponse;
@@ -475,6 +468,8 @@ public class Http {
 
     }
 
+
+ */
     public void GetOrdersUser(OrderUserListAdapter adapter) {
         strToken = storage.GetStorage("Remember_token");
         if (strToken.isEmpty())
@@ -490,7 +485,7 @@ public class Http {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, this::onErrorResponse) {
+        }, this::parseVolleyError) {
 
             @Override
             public Map<String, String> getHeaders() {
@@ -514,7 +509,7 @@ public class Http {
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/setorder", response -> {
-        }, this::onErrorResponse) {
+        }, this::parseVolleyError) {
 
             @NonNull
             @Override
@@ -551,7 +546,7 @@ public class Http {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, this::onErrorResponse) {
+        }, this::parseVolleyError) {
 
             @Override
             public Map<String, String> getHeaders() {
