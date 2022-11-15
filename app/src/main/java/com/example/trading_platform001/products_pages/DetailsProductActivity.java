@@ -2,8 +2,13 @@ package com.example.trading_platform001.products_pages;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -112,7 +117,20 @@ public class DetailsProductActivity extends AppCompatActivity {
         }
 
     }
+    public void alertAddCartToast() {
 
+        LayoutInflater inflater = getLayoutInflater();
+        View view_Warn = inflater.inflate(R.layout.warninng_toast_layout, (ViewGroup) this.findViewById(R.id.relativeLayout1), false);
+        TextView textView = view_Warn.findViewById(R.id.tvText);
+        ImageView imageView = view_Warn.findViewById(R.id.ivImage);
+        imageView.setImageResource(R.drawable.ic_baseline_shopping_cart_green_24);
+        textView.setText("Товар доданий у кошик");
+        Toast toast = new Toast(this);
+        toast.setView(view_Warn);
+        toast.show();
+
+
+    }
 
     private void addCartItem() {
 
@@ -129,7 +147,7 @@ public class DetailsProductActivity extends AppCompatActivity {
 
             Product product = new Product(resultProduct);
             cart.add(product, 1);
-            Toast.makeText(this, "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
+            alertAddCartToast();
         } else {
             Toast.makeText(this, "Увага помилка!!!", Toast.LENGTH_SHORT).show();
         }

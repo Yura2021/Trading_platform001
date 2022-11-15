@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -245,9 +247,22 @@ public class CategoryFilterFragment extends Fragment implements MyOnClickAddCart
 
         }
         productAdapter.notifyDataSetChanged();
-        Toast.makeText(getContext(), "Товар доданий у кошик", Toast.LENGTH_SHORT).show();
+        alertAddCartToast();
     }
+    public void alertAddCartToast() {
 
+        LayoutInflater inflater = getLayoutInflater();
+        View view_Warn = inflater.inflate(R.layout.warninng_toast_layout, (ViewGroup) requireActivity().findViewById(R.id.relativeLayout1), false);
+        TextView textView = view_Warn.findViewById(R.id.tvText);
+        ImageView imageView = view_Warn.findViewById(R.id.ivImage);
+        imageView.setImageResource(R.drawable.ic_baseline_shopping_cart_green_24);
+        textView.setText("Товар доданий у кошик");
+        Toast toast = new Toast(getContext());
+        toast.setView(view_Warn);
+        toast.show();
+
+
+    }
     public void replaceFragment(Fragment fragment, Bundle bundle) {
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getParentFragmentManager();
