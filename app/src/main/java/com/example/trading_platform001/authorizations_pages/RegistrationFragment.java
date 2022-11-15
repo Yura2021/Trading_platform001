@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -39,7 +42,7 @@ public class RegistrationFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_registration, container, false);
         ButterKnife.bind(this, view);
         btnRegister.setOnClickListener(v -> checkRegister());
-        http = new Http(view.getContext());
+        http = new Http(view.getContext(),this);
         return view;
     }
 
@@ -49,9 +52,9 @@ public class RegistrationFragment extends Fragment {
         strPassword = edPassword.getText().toString();
         strConfirmation = edConfirmation.getText().toString();
         if (strName.isEmpty() || strEmail.isEmpty() || strPassword.isEmpty()) {
-            alertFail("Необхідно вказати ім’я, адресу електронної пошти та пароль.");
+            alertFailToast("Необхідно вказати ім’я, адресу електронної пошти та пароль.");
         } else if (!strPassword.equals(strConfirmation)) {
-            alertFail("Пароль і підтвердження пароля не збігаються.");
+            alertFailToast("Пароль і підтвердження пароля не збігаються.");
         } else {
             sendRegister();
         }
@@ -64,11 +67,10 @@ public class RegistrationFragment extends Fragment {
         edConfirmation.setEnabled(false);
         btnRegister.setEnabled(false);
         http.sendRegister(strName,strEmail,strPassword,strConfirmation);
-        alertSuccess();
 
     }
 
-    private void alertSuccess() {
+    public void alertSuccess() {
 
         btnRegister.setEnabled(true);
         edName.setEnabled(true);
@@ -83,8 +85,27 @@ public class RegistrationFragment extends Fragment {
 
 
     }
+    public void alertSuccessToast() {
 
-    private void alertFail(String s) {
+        btnRegister.setEnabled(true);
+        edName.setEnabled(true);
+        edEmail.setEnabled(true);
+        edPassword.setEnabled(true);
+        edConfirmation.setEnabled(true);
+        LayoutInflater inflater = getLayoutInflater();
+        View view_Warn = inflater.inflate(R.layout.warninng_toast_layout, (ViewGroup) requireActivity().findViewById(R.id.relativeLayout1), false);
+        TextView textView = view_Warn.findViewById(R.id.tvText);
+        ImageView imageView = view_Warn.findViewById(R.id.ivImage);
+        imageView.setImageResource(R.drawable.ic_check);
+        textView.setText("Успішна реєстрація");
+        Toast toast = new Toast(getContext());
+        toast.setView(view_Warn);
+        toast.show();
+
+
+    }
+
+    public void alertFail(String s) {
         btnRegister.setEnabled(true);
         edName.setEnabled(true);
         edEmail.setEnabled(true);
@@ -97,6 +118,22 @@ public class RegistrationFragment extends Fragment {
                     .setMessage(s)
                     .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
 
+    }
+    public void alertFailToast(String s) {
+        btnRegister.setEnabled(true);
+        edName.setEnabled(true);
+        edEmail.setEnabled(true);
+        edPassword.setEnabled(true);
+        edConfirmation.setEnabled(true);
+        if (!s.isEmpty()) {
+            LayoutInflater inflater = getLayoutInflater();
+            View view_Warn = inflater.inflate(R.layout.warninng_toast_layout, (ViewGroup) requireActivity().findViewById(R.id.relativeLayout1), false);
+            TextView textView = view_Warn.findViewById(R.id.tvText);
+            textView.setText(s);
+            Toast toast = new Toast(getContext());
+            toast.setView(view_Warn);
+            toast.show();
+        }
     }
 
 }

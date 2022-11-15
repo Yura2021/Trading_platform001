@@ -1,29 +1,20 @@
 package com.example.trading_platform001.models;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.ClientError;
-import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.OrderUserListAdapter;
 import com.example.trading_platform001.authorizations_pages.LoginFragment;
+import com.example.trading_platform001.authorizations_pages.RegistrationFragment;
 import com.example.trading_platform001.authorizations_pages.models.User;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.catalog_page.models.Category;
@@ -34,17 +25,14 @@ import com.example.trading_platform001.user_pages.models.OrderList;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +46,7 @@ public class Http {
     private final StorageInformation storage;
     private String strToken;
     private LoginFragment loginFragment;
+    private RegistrationFragment registrationFragment;
 
     public Http(Context context) {
         this.context = context;
@@ -72,16 +61,31 @@ public class Http {
         this.storage = new StorageInformation(context);
         isStatusCode = true;
         if (obj.getClass() == LoginFragment.class) {
-            this.loginFragment = (LoginFragment) obj;
-        } else
-            this.loginFragment = null;
+            loginFragment = (LoginFragment) obj;
+        } else if (obj.getClass() == RegistrationFragment.class) {
+            registrationFragment = (RegistrationFragment) obj;
+        }
+
 
     }
 
     public void sendRegister(String strName, String strEmail, String strPassword, String strConfirmationPassword) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/register", response -> {
-        }, this::parseVolleyError) {
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                //String str_array = obj.getString("attributes");
+                if (registrationFragment != null)
+                    registrationFragment.alertSuccessToast();
+
+            } catch (JSONException e) {
+                //e.printStackTrace();
+                if (registrationFragment != null)
+                    registrationFragment.alertFailToast("Невірний Email або вже зареестрований");
+            }
+
+        }, this::parseVolleyErrorRegister) {
             @NonNull
             @Override
             protected Map<String, String> getParams() {
@@ -290,46 +294,12 @@ public class Http {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
-/*
-    public void getUser() {
-        strToken = storage.GetStorage("Remember_token");
-        if (strToken == null || strToken.isEmpty())
-            strToken = "No token";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/user", response -> {
 
-            JSONObject obj = null;
-            try {
-                obj = new JSONObject(response);
-                String name = obj.getString("name");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }, this::parseVolleyError) {
-            @NonNull
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<>();
-                {
-                    header.put("Content-Length", "application/json");
-                    header.put("Authorization", "Bearer " + strToken);
-                }
-                return header;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-    }
-
-
- */
 
     private void parseVolleyErrorLogin(VolleyError error) {
 
         if (loginFragment != null)
-            loginFragment.alertFail("Невірний логін чи пароль");
+            loginFragment.alertFailToast("Невірний логін чи пароль");
 
     }
 
@@ -350,6 +320,27 @@ public class Http {
 
 
     }
+    private void parseVolleyErrorRegister(VolleyError error) {
+
+        String responseBody;
+        if (error.networkResponse != null && error.networkResponse.data != null) {
+            try {
+                responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                JSONObject data = new JSONObject(responseBody);
+                //JSONObject errors = data.getJSONObject("errors");
+                String message = data.getString("message");
+                Log.d("Token error", message);
+                if (registrationFragment != null)
+                    registrationFragment.alertFailToast("Невірний Email або вже зареестрований");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                if (registrationFragment != null)
+                    registrationFragment.alertFailToast("Невірний Email або вже зареестрований");
+            }
+        }
+
+
+    }
 
     public void sendLogin(String strEmail, String strPassword) {
         isStatusCode = true;
@@ -363,13 +354,12 @@ public class Http {
                 storage.SetStorageUser(user);
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
-                alertFail("");
 
 
             } catch (JSONException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
                 if (loginFragment != null)
-                    loginFragment.alertFail("Невірний логін чи пароль");
+                    loginFragment.alertFailToast("Невірний логін чи пароль");
             }
         }, this::parseVolleyErrorLogin) {
 
@@ -395,19 +385,6 @@ public class Http {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
 
-    }
-
-    private void alertFail(String s) {
-
-        if (!s.isEmpty())
-            new AlertDialog.Builder(context)
-                    .setTitle("Не вдалося")
-                    .setIcon(R.drawable.ic_warning)
-                    .setMessage(s)
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        dialog.dismiss();
-                    })
-                    .show();
     }
 
 
@@ -438,38 +415,7 @@ public class Http {
         requestQueue.add(stringRequest);
 
     }
-/*
-    public void onErrorResponse(VolleyError error) {
-        int statusCode = error.networkResponse.statusCode;
-        NetworkResponse response = error.networkResponse;
-        Log.d("testerror", "" + statusCode + " " + Arrays.toString(response.data));
-        if (loginFragment != null)
-            loginFragment.alertFail("Невірний логін чи пароль");
-        // Handle your error types accordingly.For Timeout & No connection error, you can show 'retry' button.
-        // For AuthFailure, you can re login with user credentials.
-        // For ClientError, 400 & 401, Errors happening on client side when sending api request.
-        // In this case you can check how client is forming the api and debug accordingly.
-        // For ServerError 5xx, you can do retry or handle accordingly.
-        if (error instanceof NetworkError) {
-        } else if (error instanceof ClientError) {
-            isStatusCode = false;
-        } else if (error instanceof ServerError) {
-            isStatusCode = false;
-        } else if (error instanceof AuthFailureError) {
-            isStatusCode = false;
-        } else if (error instanceof ParseError) {
-            isStatusCode = false;
-        } else if (error instanceof NoConnectionError) {
-            isStatusCode = false;
-        } else if (error instanceof TimeoutError) {
-            isStatusCode = false;
-        }
 
-
-    }
-
-
- */
     public void GetOrdersUser(OrderUserListAdapter adapter) {
         strToken = storage.GetStorage("Remember_token");
         if (strToken.isEmpty())

@@ -22,6 +22,8 @@ import com.example.trading_platform001.R;
 import com.example.trading_platform001.models.Http;
 
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -41,7 +43,6 @@ public class LoginFragment extends Fragment {
     View view;
     View dView;
     Http http;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class LoginFragment extends Fragment {
         strEmail = edEmail.getText().toString();
         strPassword = edPassword.getText().toString();
         if (strPassword.isEmpty() || strEmail.isEmpty()) {
-            alertFail("Необхідно вказати адресу електронної пошти та пароль");
+            alertFailToast("Необхідно вказати адресу електронної пошти та пароль");
         } else {
             sendLogin();
         }
@@ -89,6 +90,22 @@ public class LoginFragment extends Fragment {
                     .setMessage(s)
                     .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                     .show();
+    }
+    public void alertFailToast(String s) {
+        btnLogin.setEnabled(true);
+        edEmail.setEnabled(true);
+        edPassword.setEnabled(true);
+
+        if (!s.isEmpty()){
+            LayoutInflater inflater = getLayoutInflater();
+            View view_Warn = inflater.inflate(R.layout.warninng_toast_layout, (ViewGroup) requireActivity().findViewById(R.id.relativeLayout1),false);
+            TextView textView = view_Warn.findViewById(R.id.tvText);
+            textView.setText(s);
+            Toast toast = new Toast(getContext());
+            toast.setView(view_Warn);
+            toast.show();
+        }
+
     }
 
     private void recPassDialogShow(ViewGroup container) {
