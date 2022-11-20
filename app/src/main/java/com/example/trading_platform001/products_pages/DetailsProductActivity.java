@@ -58,7 +58,6 @@ public class DetailsProductActivity extends AppCompatActivity {
         }
 
         addCart.setOnClickListener(v -> addCartItem());
-        tbDetails.setTitle("Детальна інформація");
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.text_item_menu_details_product_allinfo)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.text_item_menu_details_product_characteristic)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
@@ -87,7 +86,7 @@ public class DetailsProductActivity extends AppCompatActivity {
 
             }
         });
-
+        tbDetails.setTitle("Детальна інформація");
         tbDetails.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         tbDetails.setNavigationOnClickListener(v -> onBackPressed());
 

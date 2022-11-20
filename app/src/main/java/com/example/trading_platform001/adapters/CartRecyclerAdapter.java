@@ -34,7 +34,6 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private MyOnItemClickListener onItemClickListener;
 
     public CartRecyclerAdapter(List<CartItemsEntityModel> productEntityModel) {
-
         this.productEntityModel = productEntityModel;
     }
 
@@ -82,6 +81,10 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         viewHolder.price.setText(String.valueOf(a.multiply(b)));
         viewHolder.quantity.setText(String.valueOf(productEntityModel.get(position).getQuantity()));
         Picasso.get().load(Uri.parse(productEntityModel.get(position).getProduct().getCover_img())).into(viewHolder.image);
+    }
+
+    public List<CartItemsEntityModel> getProductEntityModel() {
+        return productEntityModel;
     }
 
     @Override

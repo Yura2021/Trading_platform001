@@ -12,10 +12,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trading_platform001.R;
+import com.example.trading_platform001.adapters.CartRecyclerAdapter;
 import com.example.trading_platform001.adapters.OrderUserListAdapter;
+import com.example.trading_platform001.authorizations_pages.EmailVerificationActivity;
 import com.example.trading_platform001.authorizations_pages.LoginFragment;
 import com.example.trading_platform001.authorizations_pages.RegistrationFragment;
 import com.example.trading_platform001.authorizations_pages.models.User;
+import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.catalog_page.models.Category;
 import com.example.trading_platform001.main_pages.MainActivity;
@@ -47,6 +50,7 @@ public class Http {
     private String strToken;
     private LoginFragment loginFragment;
     private RegistrationFragment registrationFragment;
+    private EmailVerificationActivity emailVerificationActivity;
 
     public Http(Context context) {
         this.context = context;
@@ -64,8 +68,118 @@ public class Http {
             loginFragment = (LoginFragment) obj;
         } else if (obj.getClass() == RegistrationFragment.class) {
             registrationFragment = (RegistrationFragment) obj;
+        } else if (obj.getClass() == EmailVerificationActivity.class) {
+            emailVerificationActivity = (EmailVerificationActivity) obj;
         }
 
+
+    }
+
+    public void sendVerificationCode() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/email/verification-notification", response -> {
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                String vr_code = obj.getString("vrcode");
+                String message = obj.getString("message");
+                storage.SetStorage("vrcode", vr_code);
+                Log.d("code", vr_code);
+                if (emailVerificationActivity != null)
+                    emailVerificationActivity.alertSuccessToast(message);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                if (emailVerificationActivity != null)
+                    emailVerificationActivity.alertFailToast("Невірний код");
+            }
+
+        }, this::parseVolleyErrorRegister) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                    header.put("Authorization", "Bearer " + storage.GetStorage("Remember_token"));
+                }
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void sendActivateEmail() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/verify-email", response -> {
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                storage.SetStorage("vrcode", "");
+                String message = obj.getString("message");
+                if (emailVerificationActivity != null)
+                    emailVerificationActivity.alertSuccessToast(message);
+                if (storage.GetStorage("email_verified_at").isEmpty())
+                    getUser();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                if (emailVerificationActivity != null)
+                    emailVerificationActivity.alertFailToast("Невірний код");
+            }
+
+        }, this::parseVolleyErrorRegister) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                    header.put("Authorization", "Bearer " + storage.GetStorage("Remember_token"));
+                }
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void getUser() {
+        strToken = storage.GetStorage("Remember_token");
+        if (strToken.isEmpty())
+            strToken = "No token";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/user", response -> {
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                user = new Gson().fromJson(obj.getString("user"), User.class);
+                user.setRemember_token(strToken);
+                storage.SetStorageUser(user);
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }, this::parseVolleyErrorRegister) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<>();
+                {
+                    header.put("Content-Length", "application/json");
+                    header.put("Authorization", "Bearer " + storage.GetStorage("Remember_token"));
+                }
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
 
     }
 
@@ -274,8 +388,10 @@ public class Http {
     public void logout() {
 
         strToken = storage.GetStorage("Remember_token");
-        if (strToken.isEmpty())
+        if (strToken.isEmpty()) {
             strToken = "No token";
+        }
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/logout", response -> {
             storage.ClearStorage();
         }, this::parseVolleyError) {
@@ -293,6 +409,7 @@ public class Http {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
+
     }
 
 
@@ -312,7 +429,6 @@ public class Http {
                 JSONObject data = new JSONObject(responseBody);
                 //JSONObject errors = data.getJSONObject("errors");
                 String message = data.getString("message");
-                Log.d("Token error", message);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -320,6 +436,7 @@ public class Http {
 
 
     }
+
     private void parseVolleyErrorRegister(VolleyError error) {
 
         String responseBody;
@@ -329,7 +446,6 @@ public class Http {
                 JSONObject data = new JSONObject(responseBody);
                 //JSONObject errors = data.getJSONObject("errors");
                 String message = data.getString("message");
-                Log.d("Token error", message);
                 if (registrationFragment != null)
                     registrationFragment.alertFailToast("Невірний Email або вже зареестрований");
             } catch (JSONException e) {

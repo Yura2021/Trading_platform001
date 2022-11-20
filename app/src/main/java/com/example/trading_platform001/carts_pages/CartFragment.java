@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.CartRecyclerAdapter;
 import com.example.trading_platform001.authorizations_pages.AuthorizationMenuActivity;
+import com.example.trading_platform001.authorizations_pages.EmailVerificationActivity;
 import com.example.trading_platform001.carts_pages.models.CartHelper;
 import com.example.trading_platform001.carts_pages.models.CartItemsEntityModel;
 import com.example.trading_platform001.home_pages.HomeFragment;
@@ -88,8 +89,12 @@ public class CartFragment extends Fragment implements MyOnItemClickListener {
     private void redirectOrders() {
         if (CartHelper.getCartItems().size() > 0) {
             if (storage.IsEmpty()) {
-                Intent intent = new Intent(getContext(), OrderActivity.class);
-                startActivity(intent);
+                if (storage.GetStorage("email_verified_at") != null && !storage.GetStorage("email_verified_at").equals("Confirmed")) {
+                    startActivity(new Intent(getContext(), EmailVerificationActivity.class));
+                } else {
+                    Intent intent = new Intent(getContext(), OrderActivity.class);
+                    startActivity(intent);
+                }
             } else {
                 Intent intent = new Intent(getContext(), AuthorizationMenuActivity.class);
                 startActivity(intent);

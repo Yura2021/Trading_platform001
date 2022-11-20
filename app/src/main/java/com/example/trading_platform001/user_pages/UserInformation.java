@@ -22,6 +22,7 @@ import com.example.trading_platform001.models.StorageInformation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 @SuppressLint("NonConstantResourceId")
 public class UserInformation extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class UserInformation extends AppCompatActivity {
     String strEmail;
     View dView;
     EditText edDialogEmail;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +69,12 @@ public class UserInformation extends AppCompatActivity {
     }
 
     private void redirectMainActivity() {
-        CartHelper.getCartItems().clear();
+        CartHelper.getCart().clear();
         http.logout();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
+
     public void onClick() {
         finish();
     }
@@ -80,7 +83,7 @@ public class UserInformation extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         if (dView == null)
-            dView = inflater.inflate(R.layout.fragment_recover_password_dialog,new LinearLayout(this),false);
+            dView = inflater.inflate(R.layout.fragment_recover_password_dialog, new LinearLayout(this), false);
         if (edDialogEmail == null)
             edDialogEmail = dView.findViewById(R.id.edDialogEmail);
         builder.setTitle("Відновлення паролю");
@@ -101,6 +104,7 @@ public class UserInformation extends AppCompatActivity {
         alertFail("");
 
     }
+
     private void alertFail(String s) {
 
         if (!s.isEmpty())

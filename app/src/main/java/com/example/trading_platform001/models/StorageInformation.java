@@ -24,6 +24,8 @@ public class StorageInformation {
         this.SetStorage("Name", user.getName());
         this.SetStorage("Email", user.getEmail());
         this.SetStorage("Remember_token", user.getRemember_token());
+        this.SetStorage("email_verified_at", user.getEmail_verified_at() == null ? "" : "Confirmed");
+        this.SetStorage("vrcode","");
     }
 
     public String GetStorage(String Key) {

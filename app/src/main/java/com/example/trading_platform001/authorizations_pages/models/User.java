@@ -1,10 +1,13 @@
 package com.example.trading_platform001.authorizations_pages.models;
 
+import java.sql.Timestamp;
+
 public class User {
     private long id;
     private int role_id;
     private String name;
     private String remember_token;
+    private Timestamp email_verified_at;
 
     public String getRemember_token() {
         return remember_token;
@@ -66,4 +69,11 @@ public class User {
         return email;
     }
 
+    public Timestamp getEmail_verified_at() {
+        return email_verified_at;
+    }
+
+    public void setEmail_verified_at(Timestamp email_verified_at) {
+        this.email_verified_at = email_verified_at;
+    }
 }

@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.adapters.MenuUserListAdapter;
 import com.example.trading_platform001.authorizations_pages.AuthorizationMenuActivity;
+import com.example.trading_platform001.authorizations_pages.EmailVerificationActivity;
 import com.example.trading_platform001.home_pages.HomeFragment;
 import com.example.trading_platform001.models.Http;
 import com.example.trading_platform001.models.StorageInformation;
@@ -42,6 +43,7 @@ public class UserFragment extends Fragment {
     List<Drawable> IconMenu;
     MenuUserListAdapter adapter;
     BottomNavigationView btnNavView;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +69,8 @@ public class UserFragment extends Fragment {
         IconMenu = new ArrayList<>();
         Storage = new StorageInformation(getContext());
         http = new Http(v.getContext());
-        MenuItem=GetListName();
+        MenuItem = GetListName();
         IconMenu = GetListIco();
-
         if (Storage.IsEmpty()) {
             IconMenu.remove(0);
             MenuItem.remove(0);
@@ -100,50 +101,61 @@ public class UserFragment extends Fragment {
                     }
                     break;
                 }
-                case"Інформація":
-                {
+                case "Інформація": {
                     startActivity(new Intent(getContext(), information_store.class));
                     break;
                 }
-                case"Час роботи":
-                {
+                case "Час роботи": {
                     startActivity(new Intent(getContext(), time_work_shop.class));
                     break;
                 }
-                case"Служба підтримки":
-                {
+                case "Служба підтримки": {
                     startActivity(new Intent(getContext(), SupportHellper.class));
                     break;
                 }
+                case "Підтвердження пошти": {
+                    if (Storage.IsEmpty() && Storage.GetStorage("email_verified_at") != null && !Storage.GetStorage("email_verified_at").equals("Confirmed")) {
+                        startActivity(new Intent(getContext(), EmailVerificationActivity.class));
+                    }
+                    break;
+                }
+
             }
         });
-
         return v;
     }
-    public List<String>GetListName()
-    {
+
+    public List<String> GetListName() {
         List<String> MenuItem = new ArrayList<>();
         MenuItem.add(getContext().getResources().getString(R.string.authorization_button_name_exit));
-        MenuItem.add(getContext().getResources().getString(R.string.Account));
+        if (Storage.IsEmpty())
+            MenuItem.add(getContext().getResources().getString(R.string.Account));
         MenuItem.add(getContext().getResources().getString(R.string.My_orders));
         MenuItem.add(getContext().getResources().getString(R.string.support));
         MenuItem.add(getContext().getResources().getString(R.string.Work_time));
         MenuItem.add(getContext().getResources().getString(R.string.Information));
+        if (Storage.IsEmpty() && Storage.GetStorage("email_verified_at") != null && !Storage.GetStorage("email_verified_at").equals("Confirmed"))
+            MenuItem.add(getContext().getResources().getString(R.string.emailverification));
+
         return MenuItem;
     }
+
     @SuppressLint("UseCompatLoadingForDrawables")
-    public List<Drawable>GetListIco()
-    {
+    public List<Drawable> GetListIco() {
         Resources.Theme theme = getContext().getTheme();
         List<Drawable> IconMenu = new ArrayList<>();
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_null, theme));
-        IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_accaunt, theme));
+        IconMenu.add(getContext().getResources().getDrawable(R.drawable.ic_baseline_login_24, theme));
+        if (Storage.IsEmpty())
+            IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_accaunt, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_orders_ico, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_support, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_shop, theme));
         IconMenu.add(getContext().getResources().getDrawable(R.drawable.my_information, theme));
+        if (Storage.IsEmpty() && Storage.GetStorage("email_verified_at") != null && !Storage.GetStorage("email_verified_at").equals("Confirmed"))
+            IconMenu.add(getContext().getResources().getDrawable(R.drawable.ic_baseline_mark_email_read_24, theme));
         return IconMenu;
     }
+
     public void replaceFragment(Fragment fragment) {
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

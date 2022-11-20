@@ -51,6 +51,7 @@
     <string name="Work_time">Час роботи</string>
     <string name="Information">Інформація</string>
     <string name="Account">Обліковий запис</string>
+    <string name="emailverification">Підтвердження пошти</string>
     <string name="text_price">Ціна</string>
     <string name="text_rating">Рейтинг</string>
     <string name="Default_text">Текст</string>
@@ -112,5 +113,8 @@
     <string name="new_product">Гарячі новинки</string>
     <string name="default_price_2000">2000</string>
     <string name="defalt_count_1">(1)</string>
+    <string name="text_btn_verification_email">Активувати</string>
+    <string name="code">код</string>
+    <string name="text_btn_verification_send_code">Відправити код</string>
 
 </resources>
