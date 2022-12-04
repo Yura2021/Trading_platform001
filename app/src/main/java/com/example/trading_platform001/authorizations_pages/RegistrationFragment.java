@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trading_platform001.R;
 import com.example.trading_platform001.models.Http;
@@ -101,6 +103,11 @@ public class RegistrationFragment extends Fragment {
         Toast toast = new Toast(getContext());
         toast.setView(view_Warn);
         toast.show();
+
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_view_fragment1, new LoginFragment());
+        fragmentTransaction.commit();
 
 
     }
